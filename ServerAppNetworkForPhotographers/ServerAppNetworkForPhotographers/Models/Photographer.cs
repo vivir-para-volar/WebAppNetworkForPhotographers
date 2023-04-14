@@ -1,4 +1,7 @@
-﻿namespace ServerAppNetworkForPhotographers.Models
+﻿using ServerAppNetworkForPhotographers.Dtos.Photographers;
+using System.Text.Json.Serialization;
+
+namespace ServerAppNetworkForPhotographers.Models
 {
     public class Photographer
     {
@@ -11,24 +14,34 @@
         public string? PathProfilePhoto { get; set; }
         public DateTime LastLoginDate { get; set; }
 
+        [JsonIgnore]
         public PhotographerInfo PhotographerInfo { get; set; }
 
-        public List<Content> Contents { get; set; }
-        public List<Like> Likes { get; set; }
-        public List<Comment> Comments { get; set; }
+        [JsonIgnore]
+        public List<Content> Contents { get; set; } = new List<Content>();
 
-        public Photographer()
+        [JsonIgnore]
+        public List<Like> Likes { get; set; } = new List<Like>();
+
+        [JsonIgnore]
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+
+        public Photographer() { }
+
+        public Photographer(CreatePhotographerDto photographerDto)
         {
-            Contents = new List<Content>();
-            Likes = new List<Like>();
-            Comments = new List<Comment>();
+            Username = photographerDto.Username;
+            Email = photographerDto.Email;
+            LastLoginDate = DateTime.Now;
         }
 
-        public Photographer(string Username, string Email)
+        public void Update(UpdatePhotographerDto photographerDto)
         {
-            Contents = new List<Content>();
-            Likes = new List<Like>();
-            Comments = new List<Comment>();
+            Username = photographerDto.Username;
+            Email = photographerDto.Email;
+            Name = photographerDto.Name;
+            Country = photographerDto.Country;
+            City = photographerDto.City;
         }
     }
 }

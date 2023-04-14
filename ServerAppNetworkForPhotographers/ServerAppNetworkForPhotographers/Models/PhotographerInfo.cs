@@ -1,4 +1,7 @@
-﻿namespace ServerAppNetworkForPhotographers.Models
+﻿using ServerAppNetworkForPhotographers.Dtos.PhotographersInfo;
+using System.Text.Json.Serialization;
+
+namespace ServerAppNetworkForPhotographers.Models
 {
     public class PhotographerInfo
     {
@@ -12,6 +15,26 @@
         public string? Viber { get; set; }
 
         public int PhotographerId { get; set; }
+
+        [JsonIgnore]
         public Photographer Photographer { get; set; }
+
+        public PhotographerInfo() { }
+
+        public PhotographerInfo(int photographerId)
+        {
+            PhotographerId = photographerId;
+        }
+
+        public void Update(UpdatePhotographerInfoDto photographerInfoDto)
+        {
+            Description = photographerInfoDto.Description;
+            Awards = photographerInfoDto.Awards;
+            Website = photographerInfoDto.Website;
+            Vk = photographerInfoDto.Vk;
+            Telegram = photographerInfoDto.Telegram;
+            WhatsApp = photographerInfoDto.WhatsApp;
+            Viber = photographerInfoDto.Viber;
+        }
     }
 }
