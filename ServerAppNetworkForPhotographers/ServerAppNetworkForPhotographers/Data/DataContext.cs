@@ -8,6 +8,7 @@ namespace ServerAppNetworkForPhotographers.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryDir> CategoryDirs { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Complaint> Complaints { get; set; }
         public DbSet<Content> Contents { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Photo> Photos { get; set; }

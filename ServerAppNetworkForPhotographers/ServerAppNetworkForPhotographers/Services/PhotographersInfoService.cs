@@ -23,7 +23,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<PhotographerInfo> UpdatePhotographerInfo(UpdatePhotographerInfoDto updatedPhotographerInfo)
         {
             var photographerInfo = (await GetPhotographerInfoByPhotographerId(updatedPhotographerInfo.Id)) ??
-                throw new NullReferenceException("PhotographerInfo with this id was not found");
+                throw new KeyNotFoundException("PhotographerInfo with this id was not found");
 
             photographerInfo.Update(updatedPhotographerInfo);
 

@@ -40,7 +40,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
                 return BadRequest(ex.Message);
             }
 
-            return CreatedAtAction(nameof(Photographer), new { id = photographer.Id }, photographer);
+            return CreatedAtAction(nameof(GetPhotographerById), new { id = photographer.Id }, photographer);
         }
 
         [HttpPut]
@@ -50,7 +50,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return await _photographersService.UpdatePhotographer(updatedPhotographer);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -68,7 +68,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return await _photographersService.UpdatePhotographerProfilePhoto(id);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -82,7 +82,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return await _photographersService.UpdatePhotographerLastLoginDate(id);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -95,7 +95,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _photographersService.DeletePhotographer(id);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }

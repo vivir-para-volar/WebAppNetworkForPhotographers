@@ -52,7 +52,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<Photographer> UpdatePhotographer(UpdatePhotographerDto updatedPhotographer)
         {
             var photographer = (await GetPhotographerById(updatedPhotographer.Id)) ??
-                throw new NullReferenceException("Photographer with this id was not found");
+                throw new KeyNotFoundException("Photographer with this id was not found");
 
             if (await CheckExistenceUsername(updatedPhotographer.Username, photographer.Id))
             {
@@ -75,7 +75,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<Photographer> UpdatePhotographerLastLoginDate(int id)
         {
             var photographer = (await GetPhotographerById(id)) ??
-                throw new NullReferenceException("Photographer with this id was not found");
+                throw new KeyNotFoundException("Photographer with this id was not found");
 
             photographer.LastLoginDate = DateTime.Now;
 
@@ -89,7 +89,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<Photographer> UpdatePhotographerProfilePhoto(int id)
         {
             var photographer = (await GetPhotographerById(id)) ??
-                throw new NullReferenceException("Photographer with this id was not found");
+                throw new KeyNotFoundException("Photographer with this id was not found");
 
             throw new NotImplementedException();
         }
@@ -97,21 +97,21 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeletePhotographer(int id)
         {
             var photographer = (await GetPhotographerById(id)) ??
-                throw new NullReferenceException("Photographer with this id was not found");
+                throw new KeyNotFoundException("Photographer with this id was not found");
 
             _context.Photographers.Remove(photographer);
             await _context.SaveChangesAsync();
         }
 
 
-        private async Task<bool> CheckExistenceUsername(string username, int photographerID = -1)
+        private async Task<bool> CheckExistenceUsername(string username, int photographerId = -1)
         {
-            return await _context.Photographers.AnyAsync(item => item.Id != photographerID && item.Username == username);
+            return await _context.Photographers.AnyAsync(item => item.Id != photographerId && item.Username == username);
         }
 
-        private async Task<bool> CheckExistenceEmail(string email, int photographerID = -1)
+        private async Task<bool> CheckExistenceEmail(string email, int photographerId = -1)
         {
-            return await _context.Photographers.AnyAsync(item => item.Id != photographerID && item.Email == email);
+            return await _context.Photographers.AnyAsync(item => item.Id != photographerId && item.Email == email);
         }
     }
 }

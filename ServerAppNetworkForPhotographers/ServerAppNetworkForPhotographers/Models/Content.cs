@@ -16,6 +16,7 @@
         public List<Like> Likes { get; set; }
         public List<Photo> Photos { get; set; }
         public List<Category> Categories { get; set; }
+        public List<Complaint> Complaints { get; set; }
 
         public Content()
         {
@@ -23,6 +24,7 @@
             Likes = new List<Like>();
             Photos = new List<Photo>();
             Categories = new List<Category>();
+            Complaints = new List<Complaint>(); ;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServerAppNetworkForPhotographers.Data;
 
@@ -11,9 +12,10 @@ using ServerAppNetworkForPhotographers.Data;
 namespace ServerAppNetworkForPhotographers.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230415112911_AddComplaint")]
+    partial class AddComplaint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +37,6 @@ namespace ServerAppNetworkForPhotographers.Migrations
                     b.HasIndex("ContentsId");
 
                     b.ToTable("CategoryContent");
-                });
-
-            modelBuilder.Entity("ComplaintContent", b =>
-                {
-                    b.Property<int>("ComplaintsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ContentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComplaintsId", "ContentsId");
-
-                    b.HasIndex("ContentsId");
-
-                    b.ToTable("ComplaintContent");
                 });
 
             modelBuilder.Entity("ServerAppNetworkForPhotographers.Models.Category", b =>
@@ -129,11 +116,16 @@ namespace ServerAppNetworkForPhotographers.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("ContentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContentId");
 
                     b.ToTable("Complaints");
                 });
@@ -351,21 +343,6 @@ namespace ServerAppNetworkForPhotographers.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ComplaintContent", b =>
-                {
-                    b.HasOne("ServerAppNetworkForPhotographers.Models.Complaint", null)
-                        .WithMany()
-                        .HasForeignKey("ComplaintsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ServerAppNetworkForPhotographers.Models.Content", null)
-                        .WithMany()
-                        .HasForeignKey("ContentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ServerAppNetworkForPhotographers.Models.Category", b =>
                 {
                     b.HasOne("ServerAppNetworkForPhotographers.Models.CategoryDir", "CategoryDir")
@@ -394,6 +371,13 @@ namespace ServerAppNetworkForPhotographers.Migrations
                     b.Navigation("Content");
 
                     b.Navigation("Photographer");
+                });
+
+            modelBuilder.Entity("ServerAppNetworkForPhotographers.Models.Complaint", b =>
+                {
+                    b.HasOne("ServerAppNetworkForPhotographers.Models.Content", null)
+                        .WithMany("Complaints")
+                        .HasForeignKey("ContentId");
                 });
 
             modelBuilder.Entity("ServerAppNetworkForPhotographers.Models.Content", b =>
@@ -486,6 +470,8 @@ namespace ServerAppNetworkForPhotographers.Migrations
             modelBuilder.Entity("ServerAppNetworkForPhotographers.Models.Content", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Complaints");
 
                     b.Navigation("Likes");
 

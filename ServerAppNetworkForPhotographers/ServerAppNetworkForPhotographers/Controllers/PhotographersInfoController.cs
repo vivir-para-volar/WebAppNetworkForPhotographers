@@ -33,7 +33,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return await _photographersInfoService.UpdatePhotographerInfo(updatedPhotographerInfo);
             }
-            catch (NullReferenceException ex)
+            catch (KeyNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
