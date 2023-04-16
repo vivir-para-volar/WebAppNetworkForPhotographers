@@ -1,26 +1,20 @@
-﻿using ServerAppNetworkForPhotographers.Dtos.Complaints;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models
 {
     public class Complaint
     {
         public int Id { get; set; }
-        public string Text { get; set; }
+        public string? Text { get; set; }
+        public string Status { get; set; }
+
+        public int ContentId { get; set; }
+        public int? ComplaintBaseId { get; set; }
 
         [JsonIgnore]
-        public List<Content> Contents { get; set; } = new List<Content>();
+        public Content Content { get; set; }
 
-        public Complaint() { }
-
-        public Complaint(CreateComplaintDto complaintDto)
-        {
-            Text = complaintDto.Text;
-        }
-
-        public void Update(UpdateComplaintDto complaintDto)
-        {
-            Text = complaintDto.Text;
-        }
+        [JsonIgnore]
+        public ComplaintBase ComplaintBase { get; set; }
     }
 }

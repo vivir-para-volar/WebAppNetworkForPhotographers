@@ -2,9 +2,9 @@
 
 namespace ServerAppNetworkForPhotographers.Dtos.Complaints
 {
-    public class CreateComplaintDto
+    public class CreateComplaintBaseDto
     {
         [Required]
-        public string Text { get; set; }
+        public string Name { get; set; }
     }
 }
