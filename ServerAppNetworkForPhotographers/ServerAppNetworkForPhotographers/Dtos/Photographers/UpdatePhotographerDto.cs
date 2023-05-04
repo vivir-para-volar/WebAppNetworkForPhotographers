@@ -15,8 +15,13 @@ namespace ServerAppNetworkForPhotographers.Dtos.Photographers
         [EmailAddress]
         public string Email { get; set; }
 
+        [StringLength(32, MinimumLength = 2)]
         public string? Name { get; set; }
+
+        [StringLength(64, MinimumLength = 2)]
         public string? Country { get; set; }
+
+        [StringLength(64, MinimumLength = 2)]
         public string? City { get; set; }
     }
 }

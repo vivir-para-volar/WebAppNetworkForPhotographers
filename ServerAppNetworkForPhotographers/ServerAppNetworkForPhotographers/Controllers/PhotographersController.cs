@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Data;
 using ServerAppNetworkForPhotographers.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Exceptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Services;
@@ -19,72 +21,55 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Photographer>> GetPhotographerById(int id)
+        public async Task<ActionResult<Photographer?>> GetPhotographerById(int id)
         {
-            var photographer = await _photographersService.GetPhotographerById(id);
-
-            return photographer == null ? NotFound() : Ok(photographer);
+            return Ok(await _photographersService.GetPhotographerById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Photographer>> CreatePhotographer(CreatePhotographerDto newPhotographer)
+        public async Task<ActionResult<Photographer>> CreatePhotographer(CreatePhotographerDto photographerDto)
         {
             Photographer photographer;
 
             try
             {
-                photographer = await _photographersService.CreatePhotographer(newPhotographer);
+                photographer = await _photographersService.CreatePhotographer(photographerDto);
             }
-            catch (InvalidOperationException ex)
+            catch (UniqueFieldException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
 
             return CreatedAtAction(nameof(GetPhotographerById), new { id = photographer.Id }, photographer);
         }
 
         [HttpPut]
-        public async Task<ActionResult<Photographer>> UpdatePhotographer(UpdatePhotographerDto updatedPhotographer)
+        public async Task<ActionResult<Photographer>> UpdatePhotographer(UpdatePhotographerDto photographerDto)
         {
             try
             {
-                return await _photographersService.UpdatePhotographer(updatedPhotographer);
+                return Ok(await _photographersService.UpdatePhotographer(photographerDto));
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
-            catch (InvalidOperationException ex)
+            catch (UniqueFieldException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
         }
 
-        [HttpPut]
-        [Route("ProfilePhoto/{id}")]
-        public async Task<ActionResult<Photographer>> UpdatePhotographerProfilePhoto(int id)
+        [HttpPut("Photo/{id}")]
+        public async Task<ActionResult<Photographer>> UpdatePhotographerPhoto(int id)
         {
             try
             {
-                return await _photographersService.UpdatePhotographerProfilePhoto(id);
+                return Ok(await _photographersService.UpdatePhotographerPhoto(id));
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut]
-        [Route("LastLoginDate/{id}")]
-        public async Task<ActionResult<Photographer>> UpdatePhotographerLastLoginDate(int id)
-        {
-            try
-            {
-                return await _photographersService.UpdatePhotographerLastLoginDate(id);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
@@ -95,9 +80,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _photographersService.DeletePhotographer(id);
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
             return NoContent();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Data;
 using ServerAppNetworkForPhotographers.Dtos.PhotographersInfo;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
 
@@ -20,12 +21,12 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.PhotographersInfo.FirstOrDefaultAsync(item => item.PhotographerId == photographerId);
         }
 
-        public async Task<PhotographerInfo> UpdatePhotographerInfo(UpdatePhotographerInfoDto updatedPhotographerInfo)
+        public async Task<PhotographerInfo> UpdatePhotographerInfo(UpdatePhotographerInfoDto photographerInfoDto)
         {
-            var photographerInfo = (await GetPhotographerInfoByPhotographerId(updatedPhotographerInfo.Id)) ??
-                throw new KeyNotFoundException("PhotographerInfo with this id was not found");
+            var photographerInfo = (await GetPhotographerInfoByPhotographerId(photographerInfoDto.PhotographerId)) ??
+                throw new PhotographerInfoNotFoundException(photographerInfoDto.PhotographerId);
 
-            photographerInfo.Update(updatedPhotographerInfo);
+            photographerInfo.Update(photographerInfoDto);
 
             _context.Entry(photographerInfo).State = EntityState.Modified;
             await _context.SaveChangesAsync();

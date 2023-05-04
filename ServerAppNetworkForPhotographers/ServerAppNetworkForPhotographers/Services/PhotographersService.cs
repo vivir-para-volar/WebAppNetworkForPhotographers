@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Data;
 using ServerAppNetworkForPhotographers.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Exceptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
 
@@ -20,19 +22,19 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.Photographers.FindAsync(id);
         }
 
-        public async Task<Photographer> CreatePhotographer(CreatePhotographerDto newPhotographer)
+        public async Task<Photographer> CreatePhotographer(CreatePhotographerDto photographerDto)
         {
-            if (await CheckExistenceUsername(newPhotographer.Username))
+            if (await CheckExistenceUsername(photographerDto.Username))
             {
-                throw new InvalidOperationException("Photographer with this username already exists");
+                throw new UniqueFieldException("username", photographerDto.Username);
             }
 
-            if (await CheckExistenceEmail(newPhotographer.Email))
+            if (await CheckExistenceEmail(photographerDto.Email))
             {
-                throw new InvalidOperationException("Photographer with this email already exists");
+                throw new UniqueFieldException("email", photographerDto.Email);
             }
 
-            var photographer = new Photographer(newPhotographer);
+            var photographer = new Photographer(photographerDto);
 
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -52,16 +54,16 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<Photographer> UpdatePhotographer(UpdatePhotographerDto updatedPhotographer)
         {
             var photographer = (await GetPhotographerById(updatedPhotographer.Id)) ??
-                throw new KeyNotFoundException("Photographer with this id was not found");
+                throw new PhotographerNotFoundException(updatedPhotographer.Id);
 
             if (await CheckExistenceUsername(updatedPhotographer.Username, photographer.Id))
             {
-                throw new InvalidOperationException("Photographer with this username already exists");
+                throw new UniqueFieldException("username", updatedPhotographer.Username);
             }
 
             if (await CheckExistenceEmail(updatedPhotographer.Email, photographer.Id))
             {
-                throw new InvalidOperationException("Photographer with this email already exists");
+                throw new UniqueFieldException("email", updatedPhotographer.Email);
             }
 
             photographer.Update(updatedPhotographer);
@@ -72,32 +74,18 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
-        public async Task<Photographer> UpdatePhotographerLastLoginDate(int id)
+        public async Task<Photographer> UpdatePhotographerPhoto(int id)
         {
-            var photographer = (await GetPhotographerById(id)) ??
-                throw new KeyNotFoundException("Photographer with this id was not found");
-
-            photographer.LastLoginDate = DateTime.Now;
-
-            _context.Entry(photographer).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return photographer;
-
-        }
-
-        public async Task<Photographer> UpdatePhotographerProfilePhoto(int id)
-        {
-            var photographer = (await GetPhotographerById(id)) ??
-                throw new KeyNotFoundException("Photographer with this id was not found");
+            var photographer = (await GetPhotographerById(id)) ?? 
+                throw new PhotographerNotFoundException(id);
 
             throw new NotImplementedException();
         }
 
         public async Task DeletePhotographer(int id)
         {
-            var photographer = (await GetPhotographerById(id)) ??
-                throw new KeyNotFoundException("Photographer with this id was not found");
+            var photographer = (await GetPhotographerById(id)) ?? 
+                throw new PhotographerNotFoundException(id);
 
             _context.Photographers.Remove(photographer);
             await _context.SaveChangesAsync();

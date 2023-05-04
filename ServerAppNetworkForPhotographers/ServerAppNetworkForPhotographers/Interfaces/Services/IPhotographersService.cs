@@ -6,10 +6,9 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
     public interface IPhotographersService
     {
         Task<Photographer?> GetPhotographerById(int id);
-        Task<Photographer> CreatePhotographer(CreatePhotographerDto newPhotographer);
-        Task<Photographer> UpdatePhotographer(UpdatePhotographerDto updatedPhotographer);
-        Task<Photographer> UpdatePhotographerProfilePhoto(int id);
-        Task<Photographer> UpdatePhotographerLastLoginDate(int id);
+        Task<Photographer> CreatePhotographer(CreatePhotographerDto photographerDto);
+        Task<Photographer> UpdatePhotographer(UpdatePhotographerDto photographerDto);
+        Task<Photographer> UpdatePhotographerPhoto(int id);
         Task DeletePhotographer(int id);
     }
 }

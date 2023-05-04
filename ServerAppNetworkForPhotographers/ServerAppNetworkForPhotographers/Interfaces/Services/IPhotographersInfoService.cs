@@ -6,6 +6,6 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
     public interface IPhotographersInfoService
     {
         Task<PhotographerInfo?> GetPhotographerInfoByPhotographerId(int photographerId);
-        Task<PhotographerInfo> UpdatePhotographerInfo(UpdatePhotographerInfoDto updatedPhotographerInfo);
+        Task<PhotographerInfo> UpdatePhotographerInfo(UpdatePhotographerInfoDto photographerInfoDto);
     }
 }

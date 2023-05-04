@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Data;
 using ServerAppNetworkForPhotographers.Dtos.PhotographersInfo;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Services;
@@ -19,23 +20,21 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{photographerId}")]
-        public async Task<ActionResult<PhotographerInfo>> GetPhotographerInfoByPhotographerId(int photographerId)
+        public async Task<ActionResult<PhotographerInfo?>> GetPhotographerInfoByPhotographerId(int photographerId)
         {
-            var photographerInfo = await _photographersInfoService.GetPhotographerInfoByPhotographerId(photographerId);
-
-            return photographerInfo == null ? NotFound() : Ok(photographerInfo);
+            return Ok(await _photographersInfoService.GetPhotographerInfoByPhotographerId(photographerId));
         }
 
         [HttpPut]
-        public async Task<ActionResult<PhotographerInfo>> UpdatePhotographerInfo(UpdatePhotographerInfoDto updatedPhotographerInfo)
+        public async Task<ActionResult<PhotographerInfo>> UpdatePhotographerInfo(UpdatePhotographerInfoDto photographerInfoDto)
         {
             try
             {
-                return await _photographersInfoService.UpdatePhotographerInfo(updatedPhotographerInfo);
+                return Ok(await _photographersInfoService.UpdatePhotographerInfo(photographerInfoDto));
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerInfoNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }
