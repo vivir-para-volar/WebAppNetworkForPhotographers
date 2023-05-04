@@ -2,17 +2,17 @@
 
 namespace ServerAppNetworkForPhotographers.Models
 {
-    public class Photo
+    public class Favourite
     {
         public int Id { get; set; }
-        public string PhotoName { get; set; }
 
+        public int PhotographerId { get; set; }
         public int ContentId { get; set; }
 
         [JsonIgnore]
-        public Content Content { get; set; }
+        public Photographer Photographer { get; set; }
 
         [JsonIgnore]
-        public PhotoInfo PhotoInfo { get; set; }
+        public Content Content { get; set; }
     }
 }

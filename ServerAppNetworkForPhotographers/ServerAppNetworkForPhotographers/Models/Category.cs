@@ -14,19 +14,29 @@ namespace ServerAppNetworkForPhotographers.Models
         public CategoryDir CategoryDir { get; set; }
 
         [JsonIgnore]
-        public List<Content> Contents { get; set; } = new List<Content>();
+        public List<Content> Contents { get; set; }
 
-        public Category() { }
+        public Category()
+        {
+            InitLists();
+        }
 
         public Category(CreateCategoryDto categoryDto)
         {
             Name = categoryDto.Name;
             CategoryDirId = categoryDto.CategoryDirId;
+
+            InitLists();
         }
 
         public void Update(UpdateCategoryDto categoryDto)
         {
             Name = categoryDto.Name;
+        }
+
+        private void InitLists()
+        {
+            Contents = new List<Content>();
         }
     }
 }

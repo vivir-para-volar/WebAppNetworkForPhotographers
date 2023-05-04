@@ -16,5 +16,7 @@ namespace ServerAppNetworkForPhotographers.Models
 
         [JsonIgnore]
         public ComplaintBase ComplaintBase { get; set; }
+
+        public Complaint() { }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ServerAppNetworkForPhotographers.Data;
 
@@ -11,9 +12,10 @@ using ServerAppNetworkForPhotographers.Data;
 namespace ServerAppNetworkForPhotographers.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230504102326_FavouritesTableAndFixes")]
+    partial class FavouritesTableAndFixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -450,13 +452,13 @@ namespace ServerAppNetworkForPhotographers.Migrations
             modelBuilder.Entity("ServerAppNetworkForPhotographers.Models.Favourite", b =>
                 {
                     b.HasOne("ServerAppNetworkForPhotographers.Models.Content", "Content")
-                        .WithMany("Favourites")
+                        .WithMany()
                         .HasForeignKey("ContentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ServerAppNetworkForPhotographers.Models.Photographer", "Photographer")
-                        .WithMany("Favourites")
+                        .WithMany()
                         .HasForeignKey("PhotographerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -553,8 +555,6 @@ namespace ServerAppNetworkForPhotographers.Migrations
 
                     b.Navigation("Complaints");
 
-                    b.Navigation("Favourites");
-
                     b.Navigation("Likes");
 
                     b.Navigation("Photos");
@@ -571,8 +571,6 @@ namespace ServerAppNetworkForPhotographers.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Contents");
-
-                    b.Navigation("Favourites");
 
                     b.Navigation("Likes");
 

@@ -11,6 +11,7 @@ namespace ServerAppNetworkForPhotographers.Data
         public DbSet<ComplaintBase> ComplaintsBase { get; set; }
         public DbSet<Complaint> Complaints { get; set; }
         public DbSet<Content> Contents { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Photographer> Photographers { get; set; }

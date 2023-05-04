@@ -9,18 +9,28 @@ namespace ServerAppNetworkForPhotographers.Models
         public string Name { get; set; }
 
         [JsonIgnore]
-        public List<Complaint> Complaints { get; set; } = new List<Complaint>();
+        public List<Complaint> Complaints { get; set; }
 
-        public ComplaintBase() { }
-
-        public ComplaintBase(CreateComplaintBaseDto complaintDto)
+        public ComplaintBase()
         {
-            Name = complaintDto.Name;
+            InitLists();
         }
 
-        public void Update(UpdateComplaintBaseDto complaintDto)
+        public ComplaintBase(CreateComplaintBaseDto complaintBaseDto)
         {
-            Name = complaintDto.Name;
+            Name = complaintBaseDto.Name;
+
+            InitLists();
+        }
+
+        public void Update(UpdateComplaintBaseDto complaintBaseDto)
+        {
+            Name = complaintBaseDto.Name;
+        }
+
+        private void InitLists()
+        {
+            Complaints = new List<Complaint>();
         }
     }
 }
