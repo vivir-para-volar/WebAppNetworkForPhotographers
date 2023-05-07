@@ -1,5 +1,5 @@
-﻿using ServerAppNetworkForPhotographers.Dtos.Complaints;
-using ServerAppNetworkForPhotographers.Models;
+﻿using ServerAppNetworkForPhotographers.Models;
+using ServerAppNetworkForPhotographers.Models.Dtos.ComplaintsBase;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {

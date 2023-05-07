@@ -1,4 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Dtos.CategoryDirs;
+﻿using ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models

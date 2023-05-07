@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Dtos.Categories
+namespace ServerAppNetworkForPhotographers.Models.Dtos.Categories
 {
     public class CreateCategoryDto
     {

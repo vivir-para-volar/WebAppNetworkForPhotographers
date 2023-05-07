@@ -1,4 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Dtos.Categories;
+﻿using ServerAppNetworkForPhotographers.Models.Dtos.Categories;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models

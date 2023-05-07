@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Data;
+using ServerAppNetworkForPhotographers.Models.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 

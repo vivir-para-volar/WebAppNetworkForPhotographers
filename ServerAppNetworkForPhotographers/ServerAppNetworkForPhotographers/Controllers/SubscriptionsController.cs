@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Data;
-using ServerAppNetworkForPhotographers.Dtos.Subscriptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models;
+using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -32,7 +33,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _subscriptionsService.CreateSubscription(subscriptionDto);
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -67,7 +68,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetCountSubscribers(photographerId));
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -81,7 +82,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetCountSubscriptions(photographerId));
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -95,7 +96,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetSubscribers(photographerId));
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -109,7 +110,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetSubscriptions(photographerId));
             }
-            catch (KeyNotFoundException ex)
+            catch (PhotographerNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }

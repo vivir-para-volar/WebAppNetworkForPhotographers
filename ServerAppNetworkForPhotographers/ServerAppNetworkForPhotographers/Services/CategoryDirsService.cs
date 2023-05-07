@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Data;
-using ServerAppNetworkForPhotographers.Dtos.CategoryDirs;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
+using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs;
 
 namespace ServerAppNetworkForPhotographers.Services
 {

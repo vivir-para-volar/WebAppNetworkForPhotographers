@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Dtos.CategoryDirs
+namespace ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs
 {
     public class CreateCategoryDirDto
     {

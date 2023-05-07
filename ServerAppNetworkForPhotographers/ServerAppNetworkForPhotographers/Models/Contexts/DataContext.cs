@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Models;
 
-namespace ServerAppNetworkForPhotographers.Data
+namespace ServerAppNetworkForPhotographers.Models.Contexts
 {
     public class DataContext : DbContext
     {
