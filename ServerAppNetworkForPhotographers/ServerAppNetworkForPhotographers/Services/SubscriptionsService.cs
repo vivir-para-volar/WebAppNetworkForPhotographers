@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Data;
-using ServerAppNetworkForPhotographers.Dtos.Subscriptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
+using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
@@ -28,11 +29,16 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(subscriptionDto.PhotographerId))
             {
-                throw new KeyNotFoundException($"Photographer with this id was not found");
+                throw new PhotographerNotFoundException(subscriptionDto.PhotographerId);
             }
             if (!await CheckExistencePhotographer(subscriptionDto.SubscriberId))
             {
-                throw new KeyNotFoundException("Photographer (subscriber) with this id was not found");
+                throw new PhotographerNotFoundException(subscriptionDto.SubscriberId);
+            }
+
+            if (subscriptionDto.PhotographerId == subscriptionDto.SubscriberId)
+            {
+                throw new InvalidOperationException("Photographer and subscriber must be different");
             }
 
             if (await CheckSubscription(subscriptionDto))
@@ -59,7 +65,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new KeyNotFoundException("Photographer with this id was not found");
+                throw new PhotographerNotFoundException(photographerId);
             }
 
             return await _context.Subscriptions.CountAsync(item => item.PhotographerId == photographerId);
@@ -69,7 +75,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new KeyNotFoundException("Photographer with this id was not found");
+                throw new PhotographerNotFoundException(photographerId);
             }
 
             return await _context.Subscriptions.CountAsync(item => item.SubscriberId == photographerId);
@@ -79,7 +85,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new KeyNotFoundException("Photographer with this id was not found");
+                throw new PhotographerNotFoundException(photographerId);
             }
 
             var subscribers = new List<Photographer>();
@@ -96,7 +102,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new KeyNotFoundException("Photographer with this id was not found");
+                throw new PhotographerNotFoundException(photographerId);
             }
 
             var subscriptions = new List<Photographer>();

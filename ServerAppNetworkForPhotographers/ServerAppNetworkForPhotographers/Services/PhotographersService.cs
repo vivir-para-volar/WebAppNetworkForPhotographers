@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Data;
-using ServerAppNetworkForPhotographers.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Files;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
+using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
@@ -19,7 +20,14 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<Photographer?> GetPhotographerById(int id)
         {
-            return await _context.Photographers.FindAsync(id);
+            var photographer = await _context.Photographers.FindAsync(id);
+
+            if (photographer?.PhotoProfile != null)
+            {
+                photographer.PhotoProfile = await FileInteraction.GetBase64ProfilePhoto(photographer.PhotoProfile);
+            }
+            
+            return photographer;
         }
 
         public async Task<Photographer> CreatePhotographer(CreatePhotographerDto photographerDto)
@@ -53,7 +61,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<Photographer> UpdatePhotographer(UpdatePhotographerDto updatedPhotographer)
         {
-            var photographer = (await GetPhotographerById(updatedPhotographer.Id)) ??
+            var photographer = (await GetSimplePhotographerById(updatedPhotographer.Id)) ??
                 throw new PhotographerNotFoundException(updatedPhotographer.Id);
 
             if (await CheckExistenceUsername(updatedPhotographer.Username, photographer.Id))
@@ -74,23 +82,43 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
-        public async Task<Photographer> UpdatePhotographerPhoto(int id)
+        public async Task<string> UpdatePhotographerPhoto(int id, IFormFile photo)
         {
-            var photographer = (await GetPhotographerById(id)) ?? 
+            var photographer = (await GetSimplePhotographerById(id)) ?? 
                 throw new PhotographerNotFoundException(id);
 
-            throw new NotImplementedException();
+            if(photographer.PhotoProfile != null)
+            {
+                FileInteraction.DeleteProfilePhoto(photographer.PhotoProfile);
+            }
+
+            string photoName = await FileInteraction.SaveProfilePhoto(photo);
+            photographer.PhotoProfile = photoName;
+
+            _context.Entry(photographer).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return photoName;
         }
 
         public async Task DeletePhotographer(int id)
         {
-            var photographer = (await GetPhotographerById(id)) ?? 
+            var photographer = (await GetSimplePhotographerById(id)) ?? 
                 throw new PhotographerNotFoundException(id);
+
+            if (photographer.PhotoProfile != null)
+            {
+                FileInteraction.DeleteProfilePhoto(photographer.PhotoProfile);
+            }
 
             _context.Photographers.Remove(photographer);
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Photographer?> GetSimplePhotographerById(int id)
+        {
+            return await _context.Photographers.FindAsync(id);
+        }
 
         private async Task<bool> CheckExistenceUsername(string username, int photographerId = -1)
         {

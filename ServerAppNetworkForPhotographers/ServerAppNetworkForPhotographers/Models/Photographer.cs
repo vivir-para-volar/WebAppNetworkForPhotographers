@@ -11,7 +11,7 @@ namespace ServerAppNetworkForPhotographers.Models
         public string? Name { get; set; }
         public string? Country { get; set; }
         public string? City { get; set; }
-        public string? PhotoName { get; set; }
+        public string? PhotoProfile { get; set; }
         public DateTime LastLoginDate { get; set; }
 
         [JsonIgnore]

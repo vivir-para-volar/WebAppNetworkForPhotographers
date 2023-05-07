@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Data;
-using ServerAppNetworkForPhotographers.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models;
+using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -61,11 +61,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut("Photo/{id}")]
-        public async Task<ActionResult<Photographer>> UpdatePhotographerPhoto(int id)
+        public async Task<ActionResult<string>> UpdatePhotographerPhoto(int id, IFormFile photo)
         {
             try
             {
-                return Ok(await _photographersService.UpdatePhotographerPhoto(id));
+                return Ok(await _photographersService.UpdatePhotographerPhoto(id, photo));
             }
             catch (PhotographerNotFoundException ex)
             {

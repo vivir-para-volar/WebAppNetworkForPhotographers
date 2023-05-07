@@ -5,7 +5,7 @@ namespace ServerAppNetworkForPhotographers.Models
     public class Photo
     {
         public int Id { get; set; }
-        public string PhotoName { get; set; }
+        public string PhotoContent { get; set; }
 
         public int ContentId { get; set; }
 

@@ -8,7 +8,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
         Task<Photographer?> GetPhotographerById(int id);
         Task<Photographer> CreatePhotographer(CreatePhotographerDto photographerDto);
         Task<Photographer> UpdatePhotographer(UpdatePhotographerDto photographerDto);
-        Task<Photographer> UpdatePhotographerPhoto(int id, IFormFile photo);
+        Task<string> UpdatePhotographerPhoto(int id, IFormFile photo);
         Task DeletePhotographer(int id);
     }
 }
