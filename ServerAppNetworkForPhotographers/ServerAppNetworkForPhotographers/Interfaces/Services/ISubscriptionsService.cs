@@ -1,4 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Models;
+﻿using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
@@ -11,7 +11,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
 
         Task<int> GetCountSubscribers(int photographerId);
         Task<int> GetCountSubscriptions(int photographerId);
-        Task<List<Photographer>> GetSubscribers(int photographerId);
-        Task<List<Photographer>> GetSubscriptions(int photographerId);
+        Task<List<GetPhotographerForList>> GetSubscribers(int photographerId);
+        Task<List<GetPhotographerForList>> GetSubscriptions(int photographerId);
     }
 }

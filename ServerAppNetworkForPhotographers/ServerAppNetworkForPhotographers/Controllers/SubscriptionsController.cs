@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
-using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
 using ServerAppNetworkForPhotographers.Services;
 
@@ -35,7 +35,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (InvalidOperationException ex)
             {
@@ -52,9 +52,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _subscriptionsService.DeleteSubscription(subscriptionDto);
             }
-            catch (KeyNotFoundException ex)
+            catch (SubscriptionNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
             return NoContent();
@@ -70,7 +70,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
@@ -84,13 +84,13 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
         [HttpGet]
         [Route("Subscribers/{photographerId}")]
-        public async Task<ActionResult<List<Photographer>>> GetSubscribers(int photographerId)
+        public async Task<ActionResult<List<GetPhotographerForList>>> GetSubscribers(int photographerId)
         {
             try
             {
@@ -98,13 +98,13 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
 
         [HttpGet]
         [Route("Subscriptions/{photographerId}")]
-        public async Task<ActionResult<List<Photographer>>> GetSubscriptions(int photographerId)
+        public async Task<ActionResult<List<GetPhotographerForList>>> GetSubscriptions(int photographerId)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }

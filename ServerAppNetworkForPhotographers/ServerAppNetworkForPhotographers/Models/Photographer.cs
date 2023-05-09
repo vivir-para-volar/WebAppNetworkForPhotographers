@@ -1,4 +1,5 @@
-﻿using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
+﻿using ServerAppNetworkForPhotographers.Files;
+using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models
@@ -50,6 +51,36 @@ namespace ServerAppNetworkForPhotographers.Models
             Name = photographerDto.Name;
             Country = photographerDto.Country;
             City = photographerDto.City;
+        }
+
+        public async Task ConvertProfilePhoto()
+        {
+            if (PhotoProfile != null)
+            {
+                PhotoProfile = await FileInteraction.GetBase64ProfilePhoto(PhotoProfile);
+            }
+        }
+
+        public async Task UpdateProfilePhoto(IFormFile photo)
+        {
+            DeleteProfilePhoto();
+            PhotoProfile = await FileInteraction.SaveProfilePhoto(photo);
+        }
+
+        public void DeleteProfilePhoto()
+        {
+            if (PhotoProfile != null)
+            {
+                FileInteraction.DeleteProfilePhoto(PhotoProfile);
+            }
+
+            PhotoProfile = null;
+        }
+
+        public async Task<GetPhotographerForList> ToGetPhotographerForList()
+        {
+            await ConvertProfilePhoto();
+            return new GetPhotographerForList(Id, Username, Name, PhotoProfile);
         }
 
         private void InitLists()

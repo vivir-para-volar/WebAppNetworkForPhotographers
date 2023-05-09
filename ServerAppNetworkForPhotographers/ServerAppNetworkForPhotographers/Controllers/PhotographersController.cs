@@ -26,6 +26,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return Ok(await _photographersService.GetPhotographerById(id));
         }
 
+        [HttpPost("Search")]
+        public async Task<ActionResult<List<GetPhotographerForList>>> SearchPhotographers(SearchPhotographerDto searchPhotographerDto)
+        {
+            return Ok(await _photographersService.SearchPhotographers(searchPhotographerDto));
+        }
+
         [HttpPost]
         public async Task<ActionResult<Photographer>> CreatePhotographer(CreatePhotographerDto photographerDto)
         {

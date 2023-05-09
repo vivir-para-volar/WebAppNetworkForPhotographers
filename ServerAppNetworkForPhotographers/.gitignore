@@ -3,8 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# Files
 ServerAppNetworkForPhotographers/Files/ProfilePhotos
 ServerAppNetworkForPhotographers/Files/ContentPhotos
+
+# Migrations
+ServerAppNetworkForPhotographers/Migrations
 
 # User-specific files
 *.rsuser

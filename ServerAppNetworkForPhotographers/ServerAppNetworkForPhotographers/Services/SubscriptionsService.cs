@@ -3,6 +3,7 @@ using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
 
 namespace ServerAppNetworkForPhotographers.Services
@@ -55,7 +56,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteSubscription(SubscriptionDto subscriptionDto)
         {
             var subscription = (await GetSubscription(subscriptionDto)) ??
-                throw new KeyNotFoundException("This subscription does not exists");
+                throw new SubscriptionNotFoundException(subscriptionDto.PhotographerId, subscriptionDto.SubscriberId);
 
             _context.Subscriptions.Remove(subscription);
             await _context.SaveChangesAsync();
@@ -81,36 +82,36 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.Subscriptions.CountAsync(item => item.SubscriberId == photographerId);
         }
 
-        public async Task<List<Photographer>> GetSubscribers(int photographerId)
+        public async Task<List<GetPhotographerForList>> GetSubscribers(int photographerId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
                 throw new PhotographerNotFoundException(photographerId);
             }
 
-            var subscribers = new List<Photographer>();
+            var subscribers = new List<GetPhotographerForList>();
 
             await _context.Subscriptions
                 .Include(item => item.Subscriber)
                 .Where(item => item.PhotographerId == photographerId)
-                .ForEachAsync(item => subscribers.Add(item.Subscriber));
+                .ForEachAsync(async (item) => subscribers.Add(await item.Subscriber.ToGetPhotographerForList()));
 
             return subscribers;
         }
 
-        public async Task<List<Photographer>> GetSubscriptions(int photographerId)
+        public async Task<List<GetPhotographerForList>> GetSubscriptions(int photographerId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
                 throw new PhotographerNotFoundException(photographerId);
             }
 
-            var subscriptions = new List<Photographer>();
+            var subscriptions = new List<GetPhotographerForList>();
 
             await _context.Subscriptions
                 .Include(item => item.Photographer)
                 .Where(item => item.SubscriberId == photographerId)
-                .ForEachAsync(item => subscriptions.Add(item.Photographer));
+                .ForEachAsync(async (item) => subscriptions.Add(await item.Photographer.ToGetPhotographerForList()));
 
             return subscriptions;
         }

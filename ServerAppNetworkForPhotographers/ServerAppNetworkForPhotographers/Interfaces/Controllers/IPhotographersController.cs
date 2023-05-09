@@ -7,6 +7,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
     public interface IPhotographersController
     {
         Task<ActionResult<Photographer?>> GetPhotographerById(int id);
+        Task<ActionResult<List<GetPhotographerForList>>> SearchPhotographers(SearchPhotographerDto searchPhotographerDto);
         Task<ActionResult<Photographer>> CreatePhotographer(CreatePhotographerDto photographerDto);
         Task<ActionResult<Photographer>> UpdatePhotographer(UpdatePhotographerDto photographerDto);
         Task<ActionResult<string>> UpdatePhotographerPhoto(int id, IFormFile photo);
