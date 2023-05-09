@@ -82,36 +82,36 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.Subscriptions.CountAsync(item => item.SubscriberId == photographerId);
         }
 
-        public async Task<List<GetPhotographerForList>> GetSubscribers(int photographerId)
+        public async Task<List<GetPhotographerForListDto>> GetSubscribers(int photographerId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
                 throw new PhotographerNotFoundException(photographerId);
             }
 
-            var subscribers = new List<GetPhotographerForList>();
+            var subscribers = new List<GetPhotographerForListDto>();
 
             await _context.Subscriptions
                 .Include(item => item.Subscriber)
                 .Where(item => item.PhotographerId == photographerId)
-                .ForEachAsync(async (item) => subscribers.Add(await item.Subscriber.ToGetPhotographerForList()));
+                .ForEachAsync(async (item) => subscribers.Add(await item.Subscriber.ToGetPhotographerForListDto()));
 
             return subscribers;
         }
 
-        public async Task<List<GetPhotographerForList>> GetSubscriptions(int photographerId)
+        public async Task<List<GetPhotographerForListDto>> GetSubscriptions(int photographerId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
                 throw new PhotographerNotFoundException(photographerId);
             }
 
-            var subscriptions = new List<GetPhotographerForList>();
+            var subscriptions = new List<GetPhotographerForListDto>();
 
             await _context.Subscriptions
                 .Include(item => item.Photographer)
                 .Where(item => item.SubscriberId == photographerId)
-                .ForEachAsync(async (item) => subscriptions.Add(await item.Photographer.ToGetPhotographerForList()));
+                .ForEachAsync(async (item) => subscriptions.Add(await item.Photographer.ToGetPhotographerForListDto()));
 
             return subscriptions;
         }

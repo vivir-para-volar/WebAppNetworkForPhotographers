@@ -90,7 +90,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpGet]
         [Route("Subscribers/{photographerId}")]
-        public async Task<ActionResult<List<GetPhotographerForList>>> GetSubscribers(int photographerId)
+        public async Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscribers(int photographerId)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpGet]
         [Route("Subscriptions/{photographerId}")]
-        public async Task<ActionResult<List<GetPhotographerForList>>> GetSubscriptions(int photographerId)
+        public async Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscriptions(int photographerId)
         {
             try
             {

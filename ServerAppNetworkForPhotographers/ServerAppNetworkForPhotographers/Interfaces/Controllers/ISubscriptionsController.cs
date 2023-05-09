@@ -12,7 +12,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 
         Task<ActionResult<int>> GetCountSubscribers(int photographerId);
         Task<ActionResult<int>> GetCountSubscriptions(int photographerId);
-        Task<ActionResult<List<GetPhotographerForList>>> GetSubscribers(int photographerId);
-        Task<ActionResult<List<GetPhotographerForList>>> GetSubscriptions(int photographerId);
+        Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscribers(int photographerId);
+        Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscriptions(int photographerId);
     }
 }

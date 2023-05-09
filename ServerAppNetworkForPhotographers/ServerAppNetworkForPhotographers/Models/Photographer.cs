@@ -77,10 +77,10 @@ namespace ServerAppNetworkForPhotographers.Models
             PhotoProfile = null;
         }
 
-        public async Task<GetPhotographerForList> ToGetPhotographerForList()
+        public async Task<GetPhotographerForListDto> ToGetPhotographerForListDto()
         {
             await ConvertProfilePhoto();
-            return new GetPhotographerForList(Id, Username, Name, PhotoProfile);
+            return new GetPhotographerForListDto(Id, Username, Name, PhotoProfile);
         }
 
         private void InitLists()

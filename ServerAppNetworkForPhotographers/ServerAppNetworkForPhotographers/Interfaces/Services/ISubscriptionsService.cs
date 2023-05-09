@@ -11,7 +11,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
 
         Task<int> GetCountSubscribers(int photographerId);
         Task<int> GetCountSubscriptions(int photographerId);
-        Task<List<GetPhotographerForList>> GetSubscribers(int photographerId);
-        Task<List<GetPhotographerForList>> GetSubscriptions(int photographerId);
+        Task<List<GetPhotographerForListDto>> GetSubscribers(int photographerId);
+        Task<List<GetPhotographerForListDto>> GetSubscriptions(int photographerId);
     }
 }
