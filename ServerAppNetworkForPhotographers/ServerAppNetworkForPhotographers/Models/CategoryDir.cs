@@ -1,4 +1,5 @@
-﻿using ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs;
+﻿using ServerAppNetworkForPhotographers.Models.Dtos.Categories;
+using ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models
@@ -26,6 +27,11 @@ namespace ServerAppNetworkForPhotographers.Models
         public void Update(UpdateCategoryDirDto categoryDirDto)
         {
             Name = categoryDirDto.Name;
+        }
+
+        public GetCategoryDirDto ToGetCategoryDirDto()
+        {
+            return new GetCategoryDirDto(Id, Name, Categories);
         }
 
         private void InitLists()

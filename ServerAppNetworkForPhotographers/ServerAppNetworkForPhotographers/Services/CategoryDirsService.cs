@@ -17,14 +17,29 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
-        public async Task<List<CategoryDir>> GetAllCategoryDirsWithCategories()
+        public async Task<List<CategoryDir>> GetAllCategoryDirs()
         {
-            return await _context.CategoryDirs.Include(item => item.Categories).ToListAsync();
+            return await _context.CategoryDirs.ToListAsync();
         }
 
-        public async Task<CategoryDir?> GetCategoryDirById(int id)
+        public async Task<List<GetCategoryDirDto>> GetAllCategoryDirsWithCategories()
         {
-            return await _context.CategoryDirs.Include(item => item.Categories).FirstOrDefaultAsync(item => item.Id == id);
+            var CategoryDirs = new List<GetCategoryDirDto>();
+
+            await _context.CategoryDirs
+                .Include(item => item.Categories)
+                .ForEachAsync(item => CategoryDirs.Add(item.ToGetCategoryDirDto()));
+
+            return CategoryDirs;
+        }
+
+        public async Task<GetCategoryDirDto?> GetCategoryDirById(int id)
+        {
+            var categoryDir = await _context.CategoryDirs
+                .Include(item => item.Categories)
+                .FirstOrDefaultAsync(item => item.Id == id);
+
+            return categoryDir != null ? categoryDir.ToGetCategoryDirDto() : null;
         }
 
         public async Task<CategoryDir> CreateCategoryDir(CreateCategoryDirDto categoryDirDto)
@@ -44,7 +59,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<CategoryDir> UpdateCategoryDir(UpdateCategoryDirDto categoryDirDto)
         {
-            var categoryDir = (await GetCategoryDirById(categoryDirDto.Id)) ??
+            var categoryDir = (await GetSimpleCategoryDirById(categoryDirDto.Id)) ??
                 throw new CategoryDirNotFoundException(categoryDirDto.Id);
 
             if (await CheckExistenceName(categoryDirDto.Name, categoryDir.Id))
@@ -62,11 +77,16 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task DeleteCategoryDir(int id)
         {
-            var categoryDir = (await GetCategoryDirById(id)) ??
+            var categoryDir = (await GetSimpleCategoryDirById(id)) ??
                 throw new CategoryDirNotFoundException(id);
 
             _context.CategoryDirs.Remove(categoryDir);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<CategoryDir?> GetSimpleCategoryDirById(int id)
+        {
+            return await _context.CategoryDirs.FindAsync(id);
         }
 
         private async Task<bool> CheckExistenceName(string name, int categoryDirId = -1)

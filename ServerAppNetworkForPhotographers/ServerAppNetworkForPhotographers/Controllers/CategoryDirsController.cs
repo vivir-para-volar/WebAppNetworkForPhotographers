@@ -21,13 +21,19 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CategoryDir>>> GetAllCategoryDirsWithCategories()
+        public async Task<ActionResult<List<CategoryDir>>> GetAllCategoryDirs()
+        {
+            return Ok(await _categoryDirsService.GetAllCategoryDirs());
+        }
+
+        [HttpGet("WithCategories")]
+        public async Task<ActionResult<List<GetCategoryDirDto>>> GetAllCategoryDirsWithCategories()
         {
             return Ok(await _categoryDirsService.GetAllCategoryDirsWithCategories());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDir?>> GetCategoryDirById(int id)
+        public async Task<ActionResult<GetCategoryDirDto?>> GetCategoryDirById(int id)
         {
             return Ok(await _categoryDirsService.GetCategoryDirById(id));
         }
