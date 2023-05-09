@@ -7,8 +7,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
     {
         Task<List<ComplaintBase>> GetAllComplaintsBase();
         Task<ComplaintBase?> GetComplaintBaseById(int id);
-        Task<ComplaintBase> CreateComplaintBase(CreateComplaintBaseDto newComplaintBase);
-        Task<ComplaintBase> UpdateComplaintBase(UpdateComplaintBaseDto updatedComplaintBase);
+        Task<ComplaintBase> CreateComplaintBase(CreateComplaintBaseDto complaintBaseDto);
+        Task<ComplaintBase> UpdateComplaintBase(UpdateComplaintBaseDto complaintBaseDto);
         Task DeleteComplaintBase(int id);
     }
 }

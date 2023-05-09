@@ -8,8 +8,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
     {
         Task<ActionResult<List<ComplaintBase>>> GetAllComplaintsBase();
         Task<ActionResult<ComplaintBase>> GetComplaintBaseById(int id);
-        Task<ActionResult<ComplaintBase>> CreateComplaintBase(CreateComplaintBaseDto newComplaintBase);
-        Task<ActionResult<ComplaintBase>> UpdateComplaintBase(UpdateComplaintBaseDto updatedComplaintBase);
+        Task<ActionResult<ComplaintBase>> CreateComplaintBase(CreateComplaintBaseDto complaintBaseDto);
+        Task<ActionResult<ComplaintBase>> UpdateComplaintBase(UpdateComplaintBaseDto complaintBaseDto);
         Task<ActionResult> DeleteComplaintBase(int id);
     }
 }

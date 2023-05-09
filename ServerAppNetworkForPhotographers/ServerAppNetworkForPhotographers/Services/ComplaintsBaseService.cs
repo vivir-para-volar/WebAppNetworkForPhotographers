@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ServerAppNetworkForPhotographers.Exceptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
@@ -25,14 +27,14 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.ComplaintsBase.FindAsync(id);
         }
 
-        public async Task<ComplaintBase> CreateComplaintBase(CreateComplaintBaseDto newComplaintBase)
+        public async Task<ComplaintBase> CreateComplaintBase(CreateComplaintBaseDto complaintBaseDto)
         {
-            if (await CheckExistenceName(newComplaintBase.Name))
+            if (await CheckExistenceName(complaintBaseDto.Name))
             {
-                throw new InvalidOperationException("ComplaintBase with this name already exists");
+                throw new UniqueFieldException("name", complaintBaseDto.Name);
             }
 
-            var complaintBase = new ComplaintBase(newComplaintBase);
+            var complaintBase = new ComplaintBase(complaintBaseDto);
 
             await _context.ComplaintsBase.AddAsync(complaintBase);
             await _context.SaveChangesAsync();
@@ -40,17 +42,17 @@ namespace ServerAppNetworkForPhotographers.Services
             return complaintBase;
         }
 
-        public async Task<ComplaintBase> UpdateComplaintBase(UpdateComplaintBaseDto updatedComplaintBase)
+        public async Task<ComplaintBase> UpdateComplaintBase(UpdateComplaintBaseDto complaintBaseDto)
         {
-            var complaintBase = (await GetComplaintBaseById(updatedComplaintBase.Id)) ??
-                throw new KeyNotFoundException("ComplaintBase with this id was not found");
+            var complaintBase = (await GetComplaintBaseById(complaintBaseDto.Id)) ??
+                throw new ComplaintsBaseNotFoundException(complaintBaseDto.Id);
 
-            if (await CheckExistenceName(updatedComplaintBase.Name, complaintBase.Id))
+            if (await CheckExistenceName(complaintBaseDto.Name, complaintBase.Id))
             {
-                throw new InvalidOperationException("ComplaintBase with this name already exists");
+                throw new UniqueFieldException("name", complaintBaseDto.Name);
             }
 
-            complaintBase.Update(updatedComplaintBase);
+            complaintBase.Update(complaintBaseDto);
 
             _context.Entry(complaintBase).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -61,7 +63,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteComplaintBase(int id)
         {
             var complaintBase = (await GetComplaintBaseById(id)) ??
-                throw new KeyNotFoundException("ComplaintBase with this id was not found");
+                throw new ComplaintsBaseNotFoundException(id);
 
             _context.ComplaintsBase.Remove(complaintBase);
             await _context.SaveChangesAsync();

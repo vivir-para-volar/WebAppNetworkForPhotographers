@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerAppNetworkForPhotographers.Exceptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
@@ -21,48 +23,46 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [HttpGet]
         public async Task<ActionResult<List<ComplaintBase>>> GetAllComplaintsBase()
         {
-            return await _complaintsService.GetAllComplaintsBase();
+            return Ok(await _complaintsService.GetAllComplaintsBase());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ComplaintBase>> GetComplaintBaseById(int id)
         {
-            var complaintBase = await _complaintsService.GetComplaintBaseById(id);
-
-            return complaintBase == null ? NotFound() : Ok(complaintBase);
+            return Ok(await _complaintsService.GetComplaintBaseById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<ComplaintBase>> CreateComplaintBase(CreateComplaintBaseDto newComplaintBase)
+        public async Task<ActionResult<ComplaintBase>> CreateComplaintBase(CreateComplaintBaseDto complaintBaseDto)
         {
             ComplaintBase complaintBase;
 
             try
             {
-                complaintBase = await _complaintsService.CreateComplaintBase(newComplaintBase);
+                complaintBase = await _complaintsService.CreateComplaintBase(complaintBaseDto);
             }
-            catch (InvalidOperationException ex)
+            catch (UniqueFieldException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
 
             return CreatedAtAction(nameof(GetComplaintBaseById), new { id = complaintBase.Id }, complaintBase);
         }
 
         [HttpPut]
-        public async Task<ActionResult<ComplaintBase>> UpdateComplaintBase(UpdateComplaintBaseDto updatedComplaintBase)
+        public async Task<ActionResult<ComplaintBase>> UpdateComplaintBase(UpdateComplaintBaseDto complaintBaseDto)
         {
             try
             {
-                return await _complaintsService.UpdateComplaintBase(updatedComplaintBase);
+                return await _complaintsService.UpdateComplaintBase(complaintBaseDto);
             }
-            catch (KeyNotFoundException ex)
+            catch (ComplaintsBaseNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
-            catch (InvalidOperationException ex)
+            catch (UniqueFieldException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
         }
 
@@ -73,9 +73,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _complaintsService.DeleteComplaintBase(id);
             }
-            catch (KeyNotFoundException ex)
+            catch (ComplaintsBaseNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
             return NoContent();
