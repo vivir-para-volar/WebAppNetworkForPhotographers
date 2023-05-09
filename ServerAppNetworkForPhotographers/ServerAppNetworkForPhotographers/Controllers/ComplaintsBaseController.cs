@@ -27,7 +27,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ComplaintBase>> GetComplaintBaseById(int id)
+        public async Task<ActionResult<ComplaintBase?>> GetComplaintBaseById(int id)
         {
             return Ok(await _complaintsService.GetComplaintBaseById(id));
         }

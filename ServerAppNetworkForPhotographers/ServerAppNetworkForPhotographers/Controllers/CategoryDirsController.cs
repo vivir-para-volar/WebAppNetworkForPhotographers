@@ -27,7 +27,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDir>> GetCategoryDirById(int id)
+        public async Task<ActionResult<CategoryDir?>> GetCategoryDirById(int id)
         {
             return Ok(await _categoryDirsService.GetCategoryDirById(id));
         }
