@@ -7,18 +7,28 @@ namespace ServerAppNetworkForPhotographers.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public List<Category> Categories { get; set; } = new List<Category>();
+        public List<Category> Categories { get; set; }
 
-        public CategoryDir() { }
+        public CategoryDir()
+        {
+            InitLists();
+        }
 
         public CategoryDir(CreateCategoryDirDto categoryDirDto)
         {
+            InitLists();
+
             Name = categoryDirDto.Name;
         }
 
         public void Update(UpdateCategoryDirDto categoryDirDto)
         {
             Name = categoryDirDto.Name;
+        }
+
+        private void InitLists()
+        {
+            Categories = new List<Category>();
         }
     }
 }

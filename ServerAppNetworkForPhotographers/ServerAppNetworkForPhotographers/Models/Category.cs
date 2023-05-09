@@ -23,10 +23,10 @@ namespace ServerAppNetworkForPhotographers.Models
 
         public Category(CreateCategoryDto categoryDto)
         {
+            InitLists();
+
             Name = categoryDto.Name;
             CategoryDirId = categoryDto.CategoryDirId;
-
-            InitLists();
         }
 
         public void Update(UpdateCategoryDto categoryDto)

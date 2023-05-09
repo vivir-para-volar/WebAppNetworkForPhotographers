@@ -18,9 +18,9 @@ namespace ServerAppNetworkForPhotographers.Models
 
         public ComplaintBase(CreateComplaintBaseDto complaintBaseDto)
         {
-            Name = complaintBaseDto.Name;
-
             InitLists();
+
+            Name = complaintBaseDto.Name;
         }
 
         public void Update(UpdateComplaintBaseDto complaintBaseDto)

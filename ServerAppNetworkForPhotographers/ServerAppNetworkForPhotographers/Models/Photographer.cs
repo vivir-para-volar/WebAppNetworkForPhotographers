@@ -37,11 +37,11 @@ namespace ServerAppNetworkForPhotographers.Models
 
         public Photographer(CreatePhotographerDto photographerDto)
         {
+            InitLists();
+
             Username = photographerDto.Username;
             Email = photographerDto.Email;
             LastLoginDate = DateTime.Now;
-
-            InitLists();
         }
 
         public void Update(UpdatePhotographerDto photographerDto)
