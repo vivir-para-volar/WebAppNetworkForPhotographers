@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerAppNetworkForPhotographers.Exceptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
@@ -19,37 +21,15 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CategoryDir>>> GetAllCategoryDirs()
+        public async Task<ActionResult<List<CategoryDir>>> GetAllCategoryDirsWithCategories()
         {
-            var categoryDirs = await _categoryDirsService.GetAllCategoryDirs();
-
-            return Ok(categoryDirs);
-        }
-
-        [HttpGet]
-        [Route("{id}/categories")]
-        public async Task<ActionResult<List<Category>>> GetCategoriesInCategoryDir(int id)
-        {
-            List<Category> categories;
-
-            try
-            {
-                categories = await _categoryDirsService.GetCategoriesInCategoryDir(id);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            return Ok(categories);
+            return Ok(await _categoryDirsService.GetAllCategoryDirsWithCategories());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDir>> GetCategoryDirById(int id)
         {
-            var categoryDir = await _categoryDirsService.GetCategoryDirById(id);
-
-            return categoryDir == null ? NotFound() : Ok(categoryDir);
+            return Ok(await _categoryDirsService.GetCategoryDirById(id));
         }
 
         [HttpPost]
@@ -61,9 +41,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 categoryDir = await _categoryDirsService.CreateCategoryDir(newCategoryDir);
             }
-            catch (InvalidOperationException ex)
+            catch (UniqueFieldException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
 
             return CreatedAtAction(nameof(GetCategoryDirById), new { id = categoryDir.Id }, categoryDir);
@@ -76,13 +56,13 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return await _categoryDirsService.UpdateCategoryDir(updatedCategoryDir);
             }
-            catch (KeyNotFoundException ex)
+            catch (CategoryDirNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
-            catch (InvalidOperationException ex)
+            catch (UniqueFieldException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
         }
 
@@ -93,9 +73,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _categoryDirsService.DeleteCategoryDir(id);
             }
-            catch (KeyNotFoundException ex)
+            catch (CategoryDirNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
             return NoContent();
