@@ -27,14 +27,14 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.CategoryDirs.Include(item => item.Categories).FirstOrDefaultAsync(item => item.Id == id);
         }
 
-        public async Task<CategoryDir> CreateCategoryDir(CreateCategoryDirDto newCategoryDir)
+        public async Task<CategoryDir> CreateCategoryDir(CreateCategoryDirDto categoryDirDto)
         {
-            if (await CheckExistenceName(newCategoryDir.Name))
+            if (await CheckExistenceName(categoryDirDto.Name))
             {
-                throw new UniqueFieldException("name", newCategoryDir.Name);
+                throw new UniqueFieldException("name", categoryDirDto.Name);
             }
 
-            var categoryDir = new CategoryDir(newCategoryDir);
+            var categoryDir = new CategoryDir(categoryDirDto);
 
             await _context.CategoryDirs.AddAsync(categoryDir);
             await _context.SaveChangesAsync();
@@ -42,17 +42,17 @@ namespace ServerAppNetworkForPhotographers.Services
             return categoryDir;
         }
 
-        public async Task<CategoryDir> UpdateCategoryDir(UpdateCategoryDirDto updatedCategoryDir)
+        public async Task<CategoryDir> UpdateCategoryDir(UpdateCategoryDirDto categoryDirDto)
         {
-            var categoryDir = (await GetCategoryDirById(updatedCategoryDir.Id)) ??
-                throw new CategoryDirNotFoundException(updatedCategoryDir.Id);
+            var categoryDir = (await GetCategoryDirById(categoryDirDto.Id)) ??
+                throw new CategoryDirNotFoundException(categoryDirDto.Id);
 
-            if (await CheckExistenceName(updatedCategoryDir.Name, categoryDir.Id))
+            if (await CheckExistenceName(categoryDirDto.Name, categoryDir.Id))
             {
-                throw new UniqueFieldException("name", updatedCategoryDir.Name);
+                throw new UniqueFieldException("name", categoryDirDto.Name);
             }
 
-            categoryDir.Update(updatedCategoryDir);
+            categoryDir.Update(categoryDirDto);
 
             _context.Entry(categoryDir).State = EntityState.Modified;
             await _context.SaveChangesAsync();

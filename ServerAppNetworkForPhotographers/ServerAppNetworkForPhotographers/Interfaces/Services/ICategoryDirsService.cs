@@ -7,8 +7,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
     {
         Task<List<CategoryDir>> GetAllCategoryDirsWithCategories();
         Task<CategoryDir?> GetCategoryDirById(int id);
-        Task<CategoryDir> CreateCategoryDir(CreateCategoryDirDto newCategoryDir);
-        Task<CategoryDir> UpdateCategoryDir(UpdateCategoryDirDto updatedCategoryDir);
+        Task<CategoryDir> CreateCategoryDir(CreateCategoryDirDto categoryDirDto);
+        Task<CategoryDir> UpdateCategoryDir(UpdateCategoryDirDto categoryDirDto);
         Task DeleteCategoryDir(int id);
     }
 }

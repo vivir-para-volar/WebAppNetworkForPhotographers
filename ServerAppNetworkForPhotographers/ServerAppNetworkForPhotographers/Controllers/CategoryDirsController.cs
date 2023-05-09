@@ -33,13 +33,13 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CategoryDir>> CreateCategoryDir(CreateCategoryDirDto newCategoryDir)
+        public async Task<ActionResult<CategoryDir>> CreateCategoryDir(CreateCategoryDirDto categoryDirDto)
         {
             CategoryDir categoryDir;
 
             try
             {
-                categoryDir = await _categoryDirsService.CreateCategoryDir(newCategoryDir);
+                categoryDir = await _categoryDirsService.CreateCategoryDir(categoryDirDto);
             }
             catch (UniqueFieldException ex)
             {
@@ -50,11 +50,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<CategoryDir>> UpdateCategoryDir(UpdateCategoryDirDto updatedCategoryDir)
+        public async Task<ActionResult<CategoryDir>> UpdateCategoryDir(UpdateCategoryDirDto categoryDirDto)
         {
             try
             {
-                return await _categoryDirsService.UpdateCategoryDir(updatedCategoryDir);
+                return await _categoryDirsService.UpdateCategoryDir(categoryDirDto);
             }
             catch (CategoryDirNotFoundException ex)
             {

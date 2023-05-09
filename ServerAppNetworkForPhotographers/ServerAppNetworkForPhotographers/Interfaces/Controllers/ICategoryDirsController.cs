@@ -8,8 +8,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
     {
         Task<ActionResult<List<CategoryDir>>> GetAllCategoryDirsWithCategories();
         Task<ActionResult<CategoryDir>> GetCategoryDirById(int id);
-        Task<ActionResult<CategoryDir>> CreateCategoryDir(CreateCategoryDirDto newCategoryDir);
-        Task<ActionResult<CategoryDir>> UpdateCategoryDir(UpdateCategoryDirDto updatedCategoryDir);
+        Task<ActionResult<CategoryDir>> CreateCategoryDir(CreateCategoryDirDto categoryDirDto);
+        Task<ActionResult<CategoryDir>> UpdateCategoryDir(UpdateCategoryDirDto categoryDirDto);
         Task<ActionResult> DeleteCategoryDir(int id);
     }
 }
