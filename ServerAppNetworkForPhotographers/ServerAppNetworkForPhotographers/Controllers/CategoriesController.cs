@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ServerAppNetworkForPhotographers.Exceptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
@@ -18,57 +20,51 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _categoriesService = new CategoriesService(dataContext);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Category>>> GetAllCategories()
-        {
-            var categories = await _categoriesService.GetAllCategories();
-
-            return Ok(categories);
-        }
-
         [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategoryById(int id)
+        public async Task<ActionResult<GetCategoryDto?>> GetCategoryById(int id)
         {
-            var category = await _categoriesService.GetCategoryById(id);
-
-            return category == null ? NotFound() : Ok(category);
+            return Ok(await _categoriesService.GetCategoryById(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult<Category>> CreateCategory(CreateCategoryDto newCategory)
+        public async Task<ActionResult<Category>> CreateCategory(CreateCategoryDto categoryDto)
         {
             Category category;
 
             try
             {
-                category = await _categoriesService.CreateCategory(newCategory);
+                category = await _categoriesService.CreateCategory(categoryDto);
             }
-            catch (KeyNotFoundException ex)
+            catch (CategoryDirNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
-            catch (InvalidOperationException ex)
+            catch (UniqueFieldException ex)
             {
-                return BadRequest(ex.Message);
+                return Conflict(ex.Message);
             }
 
             return CreatedAtAction(nameof(GetCategoryById), new { id = category.Id }, category);
         }
 
         [HttpPut]
-        public async Task<ActionResult<Category>> UpdateCategory(UpdateCategoryDto updatedCategory)
+        public async Task<ActionResult<Category>> UpdateCategory(UpdateCategoryDto categoryDto)
         {
             try
             {
-                return await _categoriesService.UpdateCategory(updatedCategory);
+                return await _categoriesService.UpdateCategory(categoryDto);
             }
-            catch (KeyNotFoundException ex)
+            catch (CategoryNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
-            catch (InvalidOperationException ex)
+            catch (CategoryDirNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (UniqueFieldException ex)
+            {
+                return Conflict(ex.Message);
             }
         }
 
@@ -79,9 +75,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _categoriesService.DeleteCategory(id);
             }
-            catch (KeyNotFoundException ex)
+            catch (CategoryNotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
             return NoContent();

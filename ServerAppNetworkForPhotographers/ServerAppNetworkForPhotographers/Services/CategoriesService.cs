@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ServerAppNetworkForPhotographers.Exceptions;
+using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
@@ -15,30 +17,25 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
-        public async Task<List<Category>> GetAllCategories()
+        public async Task<GetCategoryDto?> GetCategoryById(int id)
         {
-            return await _context.Categories.ToListAsync();
+            var category = await _context.Categories.Include(item => item.CategoryDir).FirstOrDefaultAsync(item => item.Id == id);
+            return category != null ? category.ToGetCategoryDto() : null;
         }
 
-        public async Task<Category?> GetCategoryById(int id)
+        public async Task<Category> CreateCategory(CreateCategoryDto categoryDto)
         {
-            return await _context.Categories.FindAsync(id);
-        }
-
-        public async Task<Category> CreateCategory(CreateCategoryDto newCategory)
-        {
-            if (!(await CheckExistenceCategoryDir(newCategory.CategoryDirId)))
+            if (!(await CheckExistenceCategoryDir(categoryDto.CategoryDirId)))
             {
-                throw new KeyNotFoundException("CategoryDir with this id was not found");
+                throw new CategoryDirNotFoundException(categoryDto.CategoryDirId);
             }
 
-
-            if (await CheckExistenceCategoryInDir(newCategory.Name, newCategory.CategoryDirId))
+            if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId))
             {
-                throw new InvalidOperationException("Category with this name already exists in this dir");
+                throw new UniqueFieldException("name (in this dir)", categoryDto.Name);
             }
 
-            var category = new Category(newCategory);
+            var category = new Category(categoryDto);
 
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
@@ -46,17 +43,22 @@ namespace ServerAppNetworkForPhotographers.Services
             return category;
         }
 
-        public async Task<Category> UpdateCategory(UpdateCategoryDto updatedCategory)
+        public async Task<Category> UpdateCategory(UpdateCategoryDto categoryDto)
         {
-            var category = (await GetCategoryById(updatedCategory.Id)) ??
-                throw new KeyNotFoundException("Category with this id was not found");
+            var category = (await GetSimpleCategoryById(categoryDto.Id)) ??
+                throw new CategoryNotFoundException(categoryDto.Id);
 
-            if (await CheckExistenceCategoryInDir(updatedCategory.Name, category.CategoryDirId, updatedCategory.Id))
+            if (!(await CheckExistenceCategoryDir(categoryDto.CategoryDirId)))
             {
-                throw new InvalidOperationException("Category with this name already exists in this dir");
+                throw new CategoryDirNotFoundException(categoryDto.CategoryDirId);
             }
 
-            category.Update(updatedCategory);
+            if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId, categoryDto.Id))
+            {
+                throw new UniqueFieldException("name (in this dir)", categoryDto.Name);
+            }
+
+            category.Update(categoryDto);
 
             _context.Entry(category).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -66,11 +68,16 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task DeleteCategory(int id)
         {
-            var category = (await GetCategoryById(id)) ??
-                throw new KeyNotFoundException("Category with this id was not found");
+            var category = (await GetSimpleCategoryById(id)) ??
+                throw new CategoryNotFoundException(id);
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Category?> GetSimpleCategoryById(int id)
+        {
+            return await _context.Categories.FirstOrDefaultAsync(item => item.Id == id);
         }
 
         private async Task<bool> CheckExistenceCategoryDir(int categoryId)

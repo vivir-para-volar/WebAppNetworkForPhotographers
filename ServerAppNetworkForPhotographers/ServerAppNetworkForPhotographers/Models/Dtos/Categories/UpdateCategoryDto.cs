@@ -9,5 +9,8 @@ namespace ServerAppNetworkForPhotographers.Models.Dtos.Categories
 
         [Required]
         public string Name { get; set; }
+
+        [Range(0, int.MaxValue)]
+        public int CategoryDirId { get; set; }
     }
 }

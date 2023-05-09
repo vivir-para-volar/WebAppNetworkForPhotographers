@@ -6,10 +6,9 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 {
     public interface ICategoryController
     {
-        Task<ActionResult<List<Category>>> GetAllCategories();
-        Task<ActionResult<Category>> GetCategoryById(int id);
-        Task<ActionResult<Category>> CreateCategory(CreateCategoryDto newCategory);
-        Task<ActionResult<Category>> UpdateCategory(UpdateCategoryDto updatedCategory);
+        Task<ActionResult<GetCategoryDto?>> GetCategoryById(int id);
+        Task<ActionResult<Category>> CreateCategory(CreateCategoryDto categoryDto);
+        Task<ActionResult<Category>> UpdateCategory(UpdateCategoryDto categoryDto);
         Task<ActionResult> DeleteCategory(int id);
     }
 }

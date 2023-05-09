@@ -32,6 +32,12 @@ namespace ServerAppNetworkForPhotographers.Models
         public void Update(UpdateCategoryDto categoryDto)
         {
             Name = categoryDto.Name;
+            CategoryDirId = categoryDto.CategoryDirId;
+        }
+
+        public GetCategoryDto ToGetCategoryDto()
+        {
+            return new GetCategoryDto(Id, Name, CategoryDir);
         }
 
         private void InitLists()
