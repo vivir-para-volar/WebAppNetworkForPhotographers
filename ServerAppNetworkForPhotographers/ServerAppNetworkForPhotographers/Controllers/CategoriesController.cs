@@ -52,7 +52,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         {
             try
             {
-                return await _categoriesService.UpdateCategory(categoryDto);
+                return Ok(await _categoriesService.UpdateCategory(categoryDto));
             }
             catch (CategoryNotFoundException ex)
             {

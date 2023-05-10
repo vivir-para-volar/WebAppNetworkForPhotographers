@@ -3,7 +3,7 @@ using ServerAppNetworkForPhotographers.Models.Dtos.Categories;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {
-    public interface ICategoryService
+    public interface ICategoriesService
     {
         Task<GetCategoryDto?> GetCategoryById(int id);
         Task<Category> CreateCategory(CreateCategoryDto categoryDto);

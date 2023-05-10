@@ -8,7 +8,7 @@ using ServerAppNetworkForPhotographers.Models.Dtos.Categories;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class CategoriesService : ICategoryService
+    public class CategoriesService : ICategoriesService
     {
         private readonly DataContext _context;
 

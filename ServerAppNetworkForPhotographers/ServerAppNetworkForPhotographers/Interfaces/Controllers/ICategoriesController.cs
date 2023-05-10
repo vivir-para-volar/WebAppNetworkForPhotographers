@@ -4,7 +4,7 @@ using ServerAppNetworkForPhotographers.Models.Dtos.Categories;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 {
-    public interface ICategoryController
+    public interface ICategoriesController
     {
         Task<ActionResult<GetCategoryDto?>> GetCategoryById(int id);
         Task<ActionResult<Category>> CreateCategory(CreateCategoryDto categoryDto);
