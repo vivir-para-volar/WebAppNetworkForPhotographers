@@ -83,7 +83,7 @@ namespace ServerAppNetworkForPhotographers.Models
 
         public async Task UpdateBlogMainPhoto(IFormFile photo)
         {
-            if(Type != TypeContent.Blog)
+            if (Type != TypeContent.Blog)
             {
                 throw new InvalidOperationException("Post content cannot have a main photo");
             }
@@ -104,12 +104,12 @@ namespace ServerAppNetworkForPhotographers.Models
 
         public async Task<GetContentDto> ToGetContentDto()
         {
-            if(Type == TypeContent.Blog)
+            if (Type == TypeContent.Blog)
             {
                 await ConvertBlogMainPhoto();
                 Photos = new List<Photo>();
             }
-            
+
             return new GetContentDto(this, Likes.Count, Comments.Count, Favourites.Count);
         }
 
