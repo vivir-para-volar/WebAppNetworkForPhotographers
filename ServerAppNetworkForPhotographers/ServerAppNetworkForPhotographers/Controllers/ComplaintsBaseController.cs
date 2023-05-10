@@ -13,23 +13,23 @@ namespace ServerAppNetworkForPhotographers.Controllers
     [ApiController]
     public class ComplaintsBaseController : ControllerBase, IComplaintsBaseController
     {
-        private readonly ComplaintsBaseService _complaintsService;
+        private readonly ComplaintsBaseService _complaintsBaseService;
 
         public ComplaintsBaseController(DataContext dataContext)
         {
-            _complaintsService = new ComplaintsBaseService(dataContext);
+            _complaintsBaseService = new ComplaintsBaseService(dataContext);
         }
 
         [HttpGet]
         public async Task<ActionResult<List<ComplaintBase>>> GetAllComplaintsBase()
         {
-            return Ok(await _complaintsService.GetAllComplaintsBase());
+            return Ok(await _complaintsBaseService.GetAllComplaintsBase());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ComplaintBase?>> GetComplaintBaseById(int id)
         {
-            return Ok(await _complaintsService.GetComplaintBaseById(id));
+            return Ok(await _complaintsBaseService.GetComplaintBaseById(id));
         }
 
         [HttpPost]
@@ -39,7 +39,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
             try
             {
-                complaintBase = await _complaintsService.CreateComplaintBase(complaintBaseDto);
+                complaintBase = await _complaintsBaseService.CreateComplaintBase(complaintBaseDto);
             }
             catch (UniqueFieldException ex)
             {
@@ -54,7 +54,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         {
             try
             {
-                return Ok(await _complaintsService.UpdateComplaintBase(complaintBaseDto));
+                return Ok(await _complaintsBaseService.UpdateComplaintBase(complaintBaseDto));
             }
             catch (ComplaintBaseNotFoundException ex)
             {
@@ -71,7 +71,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         {
             try
             {
-                await _complaintsService.DeleteComplaintBase(id);
+                await _complaintsBaseService.DeleteComplaintBase(id);
             }
             catch (ComplaintBaseNotFoundException ex)
             {
