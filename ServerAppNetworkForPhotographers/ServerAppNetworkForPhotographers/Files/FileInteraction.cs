@@ -1,33 +1,26 @@
-﻿using System.IO;
-
-namespace ServerAppNetworkForPhotographers.Files
+﻿namespace ServerAppNetworkForPhotographers.Files
 {
     public static class FileInteraction
     {
         private static string _profilePath = @$"{Environment.CurrentDirectory}\Files\ProfilePhotos\";
+        private static string _blogMainPath = @$"{Environment.CurrentDirectory}\Files\BlogMainPhotos\";
         private static string _contentPath = @$"{Environment.CurrentDirectory}\Files\ContentPhotos\";
 
         static FileInteraction()
         {
-            if (!Directory.Exists(_profilePath))
-            {
-                Directory.CreateDirectory(_profilePath);
-            }
-
-            if (!Directory.Exists(_contentPath))
-            {
-                Directory.CreateDirectory(_contentPath);
-            }
+            CreateDir(_profilePath);
+            CreateDir(_blogMainPath);
+            CreateDir(_contentPath);
         }
 
         public static async Task<string> GetBase64ProfilePhoto(string photoName)
         {
-            string path = _profilePath + photoName;
+            return await GetBase64(_profilePath + photoName);
+        }
 
-            byte[] fileBytes = await File.ReadAllBytesAsync(path);
-            string base64String = Convert.ToBase64String(fileBytes);
-
-            return base64String;
+        public static async Task<string> GetBase64BlogMainPhoto(string photoName)
+        {
+            return await GetBase64(_blogMainPath + photoName);
         }
 
         public static async Task<string> SaveProfilePhoto(IFormFile photo)
@@ -35,10 +28,27 @@ namespace ServerAppNetworkForPhotographers.Files
             return await Save(_profilePath, photo);
         }
 
+        public static async Task<string> SaveBlogMainPhoto(IFormFile photo)
+        {
+            return await Save(_blogMainPath, photo);
+        }
+
         public static void DeleteProfilePhoto(string photoName)
         {
-            string path = _profilePath + photoName;
-            File.Delete(path);
+            File.Delete(_profilePath + photoName);
+        }
+
+        public static void DeleteBlogMainPhoto(string photoName)
+        {
+            File.Delete(_blogMainPath + photoName);
+        }
+
+        private static void CreateDir(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
 
         private static async Task<string> Save(string path, IFormFile photo)
@@ -52,6 +62,14 @@ namespace ServerAppNetworkForPhotographers.Files
             }
 
             return photoName;
+        }
+
+        private static async Task<string> GetBase64(string path)
+        {
+            byte[] fileBytes = await File.ReadAllBytesAsync(path);
+            string base64String = Convert.ToBase64String(fileBytes);
+
+            return base64String;
         }
     }
 }

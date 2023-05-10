@@ -5,6 +5,7 @@
 
 # Files
 ServerAppNetworkForPhotographers/Files/ProfilePhotos
+ServerAppNetworkForPhotographers/Files/BlogMainPhotos
 ServerAppNetworkForPhotographers/Files/ContentPhotos
 
 # Migrations
