@@ -45,7 +45,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<ComplaintBase> UpdateComplaintBase(UpdateComplaintBaseDto complaintBaseDto)
         {
             var complaintBase = (await GetComplaintBaseById(complaintBaseDto.Id)) ??
-                throw new ComplaintsBaseNotFoundException(complaintBaseDto.Id);
+                throw new ComplaintBaseNotFoundException(complaintBaseDto.Id);
 
             if (await CheckExistenceName(complaintBaseDto.Name, complaintBase.Id))
             {
@@ -63,7 +63,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteComplaintBase(int id)
         {
             var complaintBase = (await GetComplaintBaseById(id)) ??
-                throw new ComplaintsBaseNotFoundException(id);
+                throw new ComplaintBaseNotFoundException(id);
 
             _context.ComplaintsBase.Remove(complaintBase);
             await _context.SaveChangesAsync();

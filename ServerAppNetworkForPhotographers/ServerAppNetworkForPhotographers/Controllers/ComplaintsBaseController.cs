@@ -54,9 +54,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
         {
             try
             {
-                return await _complaintsService.UpdateComplaintBase(complaintBaseDto);
+                return Ok(await _complaintsService.UpdateComplaintBase(complaintBaseDto));
             }
-            catch (ComplaintsBaseNotFoundException ex)
+            catch (ComplaintBaseNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
@@ -73,7 +73,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _complaintsService.DeleteComplaintBase(id);
             }
-            catch (ComplaintsBaseNotFoundException ex)
+            catch (ComplaintBaseNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
