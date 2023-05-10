@@ -8,6 +8,7 @@ namespace ServerAppNetworkForPhotographers.Models.Dtos.ComplaintsBase
         public int Id { get; set; }
 
         [Required]
+        [StringLength(256, MinimumLength = 4)]
         public string Name { get; set; }
     }
 }
