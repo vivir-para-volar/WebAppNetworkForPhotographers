@@ -77,7 +77,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
         private async Task<Category?> GetSimpleCategoryById(int id)
         {
-            return await _context.Categories.FirstOrDefaultAsync(item => item.Id == id);
+            return await _context.Categories.FindAsync(id);
         }
 
         private async Task<bool> CheckExistenceCategoryDir(int categoryDirId)
