@@ -20,7 +20,7 @@ namespace ServerAppNetworkForPhotographers.Models
 
         public Complaint() { }
 
-        public Complaint(CreateComplaintDto complaintDto) 
+        public Complaint(CreateComplaintDto complaintDto)
         {
             Text = complaintDto.Text;
             ComplaintBaseId = complaintDto.ComplaintBaseId;
