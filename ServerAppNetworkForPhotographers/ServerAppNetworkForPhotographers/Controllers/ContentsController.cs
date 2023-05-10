@@ -10,19 +10,19 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContentController : Controller, IContentController
+    public class ContentsController : Controller, IContentsController
     {
-        private readonly ContentService _contentService;
+        private readonly ContentsService _contentsService;
 
-        public ContentController(DataContext dataContext)
+        public ContentsController(DataContext dataContext)
         {
-            _contentService = new ContentService(dataContext);
+            _contentsService = new ContentsService(dataContext);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GetContentDto?>> GetContentById(int id)
         {
-            return Ok(await _contentService.GetContentById(id));
+            return Ok(await _contentsService.GetContentById(id));
         }
 
         [HttpPost("Post")]
@@ -32,7 +32,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
             try
             {
-                content = await _contentService.CreateContentPost(contentPostDto);
+                content = await _contentsService.CreateContentPost(contentPostDto);
             }
             catch (PhotographerNotFoundException ex)
             {
@@ -53,7 +53,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
             try
             {
-                content = await _contentService.CreateContentBlog(contentBlogDto);
+                content = await _contentsService.CreateContentBlog(contentBlogDto);
             }
             catch (PhotographerNotFoundException ex)
             {
@@ -72,7 +72,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         {
             try
             {
-                return Ok(await _contentService.UpdateBlogMainPhoto(id, photo));
+                return Ok(await _contentsService.UpdateBlogMainPhoto(id, photo));
             }
             catch (ContentNotFoundException ex)
             {
@@ -89,7 +89,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         {
             try
             {
-                await _contentService.DeleteContent(id);
+                await _contentsService.DeleteContent(id);
             }
             catch (ContentNotFoundException ex)
             {

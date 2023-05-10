@@ -3,7 +3,7 @@ using ServerAppNetworkForPhotographers.Models.Dtos.Content;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {
-    public interface IContentServices
+    public interface IContentsServices
     {
         Task<GetContentDto?> GetContentById(int id);
         Task<Content> CreateContentPost(CreateContentPostDto contentPostDto);

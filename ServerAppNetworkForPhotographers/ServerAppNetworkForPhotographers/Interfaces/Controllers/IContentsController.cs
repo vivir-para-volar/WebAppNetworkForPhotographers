@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 {
-    public interface IContentController
+    public interface IContentsController
     {
         Task<ActionResult<GetContentDto?>> GetContentById(int id);
         Task<ActionResult<Content>> CreateContentPost(CreateContentPostDto contentPostDto);

@@ -7,11 +7,11 @@ using ServerAppNetworkForPhotographers.Models.Dtos.Content;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class ContentService : IContentServices
+    public class ContentsService : IContentsServices
     {
         private readonly DataContext _context;
 
-        public ContentService(DataContext context)
+        public ContentsService(DataContext context)
         {
             _context = context;
         }
