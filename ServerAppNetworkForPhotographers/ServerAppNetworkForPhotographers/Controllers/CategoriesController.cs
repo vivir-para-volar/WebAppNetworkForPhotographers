@@ -11,7 +11,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase, ICategoryController
+    public class CategoriesController : ControllerBase, ICategoriesController
     {
         private readonly CategoriesService _categoriesService;
 
