@@ -60,7 +60,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         {
             try
             {
-                return await _categoryDirsService.UpdateCategoryDir(categoryDirDto);
+                return Ok(await _categoryDirsService.UpdateCategoryDir(categoryDirDto));
             }
             catch (CategoryDirNotFoundException ex)
             {
