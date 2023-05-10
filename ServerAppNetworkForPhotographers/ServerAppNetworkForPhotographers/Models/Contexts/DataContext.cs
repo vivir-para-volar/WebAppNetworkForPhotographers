@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Models;
 
 namespace ServerAppNetworkForPhotographers.Models.Contexts
 {
