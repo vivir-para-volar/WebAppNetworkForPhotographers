@@ -80,9 +80,9 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.Categories.FirstOrDefaultAsync(item => item.Id == id);
         }
 
-        private async Task<bool> CheckExistenceCategoryDir(int categoryId)
+        private async Task<bool> CheckExistenceCategoryDir(int categoryDirId)
         {
-            return await _context.CategoryDirs.AnyAsync(item => item.Id == categoryId);
+            return await _context.CategoryDirs.AnyAsync(item => item.Id == categoryDirId);
         }
 
         private async Task<bool> CheckExistenceCategoryInDir(string name, int categoryDirId, int categoryId = -1)
