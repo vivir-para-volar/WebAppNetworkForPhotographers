@@ -1,6 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Files;
-
-namespace ServerAppNetworkForPhotographers.Models.Dtos.Photographers
+﻿namespace ServerAppNetworkForPhotographers.Models.Dtos.Photographers
 {
     public class GetPhotographerForListDto
     {
