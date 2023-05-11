@@ -65,7 +65,7 @@ namespace ServerAppNetworkForPhotographers.Services
             var complaintBase = (await GetComplaintBaseById(id)) ??
                 throw new ComplaintBaseNotFoundException(id);
 
-            if (await _context.Complaints.AnyAsync(item => item.ComplaintBaseId == complaintBase.Id))
+            if (await _context.Complaints.AnyAsync(item => item.ComplaintBaseId == id))
                 throw new DeleteException(nameof(Complaint));
 
             _context.ComplaintsBase.Remove(complaintBase);
