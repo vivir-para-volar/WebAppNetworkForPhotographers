@@ -83,6 +83,10 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return NotFound(ex.Message);
             }
+            catch (DeleteException ex)
+            {
+                return Conflict(ex.Message);
+            }
 
             return NoContent();
         }

@@ -46,7 +46,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (await CheckExistenceName(categoryDirDto.Name))
             {
-                throw new UniqueFieldException("name", categoryDirDto.Name);
+                throw new UniqueFieldException(nameof(categoryDirDto.Name), categoryDirDto.Name);
             }
 
             var categoryDir = new CategoryDir(categoryDirDto);
@@ -64,7 +64,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (await CheckExistenceName(categoryDirDto.Name, categoryDir.Id))
             {
-                throw new UniqueFieldException("name", categoryDirDto.Name);
+                throw new UniqueFieldException(nameof(categoryDirDto.Name), categoryDirDto.Name);
             }
 
             categoryDir.Update(categoryDirDto);
@@ -79,6 +79,9 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             var categoryDir = (await GetSimpleCategoryDirById(id)) ??
                 throw new CategoryDirNotFoundException(id);
+
+            if (await _context.Categories.AnyAsync(item => item.CategoryDirId == id))
+                throw new DeleteException(nameof(Category));
 
             _context.CategoryDirs.Remove(categoryDir);
             await _context.SaveChangesAsync();
