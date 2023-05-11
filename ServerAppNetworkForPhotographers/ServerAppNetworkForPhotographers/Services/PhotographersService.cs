@@ -41,12 +41,12 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (await CheckExistenceUsername(photographerDto.Username))
             {
-                throw new UniqueFieldException("username", photographerDto.Username);
+                throw new UniqueFieldException(nameof(photographerDto.Username), photographerDto.Username);
             }
 
             if (await CheckExistenceEmail(photographerDto.Email))
             {
-                throw new UniqueFieldException("email", photographerDto.Email);
+                throw new UniqueFieldException(nameof(photographerDto.Email), photographerDto.Email);
             }
 
             var photographer = new Photographer(photographerDto);
@@ -66,22 +66,22 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
-        public async Task<Photographer> UpdatePhotographer(UpdatePhotographerDto updatedPhotographer)
+        public async Task<Photographer> UpdatePhotographer(UpdatePhotographerDto photographerDto)
         {
-            var photographer = (await GetSimplePhotographerById(updatedPhotographer.Id)) ??
-                throw new PhotographerNotFoundException(updatedPhotographer.Id);
+            var photographer = (await GetSimplePhotographerById(photographerDto.Id)) ??
+                throw new PhotographerNotFoundException(photographerDto.Id);
 
-            if (await CheckExistenceUsername(updatedPhotographer.Username, photographer.Id))
+            if (await CheckExistenceUsername(photographerDto.Username, photographer.Id))
             {
-                throw new UniqueFieldException("username", updatedPhotographer.Username);
+                throw new UniqueFieldException(nameof(photographerDto.Username), photographerDto.Username);
             }
 
-            if (await CheckExistenceEmail(updatedPhotographer.Email, photographer.Id))
+            if (await CheckExistenceEmail(photographerDto.Email, photographer.Id))
             {
-                throw new UniqueFieldException("email", updatedPhotographer.Email);
+                throw new UniqueFieldException(nameof(photographerDto.Email), photographerDto.Email);
             }
 
-            photographer.Update(updatedPhotographer);
+            photographer.Update(photographerDto);
 
             _context.Entry(photographer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
