@@ -31,7 +31,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (await CheckExistenceName(complaintBaseDto.Name))
             {
-                throw new UniqueFieldException("name", complaintBaseDto.Name);
+                throw new UniqueFieldException(nameof(complaintBaseDto.Name), complaintBaseDto.Name);
             }
 
             var complaintBase = new ComplaintBase(complaintBaseDto);
@@ -49,7 +49,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (await CheckExistenceName(complaintBaseDto.Name, complaintBase.Id))
             {
-                throw new UniqueFieldException("name", complaintBaseDto.Name);
+                throw new UniqueFieldException(nameof(complaintBaseDto.Name), complaintBaseDto.Name);
             }
 
             complaintBase.Update(complaintBaseDto);
@@ -64,6 +64,9 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             var complaintBase = (await GetComplaintBaseById(id)) ??
                 throw new ComplaintBaseNotFoundException(id);
+
+            if (await _context.Complaints.AnyAsync(item => item.ComplaintBaseId == complaintBase.Id))
+                throw new DeleteException(nameof(Complaint));
 
             _context.ComplaintsBase.Remove(complaintBase);
             await _context.SaveChangesAsync();
