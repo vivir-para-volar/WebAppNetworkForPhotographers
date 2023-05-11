@@ -32,7 +32,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId))
             {
-                throw new UniqueFieldException("name (in this dir)", categoryDto.Name);
+                throw new UniqueFieldException($"{nameof(categoryDto.Name)} (in this dir)", categoryDto.Name);
             }
 
             var category = new Category(categoryDto);
@@ -55,7 +55,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId, categoryDto.Id))
             {
-                throw new UniqueFieldException("name (in this dir)", categoryDto.Name);
+                throw new UniqueFieldException($"{nameof(categoryDto.Name)} (in this dir)", categoryDto.Name);
             }
 
             category.Update(categoryDto);
@@ -68,8 +68,10 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task DeleteCategory(int id)
         {
-            var category = (await GetSimpleCategoryById(id)) ??
-                throw new CategoryNotFoundException(id);
+            var category = await _context.Categories.Include(item => item.Contents).FirstOrDefaultAsync(item => item.Id == id);
+
+            if (category == null) throw new CategoryNotFoundException(id);
+            if (category.Contents.Count != 0) throw new DeleteException(nameof(Content));
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
