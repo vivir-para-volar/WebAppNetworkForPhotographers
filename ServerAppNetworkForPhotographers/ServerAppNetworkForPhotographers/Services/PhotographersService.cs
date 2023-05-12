@@ -108,6 +108,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 throw new PhotographerNotFoundException(id);
 
             photographer.DeleteProfilePhoto();
+            await DeletePhotographerSubscriptions(id);
 
             _context.Photographers.Remove(photographer);
             await _context.SaveChangesAsync();
@@ -126,6 +127,19 @@ namespace ServerAppNetworkForPhotographers.Services
         private async Task<bool> CheckExistenceEmail(string email, int photographerId = -1)
         {
             return await _context.Photographers.AnyAsync(item => item.Id != photographerId && item.Email == email);
+        }
+
+        private async Task DeletePhotographerSubscriptions(int id)
+        {
+            var subscriptions = await _context.Subscriptions
+                .Where(item => item.PhotographerId == id || item.SubscriberId == id)
+                .ToListAsync();
+
+            foreach(var subscription in subscriptions)
+            {
+                _context.Subscriptions.Remove(subscription);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
