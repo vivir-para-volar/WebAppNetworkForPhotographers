@@ -1,4 +1,6 @@
-﻿namespace ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs
+﻿using ServerAppNetworkForPhotographers.Models.Data;
+
+namespace ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs
 {
     public class GetCategoryDirDto
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
-using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Dtos.Content;
 
 namespace ServerAppNetworkForPhotographers.Services

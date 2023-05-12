@@ -1,7 +1,7 @@
 ﻿using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
 using System.Text.Json.Serialization;
 
-namespace ServerAppNetworkForPhotographers.Models
+namespace ServerAppNetworkForPhotographers.Models.Data
 {
     public class Subscription
     {

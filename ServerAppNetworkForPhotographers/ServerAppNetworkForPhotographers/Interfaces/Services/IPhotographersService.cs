@@ -1,4 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Models;
+﻿using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
-using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Dtos.Content;
 using ServerAppNetworkForPhotographers.Services;
 

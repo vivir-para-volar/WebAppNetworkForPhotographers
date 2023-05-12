@@ -3,7 +3,7 @@ using ServerAppNetworkForPhotographers.Models.Dtos.Content;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using System.Text.Json.Serialization;
 
-namespace ServerAppNetworkForPhotographers.Models
+namespace ServerAppNetworkForPhotographers.Models.Data
 {
     public class Content
     {
