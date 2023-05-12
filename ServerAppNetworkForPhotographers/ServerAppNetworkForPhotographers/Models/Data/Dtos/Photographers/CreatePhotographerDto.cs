@@ -11,5 +11,8 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
     }
 }

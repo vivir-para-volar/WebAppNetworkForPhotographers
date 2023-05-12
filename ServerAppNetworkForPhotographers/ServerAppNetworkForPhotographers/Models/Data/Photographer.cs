@@ -16,6 +16,9 @@ namespace ServerAppNetworkForPhotographers.Models.Data
         public DateTime LastLoginDate { get; set; }
 
         [JsonIgnore]
+        public string UserId { get; set; }
+
+        [JsonIgnore]
         public PhotographerInfo PhotographerInfo { get; set; }
 
         [JsonIgnore]
@@ -41,6 +44,8 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
             Username = photographerDto.Username;
             Email = photographerDto.Email;
+            UserId = photographerDto.UserId;
+
             LastLoginDate = DateTime.Now;
         }
 
