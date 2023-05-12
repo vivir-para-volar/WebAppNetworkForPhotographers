@@ -10,7 +10,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ComplaintsController : Controller, IComplaintsController
+    public class ComplaintsController : ControllerBase, IComplaintsController
     {
         private readonly ComplaintsService _complaintsService;
 

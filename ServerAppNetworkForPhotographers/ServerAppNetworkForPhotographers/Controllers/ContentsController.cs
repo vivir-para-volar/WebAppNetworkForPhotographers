@@ -10,7 +10,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContentsController : Controller, IContentsController
+    public class ContentsController : ControllerBase, IContentsController
     {
         private readonly ContentsService _contentsService;
 
