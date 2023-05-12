@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.PhotographersInfo
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.PhotographersInfo
 {
     public class UpdatePhotographerInfoDto
     {

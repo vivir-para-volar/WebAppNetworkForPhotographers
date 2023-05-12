@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.Content
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Content
 {
     public class CreateContentBlogDto
     {

@@ -1,4 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Models.Dtos.ComplaintsBase;
+﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBase;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models.Data

@@ -1,4 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
+﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models.Data

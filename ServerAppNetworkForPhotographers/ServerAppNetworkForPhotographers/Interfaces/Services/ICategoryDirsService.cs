@@ -1,5 +1,5 @@
 ﻿using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {

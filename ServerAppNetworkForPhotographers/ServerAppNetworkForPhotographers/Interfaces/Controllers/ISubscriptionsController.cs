@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
-using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 {

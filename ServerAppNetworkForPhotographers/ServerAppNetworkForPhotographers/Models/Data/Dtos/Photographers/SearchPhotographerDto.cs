@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.Photographers
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers
 {
     public class SearchPhotographerDto
     {

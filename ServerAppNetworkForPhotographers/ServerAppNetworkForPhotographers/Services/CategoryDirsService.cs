@@ -4,7 +4,7 @@ using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Dtos.CategoryDirs;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 
 namespace ServerAppNetworkForPhotographers.Services
 {

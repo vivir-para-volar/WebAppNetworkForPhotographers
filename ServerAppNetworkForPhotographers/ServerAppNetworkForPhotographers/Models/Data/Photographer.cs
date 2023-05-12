@@ -1,5 +1,5 @@
 ﻿using ServerAppNetworkForPhotographers.Files;
-using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models.Data

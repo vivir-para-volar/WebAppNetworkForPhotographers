@@ -3,7 +3,7 @@ using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Dtos.Complaints;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
 using ServerAppNetworkForPhotographers.Models.Lists;
 
 namespace ServerAppNetworkForPhotographers.Services

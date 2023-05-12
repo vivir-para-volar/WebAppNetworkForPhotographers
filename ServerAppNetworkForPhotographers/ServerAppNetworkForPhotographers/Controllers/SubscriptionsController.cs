@@ -2,8 +2,8 @@
 using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
-using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
-using ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers

@@ -5,7 +5,7 @@ using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace ServerAppNetworkForPhotographers.Services
 {

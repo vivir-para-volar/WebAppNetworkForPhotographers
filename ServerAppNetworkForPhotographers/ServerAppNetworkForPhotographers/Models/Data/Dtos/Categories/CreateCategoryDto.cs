@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.Categories
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Categories
 {
-    public class UpdateCategoryDto
+    public class CreateCategoryDto
     {
-        [Range(0, int.MaxValue)]
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 

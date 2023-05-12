@@ -1,5 +1,5 @@
 ﻿using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {

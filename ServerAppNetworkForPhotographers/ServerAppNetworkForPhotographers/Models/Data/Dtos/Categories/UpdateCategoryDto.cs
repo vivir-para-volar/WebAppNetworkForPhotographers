@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.ComplaintsBase
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Categories
 {
-    public class UpdateComplaintBaseDto
+    public class UpdateCategoryDto
     {
         [Range(0, int.MaxValue)]
         public int Id { get; set; }
 
         [Required]
-        [StringLength(256, MinimumLength = 4)]
         public string Name { get; set; }
+
+        [Range(0, int.MaxValue)]
+        public int CategoryDirId { get; set; }
     }
 }

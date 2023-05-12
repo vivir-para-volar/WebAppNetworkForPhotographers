@@ -1,6 +1,6 @@
 ﻿using ServerAppNetworkForPhotographers.Models.Data;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.Content
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Content
 {
     public class GetContentDto
     {

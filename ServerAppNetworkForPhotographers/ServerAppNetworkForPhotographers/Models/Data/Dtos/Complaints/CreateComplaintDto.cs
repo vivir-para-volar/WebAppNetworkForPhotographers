@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.Complaints
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints
 {
     public class CreateComplaintDto
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Dtos.Subscriptions
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions
 {
     public class SubscriptionDto
     {

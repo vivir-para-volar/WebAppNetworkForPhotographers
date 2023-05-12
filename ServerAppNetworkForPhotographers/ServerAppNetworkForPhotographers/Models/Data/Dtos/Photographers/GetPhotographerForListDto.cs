@@ -1,4 +1,4 @@
-﻿namespace ServerAppNetworkForPhotographers.Models.Dtos.Photographers
+﻿namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers
 {
     public class GetPhotographerForListDto
     {
