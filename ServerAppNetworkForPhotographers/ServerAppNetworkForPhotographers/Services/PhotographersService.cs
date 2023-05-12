@@ -135,7 +135,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.PhotographerId == id || item.SubscriberId == id)
                 .ToListAsync();
 
-            foreach(var subscription in subscriptions)
+            foreach (var subscription in subscriptions)
             {
                 _context.Subscriptions.Remove(subscription);
                 await _context.SaveChangesAsync();
