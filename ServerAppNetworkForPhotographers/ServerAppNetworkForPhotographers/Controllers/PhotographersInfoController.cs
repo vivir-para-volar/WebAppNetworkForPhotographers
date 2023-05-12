@@ -4,6 +4,7 @@ using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.PhotographersInfo;
+using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -34,7 +35,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerInfoNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
     }

@@ -4,6 +4,7 @@ using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
+using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -42,11 +43,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (ComplaintBaseNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (ContentNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
 
             return CreatedAtAction(nameof(GetComplaintById), new { id = complaint.Id }, complaint);
@@ -61,7 +62,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (ComplaintNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
     }

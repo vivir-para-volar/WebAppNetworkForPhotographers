@@ -5,6 +5,7 @@ using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBase;
+using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -43,7 +44,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(ex.Message);
+                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
             }
 
             return CreatedAtAction(nameof(GetComplaintBaseById), new { id = complaintBase.Id }, complaintBase);
@@ -58,11 +59,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (ComplaintBaseNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(ex.Message);
+                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
             }
         }
 
@@ -75,11 +76,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (ComplaintBaseNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (DeleteException ex)
             {
-                return Conflict(ex.Message);
+                return Conflict(new ConflictResponse(ex.Message));
             }
 
             return NoContent();

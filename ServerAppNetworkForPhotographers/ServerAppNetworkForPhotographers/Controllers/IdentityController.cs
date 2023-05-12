@@ -4,6 +4,7 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Data;
+using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
 using ServerAppNetworkForPhotographers.Services;
@@ -41,11 +42,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new { field = ex.Field, message = ex.Message });
+                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, (new { message = ex.Message }));
+                return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerResponse(ex.Message));
             }
         }
 
@@ -58,11 +59,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new { field = ex.Field, message = ex.Message });
+                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, (new { message = ex.Message }));
+                return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerResponse(ex.Message));
             }
         }
 
@@ -75,11 +76,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new { field = ex.Field, message = ex.Message });
+                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, (new { message = ex.Message }));
+                return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerResponse(ex.Message));
             }
         }
 
@@ -107,11 +108,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (AppUserNotFoundException ex)
             {
-                return NotFound(new { message = ex.Message });
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new { field = ex.Field, message = ex.Message });
+                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
             }
         }
 
@@ -124,7 +125,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (AppUserNotFoundException ex)
             {
-                return NotFound(new { message = ex.Message });
+                return NotFound(new NotFoundResponse(ex.Message));
             }
 
             return NoContent();

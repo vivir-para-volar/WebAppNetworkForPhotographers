@@ -4,6 +4,7 @@ using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
+using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -35,11 +36,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new BadResponse(ex.Message));
             }
 
             return NoContent();
@@ -54,7 +55,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (SubscriptionNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
 
             return NoContent();
@@ -70,7 +71,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
 
@@ -84,7 +85,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
 
@@ -98,7 +99,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
 
@@ -112,7 +113,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
     }

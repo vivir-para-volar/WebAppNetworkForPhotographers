@@ -4,6 +4,7 @@ using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Content;
+using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -36,11 +37,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (CategoryNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
 
             return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
@@ -57,11 +58,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (PhotographerNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (CategoryNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
 
             return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
@@ -76,11 +77,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (ContentNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (InvalidOperationException ex)
             {
-                return Conflict(ex.Message);
+                return Conflict(new ConflictResponse(ex.Message));
             }
         }
 
@@ -93,7 +94,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (ContentNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(new NotFoundResponse(ex.Message));
             }
 
             return NoContent();
