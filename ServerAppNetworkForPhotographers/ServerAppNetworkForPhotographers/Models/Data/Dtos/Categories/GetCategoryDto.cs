@@ -1,6 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Models.Data;
-
-namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Categories
+﻿namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Categories
 {
     public class GetCategoryDto
     {
