@@ -2,7 +2,7 @@
 {
     public static class TypeContent
     {
-        public static string Post { get; set; } = "Post";
-        public static string Blog { get; set; } = "Blog";
+        public static string Post { get; } = "Post";
+        public static string Blog { get; } = "Blog";
     }
 }

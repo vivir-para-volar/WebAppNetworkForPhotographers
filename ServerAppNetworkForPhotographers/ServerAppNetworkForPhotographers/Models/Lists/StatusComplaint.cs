@@ -2,7 +2,7 @@
 {
     public class StatusComplaint
     {
-        public static string Open { get; set; } = "Open";
-        public static string Processed { get; set; } = "Processed";
+        public static string Open { get; } = "Open";
+        public static string Processed { get; } = "Processed";
     }
 }
