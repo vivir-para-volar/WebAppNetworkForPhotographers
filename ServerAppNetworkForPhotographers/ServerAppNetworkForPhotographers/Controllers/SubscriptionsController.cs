@@ -20,8 +20,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _subscriptionsService = new SubscriptionsService(dataContext);
         }
 
-        [HttpPost]
-        [Route("Check")]
+        [HttpPost("Check")]
         public async Task<ActionResult<bool>> CheckSubscription(SubscriptionDto subscriptionDto)
         {
             return Ok(await _subscriptionsService.CheckSubscription(subscriptionDto));
@@ -65,8 +64,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return NoContent();
         }
 
-        [HttpGet]
-        [Route("CountSubscribers/{photographerId}")]
+        [HttpGet("CountSubscribers/{photographerId}")]
         public async Task<ActionResult<int>> GetCountSubscribers(int photographerId)
         {
             try
@@ -79,8 +77,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("CountSubscriptions/{photographerId}")]
+        [HttpGet("CountSubscriptions/{photographerId}")]
         public async Task<ActionResult<int>> GetCountSubscriptions(int photographerId)
         {
             try
@@ -93,8 +90,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Subscribers/{photographerId}")]
+        [HttpGet("Subscribers/{photographerId}")]
         public async Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscribers(int photographerId)
         {
             try
@@ -107,8 +103,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Subscriptions/{photographerId}")]
+        [HttpGet("Subscriptions/{photographerId}")]
         public async Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscriptions(int photographerId)
         {
             try
