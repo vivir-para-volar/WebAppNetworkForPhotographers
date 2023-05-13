@@ -1,4 +1,5 @@
 ﻿using ServerAppNetworkForPhotographers.Models.Data;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Likes;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
 
 namespace ServerAppNetworkForPhotographers.Exceptions
@@ -27,6 +28,13 @@ namespace ServerAppNetworkForPhotographers.Exceptions
             Message = $"{nameof(Subscription)} with " + 
                 $"{nameof(subscriptionDto.PhotographerId)} = {subscriptionDto.PhotographerId} and" +
                 $"{nameof(subscriptionDto.SubscriberId)} = {subscriptionDto.SubscriberId} not found";
+        }
+
+        public NotFoundException(LikeDto likeDto) : base("")
+        {
+            Message = $"{nameof(Like)} with " +
+                $"{nameof(likeDto.PhotographerId)} = {likeDto.PhotographerId} and " +
+                $"{nameof(likeDto.ContentId)} = {likeDto.ContentId} not found";
         }
     }
 }

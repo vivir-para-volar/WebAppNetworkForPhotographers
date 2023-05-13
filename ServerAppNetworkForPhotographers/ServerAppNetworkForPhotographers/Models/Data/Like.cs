@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.Likes;
+using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models.Data
 {
@@ -14,5 +15,13 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
         [JsonIgnore]
         public Content Content { get; set; }
+
+        public Like() { }
+
+        public Like(LikeDto likeDto)
+        {
+            PhotographerId = likeDto.PhotographerId;
+            ContentId = likeDto.ContentId;
+        }
     }
 }
