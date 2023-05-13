@@ -26,14 +26,18 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchPhotographerDto searchPhotographerDto)
         {
-            var photographers = new List<GetPhotographerForListDto>();
-
-            await _context.Photographers
+            var photographers = await _context.Photographers
                 .Where(item => EF.Functions.Like(item.Username, $"%{searchPhotographerDto.Name}%") ||
                                EF.Functions.Like(item.Name, $"%{searchPhotographerDto.Name}%"))
-                .ForEachAsync(async (item) => photographers.Add(await item.ToGetPhotographerForListDto()));
+                .ToListAsync();
 
-            return photographers;
+            var getPhotographers = new List<GetPhotographerForListDto>();
+            foreach (var photographer in photographers)
+            {
+                getPhotographers.Add(await photographer.ToGetPhotographerForListDto());
+            }
+
+            return getPhotographers;
         }
 
         public async Task<Photographer> CreatePhotographer(CreatePhotographerDto photographerDto)
