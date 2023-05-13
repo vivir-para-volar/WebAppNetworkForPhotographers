@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -24,7 +24,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<PhotographerInfo> UpdatePhotographerInfo(UpdatePhotographerInfoDto photographerInfoDto)
         {
             var photographerInfo = (await GetPhotographerInfoByPhotographerId(photographerInfoDto.PhotographerId)) ??
-                throw new PhotographerInfoNotFoundException(photographerInfoDto.PhotographerId);
+                throw new NotFoundException(nameof(PhotographerInfo), photographerInfoDto.PhotographerId);
 
             photographerInfo.Update(photographerInfoDto);
 

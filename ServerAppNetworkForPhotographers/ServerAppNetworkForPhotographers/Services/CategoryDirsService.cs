@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -60,7 +59,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<CategoryDir> UpdateCategoryDir(UpdateCategoryDirDto categoryDirDto)
         {
             var categoryDir = (await GetSimpleCategoryDirById(categoryDirDto.Id)) ??
-                throw new CategoryDirNotFoundException(categoryDirDto.Id);
+                throw new NotFoundException(nameof(CategoryDir), categoryDirDto.Id);
 
             if (await CheckExistenceName(categoryDirDto.Name, categoryDir.Id))
             {
@@ -78,7 +77,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteCategoryDir(int id)
         {
             var categoryDir = (await GetSimpleCategoryDirById(id)) ??
-                throw new CategoryDirNotFoundException(id);
+                throw new NotFoundException(nameof(CategoryDir), id);
 
             if (await _context.Categories.AnyAsync(item => item.CategoryDirId == id))
                 throw new DeleteException(nameof(Category));

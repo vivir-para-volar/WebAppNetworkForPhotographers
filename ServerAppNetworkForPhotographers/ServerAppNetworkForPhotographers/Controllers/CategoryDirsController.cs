@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -63,7 +62,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _categoryDirsService.UpdateCategoryDir(categoryDirDto));
             }
-            catch (CategoryDirNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -80,7 +79,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _categoryDirsService.DeleteCategoryDir(id);
             }
-            catch (CategoryDirNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }

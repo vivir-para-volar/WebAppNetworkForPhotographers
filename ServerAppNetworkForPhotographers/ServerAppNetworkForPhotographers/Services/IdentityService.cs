@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
@@ -59,7 +58,7 @@ namespace ServerAppNetworkForPhotographers.Services
             var user = await FindAppUserByUsernameOrEmail(loginDto.Login);
             if (user == null || !(await _userManager.CheckPasswordAsync(user, loginDto.Password)))
             {
-                throw new AppUserNotFoundException(null);
+                throw new NotFoundException(nameof(AppUser), null);
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -91,7 +90,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<GetAppUserDto> UpdateAppUser(UpdateAppUserDto appUserDto)
         {
             var user = await _userManager.FindByIdAsync(appUserDto.Id) ??
-                throw new AppUserNotFoundException(appUserDto.Id);
+                throw new NotFoundException(nameof(AppUser), appUserDto.Id);
 
             if (await CheckExistenceUsername(appUserDto.Username, user.Id))
             {
@@ -112,7 +111,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteAppUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id) ??
-                throw new AppUserNotFoundException(id);
+                throw new NotFoundException(nameof(AppUser), id);
 
             await _userManager.DeleteAsync(user);
         }

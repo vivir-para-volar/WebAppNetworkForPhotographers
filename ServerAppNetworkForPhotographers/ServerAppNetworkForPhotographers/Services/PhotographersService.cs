@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -69,7 +68,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<Photographer> UpdatePhotographer(UpdatePhotographerDto photographerDto)
         {
             var photographer = (await GetSimplePhotographerById(photographerDto.Id)) ??
-                throw new PhotographerNotFoundException(photographerDto.Id);
+                throw new NotFoundException(nameof(Photographer), photographerDto.Id);
 
             if (await CheckExistenceUsername(photographerDto.Username, photographer.Id))
             {
@@ -92,7 +91,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<string> UpdatePhotographerPhoto(int id, IFormFile photo)
         {
             var photographer = (await GetSimplePhotographerById(id)) ??
-                throw new PhotographerNotFoundException(id);
+                throw new NotFoundException(nameof(Photographer), id);
 
             await photographer.UpdateProfilePhoto(photo);
 
@@ -105,7 +104,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeletePhotographer(int id)
         {
             var photographer = (await GetSimplePhotographerById(id)) ??
-                throw new PhotographerNotFoundException(id);
+                throw new NotFoundException(nameof(Photographer), id);
 
             photographer.DeleteProfilePhoto();
             await DeletePhotographerSubscriptions(id);

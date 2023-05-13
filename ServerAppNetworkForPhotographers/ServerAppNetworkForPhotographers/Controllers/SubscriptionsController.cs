@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
@@ -34,13 +34,17 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _subscriptionsService.CreateSubscription(subscriptionDto);
             }
-            catch (PhotographerNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
             catch (InvalidOperationException ex)
             {
                 return BadRequest(new BadResponse(ex.Message));
+            }
+            catch (UniqueModelException ex)
+            {
+                return Conflict(new ConflictResponse(ex.Message));
             }
 
             return NoContent();
@@ -53,7 +57,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _subscriptionsService.DeleteSubscription(subscriptionDto);
             }
-            catch (SubscriptionNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -69,7 +73,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetCountSubscribers(photographerId));
             }
-            catch (PhotographerNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -83,7 +87,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetCountSubscriptions(photographerId));
             }
-            catch (PhotographerNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -97,7 +101,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetSubscribers(photographerId));
             }
-            catch (PhotographerNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -111,7 +115,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _subscriptionsService.GetSubscriptions(photographerId));
             }
-            catch (PhotographerNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }

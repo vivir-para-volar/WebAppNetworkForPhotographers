@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -34,12 +34,12 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistenceComplaintBase(complaintDto.ComplaintBaseId))
             {
-                throw new ComplaintBaseNotFoundException(complaintDto.ComplaintBaseId);
+                throw new NotFoundException(nameof(ComplaintBase), complaintDto.ComplaintBaseId);
             }
 
             if (!await CheckExistenceContent(complaintDto.ContentId))
             {
-                throw new ContentNotFoundException(complaintDto.ContentId);
+                throw new NotFoundException(nameof(Content), complaintDto.ContentId);
             }
 
             var complaint = new Complaint(complaintDto);
@@ -53,7 +53,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<Complaint> UpdateComplaintStatus(int id)
         {
             var complaint = (await GetComplaintById(id)) ??
-                throw new ComplaintNotFoundException(id);
+                throw new NotFoundException(nameof(Complaint), id);
 
             complaint.UpdateStatus();
 

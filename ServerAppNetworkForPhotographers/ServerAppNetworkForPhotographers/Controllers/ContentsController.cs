@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -35,11 +35,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 content = await _contentsService.CreateContentPost(contentPostDto);
             }
-            catch (PhotographerNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-            catch (CategoryNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -56,11 +52,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 content = await _contentsService.CreateContentBlog(contentBlogDto);
             }
-            catch (PhotographerNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-            catch (CategoryNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -75,7 +67,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _contentsService.UpdateBlogMainPhoto(id, photo));
             }
-            catch (ContentNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -92,7 +84,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _contentsService.DeleteContent(id);
             }
-            catch (ContentNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }

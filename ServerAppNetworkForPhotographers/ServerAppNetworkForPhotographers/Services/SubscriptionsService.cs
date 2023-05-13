@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -30,11 +30,11 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(subscriptionDto.PhotographerId))
             {
-                throw new PhotographerNotFoundException(subscriptionDto.PhotographerId);
+                throw new NotFoundException(nameof(Photographer), subscriptionDto.PhotographerId);
             }
             if (!await CheckExistencePhotographer(subscriptionDto.SubscriberId))
             {
-                throw new PhotographerNotFoundException(subscriptionDto.SubscriberId);
+                throw new NotFoundException(nameof(Photographer), subscriptionDto.SubscriberId);
             }
 
             if (subscriptionDto.PhotographerId == subscriptionDto.SubscriberId)
@@ -44,7 +44,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (await CheckSubscription(subscriptionDto))
             {
-                throw new InvalidOperationException("This subscription already exists");
+                throw new UniqueModelException(nameof(Subscription));
             }
 
             var subscription = new Subscription(subscriptionDto);
@@ -56,7 +56,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteSubscription(SubscriptionDto subscriptionDto)
         {
             var subscription = (await GetSubscription(subscriptionDto)) ??
-                throw new SubscriptionNotFoundException(subscriptionDto.PhotographerId, subscriptionDto.SubscriberId);
+                throw new NotFoundException(subscriptionDto);
 
             _context.Subscriptions.Remove(subscription);
             await _context.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new PhotographerNotFoundException(photographerId);
+                throw new NotFoundException(nameof(Photographer), photographerId);
             }
 
             return await _context.Subscriptions.CountAsync(item => item.PhotographerId == photographerId);
@@ -76,7 +76,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new PhotographerNotFoundException(photographerId);
+                throw new NotFoundException(nameof(Photographer), photographerId);
             }
 
             return await _context.Subscriptions.CountAsync(item => item.SubscriberId == photographerId);
@@ -86,7 +86,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new PhotographerNotFoundException(photographerId);
+                throw new NotFoundException(nameof(Photographer), photographerId);
             }
 
             var subscribers = new List<GetPhotographerForListDto>();
@@ -103,7 +103,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
-                throw new PhotographerNotFoundException(photographerId);
+                throw new NotFoundException(nameof(Photographer), photographerId);
             }
 
             var subscriptions = new List<GetPhotographerForListDto>();

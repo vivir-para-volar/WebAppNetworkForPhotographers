@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -45,7 +44,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<ComplaintBase> UpdateComplaintBase(UpdateComplaintBaseDto complaintBaseDto)
         {
             var complaintBase = (await GetComplaintBaseById(complaintBaseDto.Id)) ??
-                throw new ComplaintBaseNotFoundException(complaintBaseDto.Id);
+                throw new NotFoundException(nameof(ComplaintBase), complaintBaseDto.Id);
 
             if (await CheckExistenceName(complaintBaseDto.Name, complaintBase.Id))
             {
@@ -63,7 +62,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteComplaintBase(int id)
         {
             var complaintBase = (await GetComplaintBaseById(id)) ??
-                throw new ComplaintBaseNotFoundException(id);
+                throw new NotFoundException(nameof(ComplaintBase), id);
 
             if (await _context.Complaints.AnyAsync(item => item.ComplaintBaseId == id))
                 throw new DeleteException(nameof(Complaint));

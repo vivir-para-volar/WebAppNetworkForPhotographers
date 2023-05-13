@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -33,7 +33,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(contentPostDto.PhotographerId))
             {
-                throw new PhotographerNotFoundException(contentPostDto.PhotographerId);
+                throw new NotFoundException(nameof(Photographer), contentPostDto.PhotographerId);
             }
 
             var categories = await GetListCategories(contentPostDto.CategoriesIds);
@@ -50,7 +50,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!await CheckExistencePhotographer(contentBlogDto.PhotographerId))
             {
-                throw new PhotographerNotFoundException(contentBlogDto.PhotographerId);
+                throw new NotFoundException(nameof(Photographer), contentBlogDto.PhotographerId);
             }
 
             var categories = await GetListCategories(contentBlogDto.CategoriesIds);
@@ -66,7 +66,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<string> UpdateBlogMainPhoto(int id, IFormFile photo)
         {
             var content = (await GetSimpleContentById(id)) ??
-                throw new ContentNotFoundException(id);
+                throw new NotFoundException(nameof(Content), id);
 
             await content.UpdateBlogMainPhoto(photo);
 
@@ -79,7 +79,7 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task DeleteContent(int id)
         {
             var content = (await GetSimpleContentById(id)) ??
-                throw new ContentNotFoundException(id);
+               throw new NotFoundException(nameof(Content), id);
 
             content.DeleteBlogMainPhoto();
 
@@ -104,7 +104,7 @@ namespace ServerAppNetworkForPhotographers.Services
             foreach (var categoryId in categoriesIds)
             {
                 var category = await _context.Categories.FindAsync(categoryId);
-                if (category == null) throw new CategoryNotFoundException(categoryId);
+                if (category == null) throw new NotFoundException(nameof(Category), categoryId);
 
                 categories.Add(category);
             }

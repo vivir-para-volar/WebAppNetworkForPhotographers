@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -27,7 +26,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             if (!(await CheckExistenceCategoryDir(categoryDto.CategoryDirId)))
             {
-                throw new CategoryDirNotFoundException(categoryDto.CategoryDirId);
+                throw new NotFoundException(nameof(CategoryDir), categoryDto.CategoryDirId);
             }
 
             if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId))
@@ -46,11 +45,11 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<Category> UpdateCategory(UpdateCategoryDto categoryDto)
         {
             var category = (await GetSimpleCategoryById(categoryDto.Id)) ??
-                throw new CategoryNotFoundException(categoryDto.Id);
+                throw new NotFoundException(nameof(Category), categoryDto.Id);
 
             if (!(await CheckExistenceCategoryDir(categoryDto.CategoryDirId)))
             {
-                throw new CategoryDirNotFoundException(categoryDto.CategoryDirId);
+                throw new NotFoundException(nameof(CategoryDir), categoryDto.CategoryDirId);
             }
 
             if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId, categoryDto.Id))
@@ -70,7 +69,7 @@ namespace ServerAppNetworkForPhotographers.Services
         {
             var category = await _context.Categories.Include(item => item.Contents).FirstOrDefaultAsync(item => item.Id == id);
 
-            if (category == null) throw new CategoryNotFoundException(id);
+            if (category == null) throw new NotFoundException(nameof(Category), id);
             if (category.Contents.Count != 0) throw new DeleteException(nameof(Content));
 
             _context.Categories.Remove(category);

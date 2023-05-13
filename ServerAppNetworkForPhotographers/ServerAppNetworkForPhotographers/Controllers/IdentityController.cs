@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
@@ -93,7 +92,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
                 return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
             }
-            catch (AppUserNotFoundException)
+            catch (NotFoundException)
             {
                 return Unauthorized();
             }
@@ -106,7 +105,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _identityService.UpdateAppUser(appUserDto));
             }
-            catch (AppUserNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -123,7 +122,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 await _identityService.DeleteAppUser(id);
             }
-            catch (AppUserNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }

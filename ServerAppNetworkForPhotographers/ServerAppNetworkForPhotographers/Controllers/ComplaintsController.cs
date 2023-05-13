@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Exceptions.NotFoundExceptions;
+using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -41,11 +41,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 complaint = await _complaintsService.CreateComplaint(complaintDto);
             }
-            catch (ComplaintBaseNotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-            catch (ContentNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
@@ -60,7 +56,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Ok(await _complaintsService.UpdateComplaintStatus(id));
             }
-            catch (ComplaintNotFoundException ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
