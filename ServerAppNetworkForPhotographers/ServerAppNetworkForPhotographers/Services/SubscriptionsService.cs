@@ -39,7 +39,9 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (subscriptionDto.PhotographerId == subscriptionDto.SubscriberId)
             {
-                throw new InvalidOperationException("Photographer and subscriber must be different");
+                throw new InvalidOperationException(
+                    $"{nameof(subscriptionDto.PhotographerId)} and {nameof(subscriptionDto.SubscriberId)} must be different"
+                );
             }
 
             if (await CheckSubscription(subscriptionDto))
