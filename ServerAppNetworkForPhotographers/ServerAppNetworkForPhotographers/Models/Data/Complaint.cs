@@ -34,7 +34,8 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             if (Status == StatusComplaint.Open)
             {
                 Status = StatusComplaint.Processed;
-            } else
+            }
+            else
             {
                 Status = StatusComplaint.Open;
             }
