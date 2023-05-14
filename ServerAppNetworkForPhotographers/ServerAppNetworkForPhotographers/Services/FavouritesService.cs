@@ -3,7 +3,7 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Content;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
 
 namespace ServerAppNetworkForPhotographers.Services

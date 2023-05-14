@@ -1,4 +1,4 @@
-﻿namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Content
+﻿namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
     public class GetContentDto
     {
@@ -19,7 +19,7 @@
         public List<Category> Categories { get; set; }
         public List<Photo> Photos { get; set; }
 
-        public GetContentDto(Data.Content content, int countLikes, int countComments, int countFavourites)
+        public GetContentDto(Content content, int countLikes, int countComments, int countFavourites)
         {
             Id = content.Id;
             Type = content.Type;

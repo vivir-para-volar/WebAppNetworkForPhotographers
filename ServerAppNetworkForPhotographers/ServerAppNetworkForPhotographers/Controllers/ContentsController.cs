@@ -3,7 +3,7 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Content;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
 

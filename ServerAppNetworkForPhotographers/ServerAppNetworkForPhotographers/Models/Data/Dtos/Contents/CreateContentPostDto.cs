@@ -1,16 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Content
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
-    public class CreateContentBlogDto
+    public class CreateContentPostDto
     {
         [Required]
         [StringLength(256, MinimumLength = 4)]
         public string Title { get; set; }
-
-        [Required]
-        [MinLength(4)]
-        public string BlogBody { get; set; }
 
         [Range(1, int.MaxValue)]
         public int PhotographerId { get; set; }

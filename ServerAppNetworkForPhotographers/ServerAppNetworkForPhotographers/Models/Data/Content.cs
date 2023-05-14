@@ -1,5 +1,5 @@
 ﻿using ServerAppNetworkForPhotographers.Files;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Content;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using System.Text.Json.Serialization;
 
