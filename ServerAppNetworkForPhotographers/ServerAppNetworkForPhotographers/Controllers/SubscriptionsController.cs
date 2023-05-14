@@ -2,6 +2,7 @@
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
@@ -27,11 +28,13 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateSubscription(SubscriptionDto subscriptionDto)
+        public async Task<ActionResult<Subscription>> CreateSubscription(SubscriptionDto subscriptionDto)
         {
+            Subscription subscription;
+
             try
             {
-                await _subscriptionsService.CreateSubscription(subscriptionDto);
+                subscription = await _subscriptionsService.CreateSubscription(subscriptionDto);
             }
             catch (NotFoundException ex)
             {
@@ -46,7 +49,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
                 return Conflict(new ConflictResponse(ex.Message));
             }
 
-            return NoContent();
+            return CreatedAtAction(null, subscription);
         }
 
         [HttpDelete]

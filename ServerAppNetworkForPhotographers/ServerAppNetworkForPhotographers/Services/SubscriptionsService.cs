@@ -26,7 +26,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .AnyAsync(item => item.PhotographerId == photographerId && item.SubscriberId == subscriberId);
         }
 
-        public async Task CreateSubscription(SubscriptionDto subscriptionDto)
+        public async Task<Subscription> CreateSubscription(SubscriptionDto subscriptionDto)
         {
             if (!await CheckExistencePhotographer(subscriptionDto.PhotographerId))
             {
@@ -53,6 +53,8 @@ namespace ServerAppNetworkForPhotographers.Services
 
             await _context.Subscriptions.AddAsync(subscription);
             await _context.SaveChangesAsync();
+
+            return subscription;
         }
 
         public async Task DeleteSubscription(SubscriptionDto subscriptionDto)
