@@ -1,7 +1,7 @@
-﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.Content;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
+﻿using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Models.Data;
-using Microsoft.AspNetCore.Mvc;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Content;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 {
