@@ -12,7 +12,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Content
         [MinLength(4)]
         public string BlogBody { get; set; }
 
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int PhotographerId { get; set; }
 
         [Required]

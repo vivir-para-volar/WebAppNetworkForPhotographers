@@ -4,7 +4,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBase
 {
     public class UpdateComplaintBaseDto
     {
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int Id { get; set; }
 
         [Required]

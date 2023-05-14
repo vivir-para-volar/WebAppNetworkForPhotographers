@@ -8,7 +8,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Content
         [StringLength(256, MinimumLength = 4)]
         public string Title { get; set; }
 
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int PhotographerId { get; set; }
 
         [Required]

@@ -7,7 +7,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Categories
         [Required]
         public string Name { get; set; }
 
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int CategoryDirId { get; set; }
     }
 }

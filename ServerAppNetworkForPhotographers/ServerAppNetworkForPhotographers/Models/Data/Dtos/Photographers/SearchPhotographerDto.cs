@@ -4,7 +4,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers
 {
     public class SearchPhotographerDto
     {
-        [StringLength(32, MinimumLength = 2)]
+        [MinLength(2)]
         public string? Name { get; set; }
     }
 }

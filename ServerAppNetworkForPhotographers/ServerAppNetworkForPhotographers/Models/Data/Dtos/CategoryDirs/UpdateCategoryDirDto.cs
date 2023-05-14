@@ -4,7 +4,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs
 {
     public class UpdateCategoryDirDto
     {
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int Id { get; set; }
 
         [Required]

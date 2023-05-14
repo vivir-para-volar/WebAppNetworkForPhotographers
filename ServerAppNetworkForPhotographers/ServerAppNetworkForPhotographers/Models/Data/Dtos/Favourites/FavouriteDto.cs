@@ -4,10 +4,10 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Favourites
 {
     public class FavouriteDto
     {
-        [Required]
+        [Range(1, int.MaxValue)]
         public int PhotographerId { get; set; }
 
-        [Required]
+        [Range(1, int.MaxValue)]
         public int ContentId { get; set; }
     }
 }

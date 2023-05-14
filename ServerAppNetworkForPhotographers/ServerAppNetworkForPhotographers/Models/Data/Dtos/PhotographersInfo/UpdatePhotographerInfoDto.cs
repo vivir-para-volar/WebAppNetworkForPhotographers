@@ -4,7 +4,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.PhotographersInfo
 {
     public class UpdatePhotographerInfoDto
     {
-        [Range(0, int.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int PhotographerId { get; set; }
 
         [StringLength(1024, MinimumLength = 2)]
