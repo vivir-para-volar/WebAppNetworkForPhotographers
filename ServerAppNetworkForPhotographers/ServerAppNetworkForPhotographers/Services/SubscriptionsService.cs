@@ -91,14 +91,13 @@ namespace ServerAppNetworkForPhotographers.Services
                 throw new NotFoundException(nameof(Photographer), photographerId);
             }
 
-            var subscribers = new List<GetPhotographerForListDto>();
-
+            var subscribers = new List<Photographer>();
             await _context.Subscriptions
                 .Include(item => item.Subscriber)
                 .Where(item => item.PhotographerId == photographerId)
-                .ForEachAsync(async (item) => subscribers.Add(await item.Subscriber.ToGetPhotographerForListDto()));
+                .ForEachAsync((item) => subscribers.Add(item.Subscriber));
 
-            return subscribers;
+            return await Photographer.ToListGetPhotographerForListDto(subscribers);
         }
 
         public async Task<List<GetPhotographerForListDto>> GetSubscriptions(int photographerId)
@@ -108,14 +107,13 @@ namespace ServerAppNetworkForPhotographers.Services
                 throw new NotFoundException(nameof(Photographer), photographerId);
             }
 
-            var subscriptions = new List<GetPhotographerForListDto>();
-
+            var subscriptions = new List<Photographer>();
             await _context.Subscriptions
                 .Include(item => item.Photographer)
                 .Where(item => item.SubscriberId == photographerId)
-                .ForEachAsync(async (item) => subscriptions.Add(await item.Photographer.ToGetPhotographerForListDto()));
+                .ForEachAsync((item) => subscriptions.Add(item.Photographer));
 
-            return subscriptions;
+            return await Photographer.ToListGetPhotographerForListDto(subscriptions);
         }
 
         private async Task<Subscription?> GetSubscription(SubscriptionDto subscriptionDto)

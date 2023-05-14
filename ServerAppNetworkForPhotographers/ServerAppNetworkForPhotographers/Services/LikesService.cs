@@ -29,14 +29,8 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Include(item => item.Photographer)
                 .Where(item => item.ContentId == contentId)
                 .ForEachAsync((item) => photographers.Add(item.Photographer));
-            
-            var getPhotographers = new List<GetPhotographerForListDto>();
-            foreach(var photographer in photographers)
-            {
-                getPhotographers.Add(await photographer.ToGetPhotographerForListDto());
-            }
 
-            return getPhotographers;
+            return await Photographer.ToListGetPhotographerForListDto(photographers);
         }
 
         public async Task<Like> CreateLike(LikeDto likeDto)

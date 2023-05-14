@@ -31,13 +31,7 @@ namespace ServerAppNetworkForPhotographers.Services
                                EF.Functions.Like(item.Name, $"%{searchPhotographerDto.Name}%"))
                 .ToListAsync();
 
-            var getPhotographers = new List<GetPhotographerForListDto>();
-            foreach (var photographer in photographers)
-            {
-                getPhotographers.Add(await photographer.ToGetPhotographerForListDto());
-            }
-
-            return getPhotographers;
+            return await Photographer.ToListGetPhotographerForListDto(photographers);
         }
 
         public async Task<Photographer> CreatePhotographer(CreatePhotographerDto photographerDto)

@@ -88,6 +88,16 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             return new GetPhotographerForListDto(Id, Username, Name, PhotoProfile);
         }
 
+        public static async Task<List<GetPhotographerForListDto>> ToListGetPhotographerForListDto(List<Photographer> photographers)
+        {
+            var getPhotographers = new List<GetPhotographerForListDto>();
+            foreach (var photographer in photographers)
+            {
+                getPhotographers.Add(await photographer.ToGetPhotographerForListDto());
+            }
+            return getPhotographers;
+        }
+
         private void InitLists()
         {
             Contents = new List<Content>();
