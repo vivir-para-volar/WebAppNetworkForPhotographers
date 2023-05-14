@@ -44,7 +44,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 throw new NotFoundException(nameof(Content), likeDto.ContentId);
             }
 
-            if (await CheckLike(likeDto))
+            if ((await GetLike(likeDto)) != null)
             {
                 throw new UniqueModelException(nameof(Like));
             }
@@ -59,20 +59,14 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task DeleteLike(LikeDto likeDto)
         {
-            var like = (await GetkLike(likeDto)) ??
+            var like = (await GetLike(likeDto)) ??
                 throw new NotFoundException(likeDto);
 
             _context.Likes.Remove(like);
             await _context.SaveChangesAsync();
         }
 
-        private async Task<bool> CheckLike(LikeDto likeDto)
-        {
-            return await _context.Likes
-                .AnyAsync(item => item.PhotographerId == likeDto.PhotographerId && item.ContentId == likeDto.ContentId);
-        }
-
-        private async Task<Like?> GetkLike(LikeDto likeDto)
+        private async Task<Like?> GetLike(LikeDto likeDto)
         {
             return await _context.Likes
                 .FirstOrDefaultAsync(item => item.PhotographerId == likeDto.PhotographerId && item.ContentId == likeDto.ContentId);
