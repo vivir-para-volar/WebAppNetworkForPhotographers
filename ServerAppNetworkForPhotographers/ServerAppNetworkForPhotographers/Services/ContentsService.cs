@@ -4,6 +4,7 @@ using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+using ServerAppNetworkForPhotographers.Models.Lists;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
@@ -16,17 +17,53 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
+        public async Task<List<GetContentForListDto>> GetPhotographerPosts(int photographerId)
+        {
+            if (!await CheckExistencePhotographer(photographerId))
+            {
+                throw new NotFoundException(nameof(Photographer), photographerId);
+            }
+
+            var contents = await _context.Contents
+                .Include(item => item.Photographer)
+                .Include(item => item.Categories)
+                .Where(item => item.PhotographerId == photographerId && item.Type == TypeContent.Post)
+                .ToListAsync();
+
+            return await ConvertListContents(contents);
+        }
+
+        public async Task<List<GetContentForListDto>> GetPhotographerBlogs(int photographerId)
+        {
+            if (!await CheckExistencePhotographer(photographerId))
+            {
+                throw new NotFoundException(nameof(Photographer), photographerId);
+            }
+
+            var contents = await _context.Contents
+                .Include(item => item.Photographer)
+                .Include(item => item.Categories)
+                .Where(item => item.PhotographerId == photographerId && item.Type == TypeContent.Blog)
+                .ToListAsync();
+
+            return await ConvertListContents(contents);
+        }
+
         public async Task<GetContentDto?> GetContentById(int id)
         {
             var content = await _context.Contents
-                .Include(item => item.Photos)
+                .Include(item => item.Photographer)
                 .Include(item => item.Categories)
-                .Include(item => item.Likes)
-                .Include(item => item.Comments)
-                .Include(item => item.Favourites)
+                .Include(item => item.Photos)
                 .FirstOrDefaultAsync(item => item.Id == id);
 
-            return content != null ? await content.ToGetContentDto() : null;
+            if (content == null) return null;
+
+            var countLikes = await _context.Likes.CountAsync(item => item.ContentId == content.Id);
+            var countComments = await _context.Comments.CountAsync(item => item.ContentId == content.Id);
+            var countFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
+
+            return await content.ToGetContentDto(countLikes, countComments, countFavourites);
         }
 
         public async Task<Content> CreateContentPost(CreateContentPostDto contentPostDto)
@@ -76,6 +113,19 @@ namespace ServerAppNetworkForPhotographers.Services
             return content.BlogMainPhoto;
         }
 
+        public async Task<Content> UpdateContentStatus(int id)
+        {
+            var content = (await GetSimpleContentById(id)) ??
+                throw new NotFoundException(nameof(Content), id);
+
+            content.UpdateStatus();
+
+            _context.Entry(content).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return content;
+        }
+
         public async Task DeleteContent(int id)
         {
             var content = (await GetSimpleContentById(id)) ??
@@ -110,6 +160,27 @@ namespace ServerAppNetworkForPhotographers.Services
             }
 
             return categories;
+        }
+
+        private async Task<List<GetContentForListDto>> ConvertListContents(List<Content> contents)
+        {
+            var getContents = new List<GetContentForListDto>();
+
+            foreach (var content in contents)
+            {
+                var countLikes = await _context.Likes.CountAsync(item => item.ContentId == content.Id);
+                var countComments = await _context.Comments.CountAsync(item => item.ContentId == content.Id);
+                var countFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
+
+                if (content.Type == TypeContent.Post)
+                {
+                    content.Photos = await _context.Photos.Where(item => item.ContentId == content.Id).ToListAsync();
+                }
+
+                getContents.Add(await content.ToGetContentForListDto(countLikes, countComments, countFavourites));
+            }
+
+            return getContents;
         }
     }
 }

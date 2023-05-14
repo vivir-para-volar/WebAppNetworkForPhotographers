@@ -85,7 +85,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data
         {
             if (Type != TypeContent.Blog)
             {
-                throw new InvalidOperationException("Post content cannot have a main photo");
+                throw new InvalidOperationException($"This {nameof(Content)} is not a {TypeContent.Blog}");
             }
 
             DeleteBlogMainPhoto();
@@ -102,15 +102,38 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             BlogMainPhoto = null;
         }
 
-        public async Task<GetContentDto> ToGetContentDto()
+        public async Task<GetContentForListDto> ToGetContentForListDto(int countLikes, int countComments, int countFavourites)
         {
             if (Type == TypeContent.Blog)
             {
                 await ConvertBlogMainPhoto();
-                Photos = new List<Photo>();
             }
 
-            return new GetContentDto(this, Likes.Count, Comments.Count, Favourites.Count);
+            var photographer = await Photographer.ToGetPhotographerForListDto();
+            return new GetContentForListDto(this, countLikes, countComments, countFavourites, photographer);
+        }
+
+        public async Task<GetContentDto> ToGetContentDto(int countLikes, int countComments, int countFavourites)
+        {
+            if (Type == TypeContent.Blog)
+            {
+                await ConvertBlogMainPhoto();
+            }
+
+            var photographer = await Photographer.ToGetPhotographerForListDto();
+            return new GetContentDto(this, countLikes, countComments, countFavourites, photographer);
+        }
+
+        public void UpdateStatus()
+        {
+            if (Status == StatusContent.Open)
+            {
+                Status = StatusContent.Blocked;
+            }
+            else
+            {
+                Status = StatusContent.Open;
+            }
         }
 
         private void InitLists()

@@ -20,6 +20,32 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _contentsService = new ContentsService(dataContext);
         }
 
+        [HttpGet("Posts/Photographer/{photographerId}")]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerPosts(int photographerId)
+        {
+            try
+            {
+                return Ok(await _contentsService.GetPhotographerPosts(photographerId));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("Blogs/Photographer/{photographerId}")]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerBlogs(int photographerId)
+        {
+            try
+            {
+                return Ok(await _contentsService.GetPhotographerBlogs(photographerId));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GetContentDto?>> GetContentById(int id)
         {
@@ -74,6 +100,19 @@ namespace ServerAppNetworkForPhotographers.Controllers
             catch (InvalidOperationException ex)
             {
                 return Conflict(new ConflictResponse(ex.Message));
+            }
+        }
+
+        [HttpPut("Status/{id}")]
+        public async Task<ActionResult<Content>> UpdateContentStatus(int id)
+        {
+            try
+            {
+                return Ok(await _contentsService.UpdateContentStatus(id));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
 

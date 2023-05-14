@@ -1,4 +1,6 @@
-﻿namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
+﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+
+namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
     public class GetContentDto
     {
@@ -10,16 +12,16 @@
         public string? BlogMainPhoto { get; set; }
         public string? BlogBody { get; set; }
 
-        public int PhotographerId { get; set; }
-
         public int CountLikes { get; set; }
         public int CountComments { get; set; }
         public int CountFavourites { get; set; }
 
+        public GetPhotographerForListDto Photographer { get; set; }
+
         public List<Category> Categories { get; set; }
         public List<Photo> Photos { get; set; }
 
-        public GetContentDto(Content content, int countLikes, int countComments, int countFavourites)
+        public GetContentDto(Content content, int countLikes, int countComments, int countFavourites, GetPhotographerForListDto photographer)
         {
             Id = content.Id;
             Type = content.Type;
@@ -29,11 +31,11 @@
             BlogMainPhoto = content.BlogMainPhoto;
             BlogBody = content.BlogBody;
 
-            PhotographerId = content.PhotographerId;
-
             CountLikes = countLikes;
             CountComments = countComments;
             CountFavourites = countFavourites;
+
+            Photographer = photographer;
 
             Categories = content.Categories;
             Photos = content.Photos;

@@ -1,5 +1,4 @@
 ﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
-
 namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
     public class GetContentForListDto
