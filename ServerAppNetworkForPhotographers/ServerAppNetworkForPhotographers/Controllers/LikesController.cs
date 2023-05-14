@@ -21,7 +21,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _likesService = new LikesService(dataContext);
         }
 
-        [HttpGet("{contentId}")]
+        [HttpGet("Content/{contentId}")]
         public async Task<ActionResult<List<GetPhotographerForListDto>>> GetAllContentLikes(int contentId)
         {
             try
