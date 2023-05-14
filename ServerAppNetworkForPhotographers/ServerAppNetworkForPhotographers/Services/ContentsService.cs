@@ -3,6 +3,7 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.Lists;
 
@@ -17,7 +18,7 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
-        public async Task<List<GetContentForListDto>> GetPhotographerPosts(int photographerId)
+        public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -27,24 +28,26 @@ namespace ServerAppNetworkForPhotographers.Services
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
-                .Where(item => item.PhotographerId == photographerId && item.Type == TypeContent.Post)
+                .Where(item => item.PhotographerId == photographerId && item.Type == typeContent)
                 .ToListAsync();
 
             return await ConvertListContents(contents);
         }
 
-        public async Task<List<GetContentForListDto>> GetPhotographerBlogs(int photographerId)
+        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
                 throw new NotFoundException(nameof(Photographer), photographerId);
             }
 
-            var contents = await _context.Contents
-                .Include(item => item.Photographer)
-                .Include(item => item.Categories)
-                .Where(item => item.PhotographerId == photographerId && item.Type == TypeContent.Blog)
-                .ToListAsync();
+            var contents = new List<Content>();
+            await _context.Favourites
+                .Include(item => item.Content)
+                .Include(item => item.Content.Photographer)
+                .Include(item => item.Content.Categories)
+                .Where(item => item.PhotographerId == photographerId && item.Content.Type == typeContent)
+                .ForEachAsync(item => contents.Add(item.Content));
 
             return await ConvertListContents(contents);
         }
@@ -64,6 +67,17 @@ namespace ServerAppNetworkForPhotographers.Services
             var countFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
 
             return await content.ToGetContentDto(countLikes, countComments, countFavourites);
+        }
+
+        public async Task<List<GetContentForListDto>> SearchContents(SearchDto searchDto, string typeContent)
+        {
+            var contents = await _context.Contents
+                .Include(item => item.Photographer)
+                .Include(item => item.Categories)
+                .Where(item => item.Type == typeContent && EF.Functions.Like(item.Title, $"%{searchDto.SearchData}%"))
+                .ToListAsync();
+
+            return await ConvertListContents(contents);
         }
 
         public async Task<Content> CreateContentPost(CreateContentPostDto contentPostDto)

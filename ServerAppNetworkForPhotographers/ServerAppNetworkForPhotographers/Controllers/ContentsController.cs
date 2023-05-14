@@ -3,8 +3,10 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
+using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -20,12 +22,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _contentsService = new ContentsService(dataContext);
         }
 
-        [HttpGet("Posts/Photographer/{photographerId}")]
+        [HttpGet("PhotographerPosts/{photographerId}")]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerPosts(int photographerId)
         {
             try
             {
-                return Ok(await _contentsService.GetPhotographerPosts(photographerId));
+                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Post));
             }
             catch (NotFoundException ex)
             {
@@ -33,12 +35,38 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpGet("Blogs/Photographer/{photographerId}")]
+        [HttpGet("PhotographerBlogs/{photographerId}")]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerBlogs(int photographerId)
         {
             try
             {
-                return Ok(await _contentsService.GetPhotographerBlogs(photographerId));
+                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Blog));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("FavouritesPosts/{photographerId}")]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId)
+        {
+            try
+            {
+                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Post));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("FavouritesBlogs/{photographerId}")]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId)
+        {
+            try
+            {
+                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Blog));
             }
             catch (NotFoundException ex)
             {
@@ -50,6 +78,18 @@ namespace ServerAppNetworkForPhotographers.Controllers
         public async Task<ActionResult<GetContentDto?>> GetContentById(int id)
         {
             return Ok(await _contentsService.GetContentById(id));
+        }
+
+        [HttpPost("SearchPosts")]
+        public async Task<ActionResult<List<GetContentForListDto>>> SearchPosts(SearchDto searchDto)
+        {
+            return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Post));
+        }
+
+        [HttpPost("SearchBlogs")]
+        public async Task<ActionResult<List<GetContentForListDto>>> SearchBlogs(SearchDto searchDto)
+        {
+            return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Blog));
         }
 
         [HttpPost("Post")]
