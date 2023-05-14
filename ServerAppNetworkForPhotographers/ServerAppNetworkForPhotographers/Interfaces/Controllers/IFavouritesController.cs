@@ -7,8 +7,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 {
     public interface IFavouritesController
     {
-        Task<ActionResult<List<GetContentDto>>> GetPhotographerFavouritesPosts(int photographerId);
-        Task<ActionResult<List<GetContentDto>>> GetPhotographerFavouritesBlogs(int photographerId);
+        Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId);
+        Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId);
         Task<ActionResult<Favourite>> CreateFavourite(FavouriteDto favouriteDto);
         Task<ActionResult> DeleteFavourite(FavouriteDto favouriteDto);
     }

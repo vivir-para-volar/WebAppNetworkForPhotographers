@@ -22,7 +22,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Posts/{photographerId}")]
-        public async Task<ActionResult<List<GetContentDto>>> GetPhotographerFavouritesPosts(int photographerId)
+        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Blogs/{photographerId}")]
-        public async Task<ActionResult<List<GetContentDto>>> GetPhotographerFavouritesBlogs(int photographerId)
+        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId)
         {
             try
             {

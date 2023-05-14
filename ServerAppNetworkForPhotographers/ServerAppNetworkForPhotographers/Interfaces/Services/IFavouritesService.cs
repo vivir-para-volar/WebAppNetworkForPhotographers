@@ -6,8 +6,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {
     public interface IFavouritesService
     {
-        Task<List<GetContentDto>> GetPhotographerFavouritesPosts(int photographerId);
-        Task<List<GetContentDto>> GetPhotographerFavouritesBlogs(int photographerId);
+        Task<List<GetContentForListDto>> GetPhotographerFavouritesPosts(int photographerId);
+        Task<List<GetContentForListDto>> GetPhotographerFavouritesBlogs(int photographerId);
         Task<Favourite> CreateFavourite(FavouriteDto favouriteDto);
         Task DeleteFavourite(FavouriteDto favouriteDto);
     }

@@ -17,7 +17,7 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
-        public async Task<List<GetContentDto>> GetPhotographerFavouritesPosts(int photographerId)
+        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesPosts(int photographerId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -27,7 +27,7 @@ namespace ServerAppNetworkForPhotographers.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<GetContentDto>> GetPhotographerFavouritesBlogs(int photographerId)
+        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesBlogs(int photographerId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
