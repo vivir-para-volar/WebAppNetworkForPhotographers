@@ -3,6 +3,7 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
@@ -27,9 +28,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Search")]
-        public async Task<ActionResult<List<GetPhotographerForListDto>>> SearchPhotographers(SearchPhotographerDto searchPhotographerDto)
+        public async Task<ActionResult<List<GetPhotographerForListDto>>> SearchPhotographers(SearchDto searchDto)
         {
-            return Ok(await _photographersService.SearchPhotographers(searchPhotographerDto));
+            return Ok(await _photographersService.SearchPhotographers(searchDto));
         }
 
         [HttpPost]

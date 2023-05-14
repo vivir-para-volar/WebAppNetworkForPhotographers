@@ -3,6 +3,7 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace ServerAppNetworkForPhotographers.Services
@@ -24,11 +25,11 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
-        public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchPhotographerDto searchPhotographerDto)
+        public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto)
         {
             var photographers = await _context.Photographers
-                .Where(item => EF.Functions.Like(item.Username, $"%{searchPhotographerDto.Name}%") ||
-                               EF.Functions.Like(item.Name, $"%{searchPhotographerDto.Name}%"))
+                .Where(item => EF.Functions.Like(item.Username, $"%{searchDto.SearchData}%") ||
+                               EF.Functions.Like(item.Name, $"%{searchDto.SearchData}%"))
                 .ToListAsync();
 
             return await Photographer.ToListGetPhotographerForListDto(photographers);
