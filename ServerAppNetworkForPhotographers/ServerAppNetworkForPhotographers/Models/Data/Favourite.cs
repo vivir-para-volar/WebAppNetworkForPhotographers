@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
+using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models.Data
 {
@@ -14,5 +15,13 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
         [JsonIgnore]
         public Content Content { get; set; }
+
+        public Favourite() { }
+
+        public Favourite(FavouriteDto favouriteDto)
+        {
+            PhotographerId = favouriteDto.PhotographerId;
+            ContentId = favouriteDto.ContentId;
+        }
     }
 }
