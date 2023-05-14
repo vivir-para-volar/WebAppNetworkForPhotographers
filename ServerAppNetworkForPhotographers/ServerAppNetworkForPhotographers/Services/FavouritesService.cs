@@ -3,7 +3,6 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
 
 namespace ServerAppNetworkForPhotographers.Services
@@ -15,26 +14,6 @@ namespace ServerAppNetworkForPhotographers.Services
         public FavouritesService(DataContext context)
         {
             _context = context;
-        }
-
-        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesPosts(int photographerId)
-        {
-            if (!await CheckExistencePhotographer(photographerId))
-            {
-                throw new NotFoundException(nameof(Photographer), photographerId);
-            }
-
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesBlogs(int photographerId)
-        {
-            if (!await CheckExistencePhotographer(photographerId))
-            {
-                throw new NotFoundException(nameof(Photographer), photographerId);
-            }
-
-            throw new NotImplementedException();
         }
 
         public async Task<Favourite> CreateFavourite(FavouriteDto favouriteDto)

@@ -3,7 +3,6 @@ using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Services;
@@ -19,32 +18,6 @@ namespace ServerAppNetworkForPhotographers.Controllers
         public FavouritesController(DataContext dataContext)
         {
             _favouritesService = new FavouritesService(dataContext);
-        }
-
-        [HttpGet("Posts/{photographerId}")]
-        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId)
-        {
-            try
-            {
-                return Ok(await _favouritesService.GetPhotographerFavouritesPosts(photographerId));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
-
-        [HttpGet("Blogs/{photographerId}")]
-        public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId)
-        {
-            try
-            {
-                return Ok(await _favouritesService.GetPhotographerFavouritesBlogs(photographerId));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
         }
 
         [HttpPost]
