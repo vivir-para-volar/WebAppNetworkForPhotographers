@@ -25,7 +25,7 @@ namespace ServerAppNetworkForPhotographers.Exceptions
 
         public NotFoundException(SubscriptionDto subscriptionDto) : base("")
         {
-            Message = $"{nameof(Subscription)} with " + 
+            Message = $"{nameof(Subscription)} with " +
                 $"{nameof(subscriptionDto.PhotographerId)} = {subscriptionDto.PhotographerId} and" +
                 $"{nameof(subscriptionDto.SubscriberId)} = {subscriptionDto.SubscriberId} not found";
         }
