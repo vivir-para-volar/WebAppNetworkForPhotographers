@@ -22,8 +22,8 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
         public List<GetPhotoDto> Photos { get; set; }
 
         public GetContentDto(
-            Content content, 
-            int countLikes, int countComments, int countFavourites, 
+            Content content,
+            int countLikes, int countComments, int countFavourites,
             GetPhotographerForListDto photographer,
             List<GetPhotoDto> photos
         )

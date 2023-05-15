@@ -133,7 +133,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data
                 var photoName = photo.PhotoContent;
                 await photo.ConvertContentPhoto();
 
-                photos.Add(new GetPhotoDto(photo.Id, photoName, photo.PhotoContent, photo.ContentId));   
+                photos.Add(new GetPhotoDto(photo.Id, photoName, photo.PhotoContent, photo.ContentId));
             }
 
             var photographer = await Photographer.ToGetPhotographerForListDto();
