@@ -8,9 +8,6 @@ ServerAppNetworkForPhotographers/Files/ProfilePhotos
 ServerAppNetworkForPhotographers/Files/BlogMainPhotos
 ServerAppNetworkForPhotographers/Files/ContentPhotos
 
-# Migrations
-ServerAppNetworkForPhotographers/Migrations
-
 # User-specific files
 *.rsuser
 *.suo
