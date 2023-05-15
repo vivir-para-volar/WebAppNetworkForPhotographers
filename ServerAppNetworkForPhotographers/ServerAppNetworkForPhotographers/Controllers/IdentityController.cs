@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
+using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Identity;
@@ -19,9 +20,10 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         public IdentityController(UserManager<AppUser> userManager,
                                   RoleManager<IdentityRole> roleManager,
-                                  IConfiguration configuration)
+                                  IConfiguration configuration,
+                                  DataContext dataContext)
         {
-            _identityService = new IdentityService(userManager, roleManager, configuration);
+            _identityService = new IdentityService(userManager, roleManager, configuration, dataContext);
         }
 
 

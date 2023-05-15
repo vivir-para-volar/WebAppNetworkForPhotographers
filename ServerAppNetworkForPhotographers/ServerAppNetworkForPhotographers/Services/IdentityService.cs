@@ -2,6 +2,8 @@
 using Microsoft.IdentityModel.Tokens;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
+using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
 using ServerAppNetworkForPhotographers.Models.Lists;
@@ -17,13 +19,18 @@ namespace ServerAppNetworkForPhotographers.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
+        private readonly PhotographersService _photographersService;
+
         public IdentityService(UserManager<AppUser> userManager,
                                RoleManager<IdentityRole> roleManager,
-                               IConfiguration configuration)
+                               IConfiguration configuration,
+                               DataContext dataContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+
+            _photographersService = new PhotographersService(dataContext, userManager);
         }
 
         public async Task CreateRoles()
@@ -40,7 +47,12 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<GetAppUserDto> RegisterUser(RegisterDto registerDto)
         {
-            return await Register(registerDto, UserRoles.User);
+            var user = await Register(registerDto, UserRoles.User);
+
+            var photographer = new CreatePhotographerDto(user.Username, user.Email, user.Id);
+            await _photographersService.CreatePhotographer(photographer);
+
+            return user;
         }
 
         public async Task<GetAppUserDto> RegisterEmployee(RegisterDto registerDto)
@@ -71,6 +83,11 @@ namespace ServerAppNetworkForPhotographers.Services
 
             foreach (var userRole in userRoles)
             {
+                if (userRole == UserRoles.User)
+                {
+                    await _photographersService.UpdatePhotographerLastLoginDate(user.Id);
+                }
+
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 

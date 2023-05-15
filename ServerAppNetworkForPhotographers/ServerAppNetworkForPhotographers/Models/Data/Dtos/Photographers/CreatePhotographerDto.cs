@@ -14,5 +14,14 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers
 
         [Required]
         public string UserId { get; set; }
+
+        public CreatePhotographerDto() { }
+
+        public CreatePhotographerDto(string username, string email, string userId)
+        {
+            Username = username;
+            Email = email;
+            UserId = userId;
+        }
     }
 }

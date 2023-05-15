@@ -9,19 +9,19 @@ namespace ServerAppNetworkForPhotographers.Exceptions
     {
         public override string Message { get; }
 
-        public NotFoundException(string model, int id) : base("")
+        public NotFoundException(string model, int fieldValue, string field = "Id") : base("")
         {
-            Message = $"{model} with id = {id} not found";
+            Message = $"{model} with {field} = {fieldValue} not found";
         }
 
-        public NotFoundException(string model, string? id) : base("")
+        public NotFoundException(string model, string? fieldValue, string field = "Id") : base("")
         {
-            if (id == null)
+            if (fieldValue == null)
             {
                 Message = $"{model} not found";
             }
 
-            Message = $"{model} with id = {id} not found";
+            Message = $"{model} with {field} = {fieldValue} not found";
         }
 
         public NotFoundException(SubscriptionDto subscriptionDto) : base("")

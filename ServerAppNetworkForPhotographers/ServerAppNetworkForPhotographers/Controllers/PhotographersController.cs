@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
@@ -6,6 +7,7 @@ using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
+using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -16,9 +18,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
     {
         private readonly PhotographersService _photographersService;
 
-        public PhotographersController(DataContext dataContext)
+        public PhotographersController(DataContext dataContext, UserManager<AppUser> userManager)
         {
-            _photographersService = new PhotographersService(dataContext);
+            _photographersService = new PhotographersService(dataContext, userManager);
         }
 
         [HttpGet("{id}")]
@@ -31,23 +33,6 @@ namespace ServerAppNetworkForPhotographers.Controllers
         public async Task<ActionResult<List<GetPhotographerForListDto>>> SearchPhotographers(SearchDto searchDto)
         {
             return Ok(await _photographersService.SearchPhotographers(searchDto));
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Photographer>> CreatePhotographer(CreatePhotographerDto photographerDto)
-        {
-            Photographer photographer;
-
-            try
-            {
-                photographer = await _photographersService.CreatePhotographer(photographerDto);
-            }
-            catch (UniqueFieldException ex)
-            {
-                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
-            }
-
-            return CreatedAtAction(nameof(GetPhotographerById), new { id = photographer.Id }, photographer);
         }
 
         [HttpPut]
