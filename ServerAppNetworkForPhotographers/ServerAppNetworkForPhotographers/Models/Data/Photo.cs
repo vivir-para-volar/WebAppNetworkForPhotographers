@@ -18,7 +18,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
         public Photo() { }
 
-        public Photo (string photoContent, int contentId)
+        public Photo(string photoContent, int contentId)
         {
             this.PhotoContent = photoContent;
             this.ContentId = contentId;

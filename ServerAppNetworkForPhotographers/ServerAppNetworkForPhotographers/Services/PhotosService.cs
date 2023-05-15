@@ -24,7 +24,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             var contentPhotos = new List<Photo>();
 
-            foreach(var photo in photos)
+            foreach (var photo in photos)
             {
                 var contentPhoto = await Photo.Save(contentId, photo);
                 await _context.Photos.AddAsync(contentPhoto);
