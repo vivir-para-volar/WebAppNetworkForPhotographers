@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using ServerAppNetworkForPhotographers.Models.Data.Dtos.PhotosInfo;
+using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models.Data
 {
@@ -10,5 +11,12 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
         [JsonIgnore]
         public Photo Photo { get; set; }
+
+        public PhotoInfo() { }
+
+        public PhotoInfo(CreatePhotoInfoDto photoInfoDto)
+        {
+            PhotoId = photoInfoDto.PhotoId;
+        }
     }
 }
