@@ -1,8 +1,8 @@
 ﻿namespace ServerAppNetworkForPhotographers.Models.Lists
 {
-    public class StatusComplaint
+    public static class StatusComplaint
     {
-        public static string Open { get; } = "Open";
-        public static string Processed { get; } = "Processed";
+        public const string Open = "Open";
+        public const string Processed = "Processed";
     }
 }

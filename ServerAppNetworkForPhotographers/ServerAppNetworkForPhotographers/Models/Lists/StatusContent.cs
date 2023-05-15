@@ -2,7 +2,7 @@
 {
     public static class StatusContent
     {
-        public static string Open { get; } = "Open";
-        public static string Blocked { get; } = "Blocked";
+        public const string Open = "Open";
+        public const string Blocked = "Blocked";
     }
 }
