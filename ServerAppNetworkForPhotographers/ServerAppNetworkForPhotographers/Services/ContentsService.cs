@@ -146,6 +146,7 @@ namespace ServerAppNetworkForPhotographers.Services
                throw new NotFoundException(nameof(Content), id);
 
             content.DeleteBlogMainPhoto();
+            Photo.DeleteAllByContentId(content.Id);
 
             _context.Contents.Remove(content);
             await _context.SaveChangesAsync();

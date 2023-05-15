@@ -108,6 +108,13 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             {
                 await ConvertBlogMainPhoto();
             }
+            else
+            {
+                foreach (var photo in Photos)
+                {
+                    await photo.ConvertContentPhoto();
+                }
+            }
 
             var photographer = await Photographer.ToGetPhotographerForListDto();
             return new GetContentForListDto(this, countLikes, countComments, countFavourites, photographer);
@@ -120,8 +127,17 @@ namespace ServerAppNetworkForPhotographers.Models.Data
                 await ConvertBlogMainPhoto();
             }
 
+            var photos = new List<GetPhotoDto>();
+            foreach (var photo in Photos)
+            {
+                var photoName = photo.PhotoContent;
+                await photo.ConvertContentPhoto();
+
+                photos.Add(new GetPhotoDto(photo.Id, photoName, photo.PhotoContent, photo.ContentId));   
+            }
+
             var photographer = await Photographer.ToGetPhotographerForListDto();
-            return new GetContentDto(this, countLikes, countComments, countFavourites, photographer);
+            return new GetContentDto(this, countLikes, countComments, countFavourites, photographer, photos);
         }
 
         public void UpdateStatus()

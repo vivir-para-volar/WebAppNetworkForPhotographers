@@ -19,9 +19,14 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
         public GetPhotographerForListDto Photographer { get; set; }
 
         public List<Category> Categories { get; set; }
-        public List<Photo> Photos { get; set; }
+        public List<GetPhotoDto> Photos { get; set; }
 
-        public GetContentDto(Content content, int countLikes, int countComments, int countFavourites, GetPhotographerForListDto photographer)
+        public GetContentDto(
+            Content content, 
+            int countLikes, int countComments, int countFavourites, 
+            GetPhotographerForListDto photographer,
+            List<GetPhotoDto> photos
+        )
         {
             Id = content.Id;
             Type = content.Type;
@@ -38,7 +43,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
             Photographer = photographer;
 
             Categories = content.Categories;
-            Photos = content.Photos;
+            Photos = photos;
         }
     }
 }
