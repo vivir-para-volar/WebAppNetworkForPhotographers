@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBase;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
+using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ComplaintsBaseController : ControllerBase, IComplaintsBaseController
     {
         private readonly ComplaintsBaseService _complaintsBaseService;
@@ -33,6 +36,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<ComplaintBase>> CreateComplaintBase(CreateComplaintBaseDto complaintBaseDto)
         {
             ComplaintBase complaintBase;
@@ -50,6 +54,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<ComplaintBase>> UpdateComplaintBase(UpdateComplaintBaseDto complaintBaseDto)
         {
             try
@@ -67,6 +72,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult> DeleteComplaintBase(int id)
         {
             try

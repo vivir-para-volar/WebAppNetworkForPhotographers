@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
+using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoryDirsController : ControllerBase, ICategoryDirsController
     {
         private readonly CategoryDirsService _categoryDirsService;
@@ -39,6 +42,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<CategoryDir>> CreateCategoryDir(CreateCategoryDirDto categoryDirDto)
         {
             CategoryDir categoryDir;
@@ -56,6 +60,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<CategoryDir>> UpdateCategoryDir(UpdateCategoryDirDto categoryDirDto)
         {
             try
@@ -73,6 +78,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult> DeleteCategoryDir(int id)
         {
             try

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
@@ -13,6 +14,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ContentsController : ControllerBase, IContentsController
     {
         private readonly ContentsService _contentsService;
@@ -23,6 +25,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("PhotographerPosts/{photographerId}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerPosts(int photographerId)
         {
             try
@@ -36,6 +39,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("PhotographerBlogs/{photographerId}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerBlogs(int photographerId)
         {
             try
@@ -49,6 +53,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("FavouritesPosts/{photographerId}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId)
         {
             try
@@ -62,6 +67,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("FavouritesBlogs/{photographerId}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId)
         {
             try
@@ -81,18 +87,21 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("SearchPosts")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchPosts(SearchDto searchDto)
         {
             return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Post));
         }
 
         [HttpPost("SearchBlogs")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchBlogs(SearchDto searchDto)
         {
             return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Blog));
         }
 
         [HttpPost("Post")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Content>> CreateContentPost(CreateContentPostDto contentPostDto)
         {
             Content content;
@@ -110,6 +119,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Blog")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Content>> CreateContentBlog(CreateContentBlogDto contentBlogDto)
         {
             Content content;
@@ -127,6 +137,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut("Blog/MainPhoto/{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<string>> UpdateBlogMainPhoto(int id, IFormFile photo)
         {
             try
@@ -144,6 +155,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut("Status/{id}")]
+        [Authorize(Roles = UserRoles.AdminEmployee)]
         public async Task<ActionResult<Content>> UpdateContentStatus(int id)
         {
             try
@@ -157,6 +169,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> DeleteContent(int id)
         {
             try

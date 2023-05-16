@@ -1,16 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Categories;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
+using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase, ICategoriesController
     {
         private readonly CategoriesService _categoriesService;
@@ -27,6 +30,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<Category>> CreateCategory(CreateCategoryDto categoryDto)
         {
             Category category;
@@ -48,6 +52,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<Category>> UpdateCategory(UpdateCategoryDto categoryDto)
         {
             try
@@ -65,6 +70,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             try

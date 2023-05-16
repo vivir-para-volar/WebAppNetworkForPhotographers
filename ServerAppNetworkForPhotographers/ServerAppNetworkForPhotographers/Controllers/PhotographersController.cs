@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
@@ -8,12 +9,14 @@ using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Identity;
+using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = UserRoles.User)]
     public class PhotographersController : ControllerBase, IPhotographersController
     {
         private readonly PhotographersService _photographersService;
