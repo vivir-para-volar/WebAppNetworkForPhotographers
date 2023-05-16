@@ -20,9 +20,9 @@ namespace ServerAppNetworkForPhotographers.Models.Identity
             Email = appUserDto.Email;
         }
 
-        public GetAppUserDto ToGetAppUserDto()
+        public GetAppUserDto ToGetAppUserDto(string role)
         {
-            return new GetAppUserDto(Id, UserName, Email);
+            return new GetAppUserDto(Id, UserName, Email, role);
         }
     }
 }

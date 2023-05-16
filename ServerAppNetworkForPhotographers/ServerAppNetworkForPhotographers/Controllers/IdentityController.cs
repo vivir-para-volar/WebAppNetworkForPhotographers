@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
-using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
@@ -27,6 +27,13 @@ namespace ServerAppNetworkForPhotographers.Controllers
                                   DataContext dataContext)
         {
             _identityService = new IdentityService(userManager, roleManager, configuration, dataContext);
+        }
+
+        [HttpGet("AdminsEmployees")]
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<ActionResult<List<GetAppUserDto>>> GetAllAdminsAndEmployees()
+        {
+            return await _identityService.GetAllAdminsAndEmployees();
         }
 
 
@@ -91,7 +98,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto)
+        public async Task<ActionResult<JwtSecurityToken>> Login(LoginDto loginDto)
         {
             try
             {
@@ -107,7 +114,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPut]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<Photographer>> UpdateAppUser(UpdateAppUserDto appUserDto)
+        public async Task<ActionResult<GetAppUserDto>> UpdateAppUser(UpdateAppUserDto appUserDto)
         {
             try
             {
@@ -121,11 +128,15 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
             }
+            catch (AuthenticationException)
+            {
+                return Forbid();
+            }
         }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<AppUser>> DeleteAppUser(string id)
+        public async Task<ActionResult> DeleteAppUser(string id)
         {
             try
             {
@@ -134,6 +145,10 @@ namespace ServerAppNetworkForPhotographers.Controllers
             catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
+            }
+            catch (AuthenticationException)
+            {
+                return Forbid();
             }
 
             return NoContent();

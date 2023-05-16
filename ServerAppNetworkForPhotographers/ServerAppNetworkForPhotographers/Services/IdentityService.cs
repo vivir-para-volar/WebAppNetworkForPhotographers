@@ -8,6 +8,7 @@ using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 
@@ -31,6 +32,27 @@ namespace ServerAppNetworkForPhotographers.Services
             _configuration = configuration;
 
             _photographersService = new PhotographersService(dataContext, userManager);
+        }
+
+        public async Task<List<GetAppUserDto>> GetAllAdminsAndEmployees()
+        {
+            var adminRole = await _roleManager.FindByNameAsync(UserRoles.Admin);
+            var employeeRole = await _roleManager.FindByNameAsync(UserRoles.Employee);
+
+            var adminUsers = await _userManager.GetUsersInRoleAsync(adminRole.Name);
+            var employeeUsers = await _userManager.GetUsersInRoleAsync(employeeRole.Name);
+
+            var getUsers = new List<GetAppUserDto>();
+            foreach (var user in adminUsers)
+            {
+                getUsers.Add(user.ToGetAppUserDto(UserRoles.Admin));
+            }
+            foreach (var user in employeeUsers)
+            {
+                getUsers.Add(user.ToGetAppUserDto(UserRoles.Employee));
+            }
+
+            return getUsers;
         }
 
         public async Task CreateRoles()
@@ -109,6 +131,12 @@ namespace ServerAppNetworkForPhotographers.Services
             var user = await _userManager.FindByIdAsync(appUserDto.Id) ??
                 throw new NotFoundException(nameof(AppUser), appUserDto.Id);
 
+            var role = (await _userManager.GetRolesAsync(user))[0];
+            if (role == UserRoles.User)
+            {
+                throw new AuthenticationException();
+            }
+
             if (await CheckExistenceUsername(appUserDto.Username, user.Id))
             {
                 throw new UniqueFieldException(nameof(appUserDto.Username), appUserDto.Username);
@@ -122,13 +150,19 @@ namespace ServerAppNetworkForPhotographers.Services
             user.Update(appUserDto);
             await _userManager.UpdateAsync(user);
 
-            return user.ToGetAppUserDto();
+            return user.ToGetAppUserDto(role);
         }
 
         public async Task DeleteAppUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id) ??
                 throw new NotFoundException(nameof(AppUser), id);
+
+            var role = (await _userManager.GetRolesAsync(user))[0];
+            if (role == UserRoles.User)
+            {
+                throw new AuthenticationException();
+            }
 
             await _userManager.DeleteAsync(user);
         }
@@ -152,7 +186,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             await _userManager.AddToRoleAsync(user, role);
 
-            return user.ToGetAppUserDto();
+            return user.ToGetAppUserDto(role);
         }
 
         private async Task<AppUser> FindAppUserByUsernameOrEmail(string login)

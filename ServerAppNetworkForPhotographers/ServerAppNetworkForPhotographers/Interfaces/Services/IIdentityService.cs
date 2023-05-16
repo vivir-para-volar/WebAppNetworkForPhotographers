@@ -5,6 +5,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {
     public interface IIdentityService
     {
+        Task<List<GetAppUserDto>> GetAllAdminsAndEmployees();
         Task CreateRoles();
         Task<GetAppUserDto> RegisterUser(RegisterDto registerDto);
         Task<GetAppUserDto> RegisterEmployee(RegisterDto registerDto);
