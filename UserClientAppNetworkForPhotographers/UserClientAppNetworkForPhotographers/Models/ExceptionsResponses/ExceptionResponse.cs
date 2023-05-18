@@ -1,13 +1,13 @@
 ﻿namespace UserClientAppNetworkForPhotographers.Models.ExceptionsResponses
 {
-    public class InternalServerResponse
+    public class ExceptionResponse
     {
         public int Status { get; set; }
         public string Message { get; set; }
 
-        public InternalServerResponse(string message)
+        public ExceptionResponse(string message)
         {
-            Status = StatusCodes.Status500InternalServerError;
+            Status = StatusCodes.Status400BadRequest;
             Message = message;
         }
     }

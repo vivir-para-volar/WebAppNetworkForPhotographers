@@ -1,18 +1,192 @@
 html {
-  font-size: 14px;
+    font-size: 16px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 18px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+}
+
+#title {
+    text-transform: uppercase;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px #222;
+}
+
+#mainPart {
+    padding-left: 200px;
+}
+
+#divMenu {
+    width: 200px;
+    min-height: 100vh;
+    position: fixed;
+}
+
+@media screen and (max-width: 1152px) {
+    #mainPart {
+        padding-left: 59px;
+    }
+
+    #divMenu {
+        width: 59px;
+    }
+}
+
+/* ===== MENU ===== */
+
+.ico-logo {
+    height: 35px;
+    padding: 0 10px 8px 0;
+}
+
+#menuVertical {
+    width: 71px;
+    position: fixed;
+    z-index: 5;
+    top: 79px;
+    transition: .3s;
+    min-height: 100vh;
+}
+
+    #menuVertical ul {
+        display: block;
+        width: 54px;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        position: relative;
+    }
+
+        #menuVertical ul li {
+            display: block;
+            width: 175px;
+            position: relative;
+        }
+
+            #menuVertical ul li a {
+                position: relative;
+                display: block;
+                width: 198px;
+                height: auto;
+                box-sizing: border-box;
+                font-size: 16px;
+                text-transform: uppercase;
+                font-weight: 400;
+                color: #000;
+                line-height: 2em;
+                padding: 10px 15px;
+                background: #fff;
+                text-decoration: none;
+                text-shadow: 1px 0px 1px #222;
+            }
+
+
+
+                #menuVertical ul li a:hover,
+                #menuVertical ul li:hover a {
+                    background: #E8E9E9;
+                    color: #000;
+                }
+
+            #menuVertical ul li ul {
+                position: absolute;
+                top: 0px;
+                left: 198px;
+                display: none;
+                width: auto;
+            }
+
+            #menuVertical ul li:hover ul {
+                display: block;
+            }
+
+            #menuVertical ul li ul li a {
+                white-space: nowrap;
+                text-transform: none;
+                padding: 10px 20px;
+                width: 153px;
+            }
+
+                #menuVertical ul li ul li a:hover {
+                    background: #D3D3D4;
+                    color: #000;
+                }
+
+.menu {
+    position: absolute;
+    width: 198px;
+    height: 100%;
+    box-shadow: 1px 2px 3px #888;
+    position: fixed;
+    top: 79px;
+    z-index: 3;
+}
+
+.img_n {
+    transition: .3s;
+}
+
+    .img_n:hover {
+        margin-left: 5px;
+        transition: .3s;
+    }
+
+@media screen and (max-width: 1152px) {
+    .menu {
+        width: 57px;
+        transition: .3s;
+    }
+
+    #menuVertical ul li a {
+        width: 57px;
+        transition: .3s;
+    }
+
+    #menuVertical ul li {
+        width: 57px;
+    }
+
+        #menuVertical ul li ul li a {
+            left: -141px;
+        }
+
+    span {
+        display: none;
+    }
+
+    .img_n img {
+        height: 40px;
+        margin-left: -7px;
+        margin-top: 9px;
+    }
+}
+
+@media screen and (min-width: 1152px) {
+    .img_n img {
+        display: none;
+    }
+}
+
+
+
+/* ===== ACCOUNT ===== */
+
+.containerCenterParent {
+    display: flex;
+    justify-content: center;
+}
+
+.containerCenterAccount {
+    width: 500px;
 }

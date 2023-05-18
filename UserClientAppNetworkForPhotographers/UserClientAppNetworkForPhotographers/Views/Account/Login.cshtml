@@ -1,0 +1,40 @@
+﻿@model UserClientAppNetworkForPhotographers.Models.Account.UserLogin
+
+<div class="containerCenterParent">
+    <div class="containerCenterAccount">
+
+        <h3>Авторизация</h3>
+        <hr />
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            <div class="form-horizontal">
+
+                <div class="form-group mb-3">
+                    @Html.LabelFor(model => model.Login, htmlAttributes: new { @class = "control-label" })
+                    <div>
+                        @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                    <div>
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Войти" class="btn btn-outline-dark" />
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
