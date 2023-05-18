@@ -6,6 +6,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {
     public interface IContentsServices
     {
+        Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent);
         Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent);
         Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent);
         Task<GetContentDto?> GetContentById(int id);

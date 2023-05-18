@@ -24,7 +24,35 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _contentsService = new ContentsService(dataContext);
         }
 
-        [HttpGet("PhotographerPosts/{photographerId}")]
+        [HttpGet("Posts/User/{photographerId}")]
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetUserPosts(int photographerId)
+        {
+            try
+            {
+                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Post));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("Blogs/User/{photographerId}")]
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetUserBlogs(int photographerId)
+        {
+            try
+            {
+                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Blog));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpGet("Posts/Photographer/{photographerId}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerPosts(int photographerId)
         {
@@ -38,7 +66,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpGet("PhotographerBlogs/{photographerId}")]
+        [HttpGet("Blogs/Photographer/{photographerId}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerBlogs(int photographerId)
         {
@@ -52,7 +80,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpGet("FavouritesPosts/{photographerId}")]
+        [HttpGet("Posts/Favourites/{photographerId}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId)
         {
@@ -66,7 +94,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpGet("FavouritesBlogs/{photographerId}")]
+        [HttpGet("Blogs/Favourites/{photographerId}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId)
         {
@@ -86,21 +114,21 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return Ok(await _contentsService.GetContentById(id));
         }
 
-        [HttpPost("SearchPosts")]
+        [HttpPost("Posts/Search")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchPosts(SearchDto searchDto)
         {
             return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Post));
         }
 
-        [HttpPost("SearchBlogs")]
+        [HttpPost("Blogs/Search")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchBlogs(SearchDto searchDto)
         {
             return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Blog));
         }
 
-        [HttpPost("Post")]
+        [HttpPost("Posts")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Content>> CreateContentPost(CreateContentPostDto contentPostDto)
         {
@@ -118,7 +146,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
         }
 
-        [HttpPost("Blog")]
+        [HttpPost("Blogs")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Content>> CreateContentBlog(CreateContentBlogDto contentBlogDto)
         {
@@ -136,7 +164,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
         }
 
-        [HttpPut("Blog/MainPhoto/{id}")]
+        [HttpPut("Blogs/MainPhoto/{id}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<string>> UpdateBlogMainPhoto(int id, IFormFile photo)
         {

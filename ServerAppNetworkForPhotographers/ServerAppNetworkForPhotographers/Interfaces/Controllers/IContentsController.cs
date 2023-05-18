@@ -7,6 +7,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
 {
     public interface IContentsController
     {
+        Task<ActionResult<List<GetContentForListDto>>> GetUserPosts(int photographeId);
+        Task<ActionResult<List<GetContentForListDto>>> GetUserBlogs(int photographerId);
         Task<ActionResult<List<GetContentForListDto>>> GetPhotographerPosts(int photographerId);
         Task<ActionResult<List<GetContentForListDto>>> GetPhotographerBlogs(int photographerId);
         Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId);

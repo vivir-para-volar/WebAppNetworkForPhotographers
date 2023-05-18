@@ -18,7 +18,7 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
-        public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent)
+        public async Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -29,6 +29,24 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
                 .Where(item => item.PhotographerId == photographerId && item.Type == typeContent)
+                .ToListAsync();
+
+            return await ConvertListContents(contents);
+        }
+
+        public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent)
+        {
+            if (!await CheckExistencePhotographer(photographerId))
+            {
+                throw new NotFoundException(nameof(Photographer), photographerId);
+            }
+
+            var contents = await _context.Contents
+                .Include(item => item.Photographer)
+                .Include(item => item.Categories)
+                .Where(item => item.PhotographerId == photographerId && 
+                       item.Status == StatusContent.Open && 
+                       item.Type == typeContent)
                 .ToListAsync();
 
             return await ConvertListContents(contents);
@@ -46,7 +64,9 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Include(item => item.Content)
                 .Include(item => item.Content.Photographer)
                 .Include(item => item.Content.Categories)
-                .Where(item => item.PhotographerId == photographerId && item.Content.Type == typeContent)
+                .Where(item => item.PhotographerId == photographerId &&
+                               item.Content.Status == StatusContent.Open &&
+                               item.Content.Type == typeContent)
                 .ForEachAsync(item => contents.Add(item.Content));
 
             return await ConvertListContents(contents);
@@ -74,7 +94,9 @@ namespace ServerAppNetworkForPhotographers.Services
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
-                .Where(item => item.Type == typeContent && EF.Functions.Like(item.Title, $"%{searchDto.SearchData}%"))
+                .Where(item => item.Type == typeContent &&
+                               item.Status == StatusContent.Open &&
+                               EF.Functions.Like(item.Title, $"%{searchDto.SearchData}%"))
                 .ToListAsync();
 
             return await ConvertListContents(contents);

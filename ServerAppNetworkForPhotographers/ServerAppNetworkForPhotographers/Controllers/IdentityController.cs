@@ -16,7 +16,6 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class IdentityController : ControllerBase, IIdentityController
     {
         private readonly IdentityService _identityService;
