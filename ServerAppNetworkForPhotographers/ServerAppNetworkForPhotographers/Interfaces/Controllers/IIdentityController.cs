@@ -11,7 +11,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Controllers
         Task<ActionResult<GetAppUserDto>> RegisterUser(RegisterDto registerDto);
         Task<ActionResult<GetAppUserDto>> RegisterEmployee(RegisterDto registerDto);
         Task<ActionResult<GetAppUserDto>> RegisterAdmin(RegisterDto registerDto);
-        Task<ActionResult<JwtSecurityToken>> Login(LoginDto loginDto);
+        Task<ActionResult<TokenDto>> Login(LoginDto loginDto);
         Task<ActionResult<GetAppUserDto>> UpdateAppUser(UpdateAppUserDto appUserDto);
         Task<ActionResult> DeleteAppUser(string id);
     }

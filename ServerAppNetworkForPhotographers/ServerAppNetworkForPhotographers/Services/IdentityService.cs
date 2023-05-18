@@ -87,13 +87,15 @@ namespace ServerAppNetworkForPhotographers.Services
             return await Register(registerDto, UserRoles.Admin);
         }
 
-        public async Task<JwtSecurityToken> Login(LoginDto loginDto)
+        public async Task<TokenDto> Login(LoginDto loginDto)
         {
             var user = await FindAppUserByUsernameOrEmail(loginDto.Login);
             if (user == null || !(await _userManager.CheckPasswordAsync(user, loginDto.Password)))
             {
                 throw new NotFoundException(nameof(AppUser), null);
             }
+
+            var tokenDto = new TokenDto();
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -105,9 +107,12 @@ namespace ServerAppNetworkForPhotographers.Services
 
             foreach (var userRole in userRoles)
             {
+                tokenDto.Role = userRole;
+
                 if (userRole == UserRoles.User)
                 {
-                    await _photographersService.UpdatePhotographerLastLoginDate(user.Id);
+                    var photographer = await _photographersService.UpdatePhotographerLastLoginDate(user.Id);
+                    tokenDto.PhotographerId = photographer.Id;
                 }
 
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
@@ -123,7 +128,9 @@ namespace ServerAppNetworkForPhotographers.Services
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
 
-            return token;
+            tokenDto.Token = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return tokenDto;
         }
 
         public async Task<GetAppUserDto> UpdateAppUser(UpdateAppUserDto appUserDto)

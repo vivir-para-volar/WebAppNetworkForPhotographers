@@ -10,7 +10,7 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
         Task<GetAppUserDto> RegisterUser(RegisterDto registerDto);
         Task<GetAppUserDto> RegisterEmployee(RegisterDto registerDto);
         Task<GetAppUserDto> RegisterAdmin(RegisterDto registerDto);
-        Task<JwtSecurityToken> Login(LoginDto loginDto);
+        Task<TokenDto> Login(LoginDto loginDto);
         Task<GetAppUserDto> UpdateAppUser(UpdateAppUserDto appUserDto);
         Task DeleteAppUser(string id);
     }

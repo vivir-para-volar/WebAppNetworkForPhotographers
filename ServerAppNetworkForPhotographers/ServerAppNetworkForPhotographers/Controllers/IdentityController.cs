@@ -97,17 +97,15 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<JwtSecurityToken>> Login(LoginDto loginDto)
+        public async Task<ActionResult<TokenDto>> Login(LoginDto loginDto)
         {
             try
             {
-                var token = await _identityService.Login(loginDto);
-
-                return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+                return Ok(await _identityService.Login(loginDto));
             }
-            catch (NotFoundException)
+            catch (NotFoundException ex)
             {
-                return Unauthorized();
+                return NotFound(new NotFoundResponse(ex.Message));
             }
         }
 
