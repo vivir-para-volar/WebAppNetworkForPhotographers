@@ -1,5 +1,5 @@
-﻿using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
-using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.AspNetCore.Mvc;
+using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {
@@ -12,6 +12,8 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
         Task<GetAppUserDto> RegisterAdmin(RegisterDto registerDto);
         Task<TokenDto> Login(LoginDto loginDto);
         Task<GetAppUserDto> UpdateAppUser(UpdateAppUserDto appUserDto);
+        Task UpdatePassword(UpdatePasswordDto updatePassword);
+        Task UpdatePasswordForUser(UpdatePasswordForUserDto updatePassword);
         Task DeleteAppUser(string id);
     }
 }

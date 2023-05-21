@@ -9,7 +9,6 @@ using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -52,7 +51,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
+                return Conflict(new FieldResponse(ex.Field, ex.Message));
             }
             catch (Exception ex)
             {
@@ -70,7 +69,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
+                return Conflict(new FieldResponse(ex.Field, ex.Message));
             }
             catch (Exception ex)
             {
@@ -88,7 +87,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
+                return Conflict(new FieldResponse(ex.Field, ex.Message));
             }
             catch (Exception ex)
             {
@@ -123,12 +122,60 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
+                return Conflict(new FieldResponse(ex.Field, ex.Message));
             }
             catch (AuthenticationException)
             {
                 return Forbid();
             }
+        }
+
+        [HttpPut("Password")]
+        [Authorize(Roles = UserRoles.AdminEmployee)]
+        public async Task<ActionResult> UpdatePassword(UpdatePasswordDto updatePassword)
+        {
+            try
+            {
+                await _identityService.UpdatePassword(updatePassword);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+            catch (ArgumentException ex)
+            {
+                return Conflict(new FieldResponse(nameof(updatePassword.OldPassword), ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerResponse(ex.Message));
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("Password/User")]
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult> UpdatePasswordForUser(UpdatePasswordForUserDto updatePassword)
+        {
+            try
+            {
+                await _identityService.UpdatePasswordForUser(updatePassword);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+            catch (ArgumentException ex)
+            {
+                return Conflict(new FieldResponse(nameof(updatePassword.OldPassword), ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new InternalServerResponse(ex.Message));
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

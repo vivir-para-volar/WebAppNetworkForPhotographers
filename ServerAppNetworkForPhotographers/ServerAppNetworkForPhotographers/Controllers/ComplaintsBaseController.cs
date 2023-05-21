@@ -47,7 +47,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
+                return Conflict(new FieldResponse(ex.Field, ex.Message));
             }
 
             return CreatedAtAction(nameof(GetComplaintBaseById), new { id = complaintBase.Id }, complaintBase);
@@ -67,7 +67,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
             catch (UniqueFieldException ex)
             {
-                return Conflict(new UniqueFieldResponse(ex.Field, ex.Message));
+                return Conflict(new FieldResponse(ex.Field, ex.Message));
             }
         }
 

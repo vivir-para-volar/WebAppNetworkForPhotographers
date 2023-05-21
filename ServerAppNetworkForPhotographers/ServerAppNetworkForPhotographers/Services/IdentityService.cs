@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
+using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
@@ -158,6 +159,41 @@ namespace ServerAppNetworkForPhotographers.Services
             await _userManager.UpdateAsync(user);
 
             return user.ToGetAppUserDto(role);
+        }
+
+        public async Task UpdatePassword(UpdatePasswordDto updatePassword)
+        {
+            var user = await _userManager.FindByIdAsync(updatePassword.Id) ??
+                throw new NotFoundException(nameof(AppUser), updatePassword.Id);
+
+            var result = await _userManager.ChangePasswordAsync(user, updatePassword.OldPassword, updatePassword.NewPassword);
+            if (!result.Succeeded)
+            {
+                if (result.Errors.Any(item => item.Code == "PasswordMismatch"))
+                {
+                    throw new ArgumentException(result.ToString());
+                }
+                throw new Exception(result.ToString());
+            }
+        }
+
+        public async Task UpdatePasswordForUser(UpdatePasswordForUserDto updatePassword)
+        {
+            var photographer = (await _photographersService.GetPhotographerById(updatePassword.PhotographerId)) ??
+                throw new NotFoundException(nameof(Photographer), updatePassword.PhotographerId);
+
+            var user = await _userManager.FindByIdAsync(photographer.UserId) ??
+                throw new NotFoundException(nameof(AppUser), photographer.UserId);
+
+            var result = await _userManager.ChangePasswordAsync(user, updatePassword.OldPassword, updatePassword.NewPassword);
+            if (!result.Succeeded)
+            {
+                if(result.Errors.Any(item => item.Code == "PasswordMismatch"))
+                {
+                    throw new ArgumentException(result.ToString());
+                }
+                throw new Exception(result.ToString());
+            }
         }
 
         public async Task DeleteAppUser(string id)

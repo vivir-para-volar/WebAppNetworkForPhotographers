@@ -91,7 +91,7 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
-        public async Task<string> UpdatePhotographerPhoto(int id, IFormFile photo)
+        public async Task<Photographer> UpdatePhotographerPhoto(int id, IFormFile photo)
         {
             var photographer = (await GetSimplePhotographerById(id)) ??
                 throw new NotFoundException(nameof(Photographer), id);
@@ -101,7 +101,9 @@ namespace ServerAppNetworkForPhotographers.Services
             _context.Entry(photographer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return photographer.PhotoProfile;
+            await photographer.ConvertProfilePhoto();
+
+            return photographer;
         }
 
         public async Task<Photographer> UpdatePhotographerLastLoginDate(string userId)
