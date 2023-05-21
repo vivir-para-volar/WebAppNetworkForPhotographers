@@ -2,6 +2,10 @@ html {
     font-size: 16px;
 }
 
+h3 {
+    text-shadow: 0.2px 0px 0.2px #222;
+}
+
 @media (min-width: 768px) {
     html {
         font-size: 18px;
@@ -13,7 +17,9 @@ html {
     min-height: 100%;
 }
 
-body {
+.listError ul {
+    padding: 0;
+    list-style: none;
 }
 
 #title {
@@ -32,7 +38,7 @@ body {
     position: fixed;
 }
 
-@media screen and (max-width: 1152px) {
+@media screen and (max-width: 992px) {
     #mainPart {
         padding-left: 59px;
     }
@@ -40,6 +46,20 @@ body {
     #divMenu {
         width: 59px;
     }
+}
+
+
+.containerParentFlex {
+    display: flex;
+    justify-content: center;
+}
+
+.containerCenterMini {
+    width: 500px;
+}
+
+.containerCenter {
+    width: 1000px;
 }
 
 /* ===== MENU ===== */
@@ -142,7 +162,7 @@ body {
         transition: .3s;
     }
 
-@media screen and (max-width: 1152px) {
+@media screen and (max-width: 992px) {
     .menu {
         width: 57px;
         transition: .3s;
@@ -161,7 +181,7 @@ body {
             left: -141px;
         }
 
-    span {
+    #menuVertical span {
         display: none;
     }
 
@@ -172,21 +192,46 @@ body {
     }
 }
 
-@media screen and (min-width: 1152px) {
+@media screen and (min-width: 992px) {
     .img_n img {
         display: none;
     }
 }
 
 
+/* ===== SETTINGS ===== */
 
-/* ===== ACCOUNT ===== */
-
-.containerCenterParent {
-    display: flex;
-    justify-content: center;
+#menuSettings ul {
+    display: block;
+    height: auto;
+    list-style: none;
 }
 
-.containerCenterAccount {
-    width: 500px;
+    #menuSettings ul li {
+        transition: .3s;
+    }
+
+        #menuSettings ul li:hover {
+            margin-left: 10px;
+            transition: .3s;
+        }
+
+        #menuSettings ul li a {
+            font-weight: 400;
+            color: #000;
+            padding: 10px 15px;
+            text-decoration: none;
+            text-shadow: 0.1px 0px 0.1px #222;
+        }
+
+.imgBlock {
+    display: inline-block;
+    border: 1px solid #EB4C42;
+    margin-right: 10px;
+    box-shadow: 0.7px 0.7px 2px #222;
 }
+
+    .imgBlock img {
+        height: 40px;
+        padding: 2px;
+    }

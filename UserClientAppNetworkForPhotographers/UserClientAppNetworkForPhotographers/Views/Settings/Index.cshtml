@@ -1,0 +1,57 @@
+﻿<div class="containerParentFlex">
+    <div class="containerCenterMini">
+
+        <h3>Настройки</h3>
+        <hr />
+
+        <div id="menuSettings">
+            <ul>
+                <li class="mb-3">
+                    <a asp-controller="Settings" asp-action="UpdateProfile">
+                        <div class="imgBlock"><img src="~/image/settings/profile.png"></div><span>Изменение профиля</span>
+                    </a>
+                </li>
+
+                <li class="mb-3">
+                    <a asp-controller="Settings" asp-action="UpdateProfile">
+                        <div class="imgBlock"><img src="~/image/settings/photo.png"></div><span>Изменение фото профиля</span>
+                    </a>
+                </li>
+
+                <li class="mb-3">
+                    <a asp-controller="Settings" asp-action="UpdatePassword">
+                        <div class="imgBlock"><img src="~/image/settings/password.png"></div><span>Изменение пароля</span>
+                    </a>
+                </li>
+
+                <li class="mb-3">
+                    <a data-bs-toggle="modal" data-bs-target="#modalDeleteAccount" style="cursor: pointer">
+                        <div class="imgBlock"><img src="~/image/settings/delete.png"></div><span>Удаление аккаунта</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Модальное окно удаления аккаунта -->
+<div class="modal fade" id="modalDeleteAccount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Удаление аккаунта</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены что хотите удалить аккаунт?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                <a type="button" class="btn btn-outline-danger" asp-controller="Settings" asp-action="DeleteAccount">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>

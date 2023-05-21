@@ -3,26 +3,24 @@ using System.Text.Json.Serialization;
 
 namespace UserClientAppNetworkForPhotographers.Models.Account
 {
-    public class UserRegister
+    public class UpdatePassword
     {
-        [Display(Name = "Логин")]
-        [Required(ErrorMessage = "Поле обязательное для заполнения")]
-        [StringLength(32, MinimumLength = 4, ErrorMessage = "Должно быть длиннее 4 и короче 32 символов")]
-        public string Username { get; set; }
+        public int PhotographerId { get; set; }
 
-        [Required(ErrorMessage = "Поле обязательное для заполнения")]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Display(Name = "Пароль")]
+        [Display(Name = "Старый пароль")]
         [Required(ErrorMessage = "Поле обязательное для заполнения")]
         [StringLength(32, MinimumLength = 6, ErrorMessage = "Должно быть длиннее 6 и короче 32 символов")]
-        public string Password { get; set; }
+        public string OldPassword { get; set; }
+
+        [Display(Name = "Новый пароль")]
+        [Required(ErrorMessage = "Поле обязательное для заполнения")]
+        [StringLength(32, MinimumLength = 6, ErrorMessage = "Должно быть длиннее 6 и короче 32 символов")]
+        public string NewPassword { get; set; }
 
         [JsonIgnore]
         [Display(Name = "Подтвердите пароль")]
         [Required(ErrorMessage = "Поле обязательное для заполнения")]
-        [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
+        [Compare(nameof(NewPassword), ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
     }
 }

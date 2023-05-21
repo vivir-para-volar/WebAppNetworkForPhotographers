@@ -11,15 +11,7 @@ namespace UserClientAppNetworkForPhotographers.API
     {
         private static readonly HttpClient _client = new HttpClient();
 
-        private static string GetToken()
-        {
-            var token = AppUser.Token;
-            if (token == null) throw new ApiException((int)HttpStatusCode.InternalServerError);
-
-            return token;
-        }
-
-        public static async Task<HttpResponseMessage> Get(string url)
+        public static async Task<HttpResponseMessage> Get(string url, string token)
         {
             var request = new HttpRequestMessage()
             {
@@ -27,7 +19,7 @@ namespace UserClientAppNetworkForPhotographers.API
                 Method = HttpMethod.Get
             };
 
-            request.Headers.Add("Authorization", "Bearer " + GetToken());
+            request.Headers.Add("Authorization", "Bearer " + token);
 
             HttpResponseMessage response = await _client.SendAsync(request);
             if (!response.IsSuccessStatusCode) await ProcessException(response);
@@ -35,7 +27,7 @@ namespace UserClientAppNetworkForPhotographers.API
             return response;
         }
 
-        public static async Task<HttpResponseMessage> Post(string url, Object objectToSend)
+        public static async Task<HttpResponseMessage> Post(string url, Object objectToSend, string token)
         {
             var request = new HttpRequestMessage()
             {
@@ -43,7 +35,7 @@ namespace UserClientAppNetworkForPhotographers.API
                 Method = HttpMethod.Post
             };
 
-            request.Headers.Add("Authorization", "Bearer " + GetToken());
+            request.Headers.Add("Authorization", "Bearer " + token);
 
             request.Content = new StringContent(
                 JsonConvert.SerializeObject(objectToSend),
@@ -77,7 +69,7 @@ namespace UserClientAppNetworkForPhotographers.API
             return response;
         }
 
-        public static async Task<HttpResponseMessage> Put(string url, Object objectToSend)
+        public static async Task<HttpResponseMessage> Put(string url, Object objectToSend, string token)
         {
             var request = new HttpRequestMessage()
             {
@@ -85,7 +77,7 @@ namespace UserClientAppNetworkForPhotographers.API
                 Method = HttpMethod.Put
             };
 
-            request.Headers.Add("Authorization", "Bearer " + GetToken());
+            request.Headers.Add("Authorization", "Bearer " + token);
 
             request.Content = new StringContent(
                 JsonConvert.SerializeObject(objectToSend),
@@ -99,7 +91,7 @@ namespace UserClientAppNetworkForPhotographers.API
             return response;
         }
 
-        public static async Task<HttpResponseMessage> Delete(string url)
+        public static async Task<HttpResponseMessage> Delete(string url, string token)
         {
             var request = new HttpRequestMessage()
             {
@@ -107,7 +99,7 @@ namespace UserClientAppNetworkForPhotographers.API
                 Method = HttpMethod.Delete
             };
 
-            request.Headers.Add("Authorization", "Bearer " + GetToken());
+            request.Headers.Add("Authorization", "Bearer " + token);
 
             HttpResponseMessage response = await _client.SendAsync(request);
             if (!response.IsSuccessStatusCode) await ProcessException(response);
@@ -121,9 +113,9 @@ namespace UserClientAppNetworkForPhotographers.API
 
             if (response.StatusCode == HttpStatusCode.Conflict)
             {
-                var uniqueFieldResponse = JsonConvert.DeserializeObject<UniqueFieldResponse>(responseMessage);
+                var uniqueFieldResponse = JsonConvert.DeserializeObject<FieldResponse>(responseMessage);
                 if (uniqueFieldResponse != null)
-                    throw new UniqueFieldException(uniqueFieldResponse.Field);
+                    throw new FieldException(uniqueFieldResponse.Field);
             }
 
             var exceptionResponse = JsonConvert.DeserializeObject<ExceptionResponse>(responseMessage);

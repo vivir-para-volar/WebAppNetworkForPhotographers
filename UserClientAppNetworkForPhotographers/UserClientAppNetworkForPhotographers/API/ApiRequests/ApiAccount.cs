@@ -8,7 +8,7 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 {
     public static class ApiAccount
     {
-        public static async Task Register(UserRegisterDto userRegister)
+        public static async Task Register(UserRegister userRegister)
         {
             await ApiRequest.PostWithoutAuthorization(ApiUrl.RegisterUser, userRegister);
         }
@@ -23,6 +23,16 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             if (tokenDto == null) throw new ApiException((int)HttpStatusCode.InternalServerError);
 
             return tokenDto;
+        }
+
+        public static async Task UpdatePassword(UpdatePassword updatePassword, string token)
+        {
+            var response = await ApiRequest.Put($"{ApiUrl.UpdatePassword}", updatePassword, token);
+
+            if (response.StatusCode != HttpStatusCode.NoContent)
+            {
+                throw new ApiException((int)HttpStatusCode.InternalServerError);
+            }
         }
     }
 }

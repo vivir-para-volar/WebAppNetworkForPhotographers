@@ -1,21 +1,16 @@
-﻿using UserClientAppNetworkForPhotographers.Models.Data;
-
-namespace UserClientAppNetworkForPhotographers
+﻿namespace UserClientAppNetworkForPhotographers
 {
     public static class AppUser
     {
-        public static string? Token { get; set; }
-        public static Photographer Photographer { get; set; }
-
-        static AppUser()
+        public static string GetToken(HttpContext httpContext)
         {
-            Photographer = new Photographer();
+            return httpContext.User.Claims.FirstOrDefault(item => item.Type == "Token")?.Value;
         }
 
-        public static void Clear()
+        public static int GetPhotographerId(HttpContext httpContext)
         {
-            Token = null;
-            Photographer = new Photographer();
+            string photographerId = httpContext.User.Claims.FirstOrDefault(item => item.Type == "PhotographerId")?.Value;
+            return Convert.ToInt32(photographerId);
         }
     }
 }

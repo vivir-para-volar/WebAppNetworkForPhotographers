@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Models.Lists;
 using System.Net;
 using System.Security.Claims;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
@@ -19,17 +19,21 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return View();
         }
 
+        public ActionResult AccessDenied()
+        {
+            return RedirectToAction("Login");
+        }
+
         [HttpPost]
         public async Task<ActionResult> Register(UserRegister userRegister)
         {
             if (!ModelState.IsValid) return View(userRegister);
 
-            var userRegisterDto = new UserRegisterDto(userRegister.Username, userRegister.Email, userRegister.Password);
             try
             {
-                await ApiAccount.Register(userRegisterDto);
+                await ApiAccount.Register(userRegister);
             }
-            catch (UniqueFieldException ex)
+            catch (FieldException ex)
             {
                 ModelState.AddModelError(ex.Field, ex.Message);
                 return View(userRegister);
@@ -42,22 +46,8 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return RedirectToAction("Login");
         }
 
-        public async Task<ActionResult> Login()
+        public ActionResult Login()
         {
-            if (User.IsInRole(UserRoles.User))
-            {
-                try
-                {
-                    await CreateAppUser();
-                }
-                catch (ApiException ex)
-                {
-                    return StatusCode(ex.Status, ex.Message);
-                }
-
-                return RedirectToAction("Index", "Home");
-            }
-
             return View();
         }
 
@@ -84,19 +74,14 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             await CreateCookieAuthentication(tokenDto);
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public async Task<ActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            AppUser.Clear();
 
-            return RedirectToAction("Login");
-        }
-
-        public ActionResult AccessDenied()
-        {
             return RedirectToAction("Login");
         }
 
@@ -114,24 +99,12 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             var authProperties = new AuthenticationProperties
             {
-                AllowRefresh = true,
+                AllowRefresh = false,
                 ExpiresUtc = DateTimeOffset.Now.AddHours(3),
                 IsPersistent = true,
             };
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(principal), authProperties);
-        }
-
-        private async Task CreateAppUser()
-        {
-            var token = User.Claims.FirstOrDefault(item => item.Type == "Token")?.Value;
-            AppUser.Token = token;
-
-            var photographerId = User.Claims.FirstOrDefault(item => item.Type == "PhotographerId")?.Value;
-            if (photographerId != null)
-            {
-                AppUser.Photographer = await ApiPhotographer.GetPhotographerById(Convert.ToInt32(photographerId));
-            }
         }
     }
 }

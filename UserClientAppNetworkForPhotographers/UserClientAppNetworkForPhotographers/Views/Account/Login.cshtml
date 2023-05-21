@@ -1,7 +1,7 @@
 ﻿@model UserClientAppNetworkForPhotographers.Models.Account.UserLogin
 
-<div class="containerCenterParent">
-    <div class="containerCenterAccount">
+<div class="containerParentFlex">
+    <div class="containerCenterMini">
 
         <h3>Авторизация</h3>
         <hr />
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.ValidationSummary(true, "", new { @class = "text-danger listError" })
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
