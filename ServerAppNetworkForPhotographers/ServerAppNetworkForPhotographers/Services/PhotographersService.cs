@@ -88,6 +88,8 @@ namespace ServerAppNetworkForPhotographers.Services
             _context.Entry(photographer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
+            await photographer.ConvertProfilePhoto();
+
             return photographer;
         }
 
