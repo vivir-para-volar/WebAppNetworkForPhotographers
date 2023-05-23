@@ -1,4 +1,67 @@
-﻿@model UserClientAppNetworkForPhotographers.Models.Data.Photographer
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers.PhotographerWithInfoDto
+
+<div class="containerParentFlex">
+    <h3>Изменение профиля</h3>
+</div>
+
+
+<div class="mb-5 mt-4">
+    <h4>Изменение фото профиля</h4>
+
+    <div class="containerParentFlexMany mt-4">
+
+        @if (Model.PhotoProfile == null)
+        {
+            <div class="divForPhoto"><img id="imagePreview" class="profilePhoto" src="~/image/emptyProfile.png"></div>
+        }
+        else
+        {
+            <div class="divForPhoto"><img id="imagePreview" class="profilePhoto" src="data:image/jpeg;base64,@(Model.PhotoProfile)"></div>
+        }
+        <div class="divAfterPhoto pt-3">
+            @using (Html.BeginForm("UpdateProfilePhoto", "Settings", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group">
+                    <input type="file" accept="image/*" name="photo" id="imageInput" class="form-control form-control-sm" />
+                    @Html.HiddenFor(model => model.PhotoProfile)
+                    @Html.ValidationMessageFor(model => model.PhotoProfile, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.HiddenFor(model => model.Username)
+                @Html.HiddenFor(model => model.Email)
+                @Html.HiddenFor(model => model.Name)
+                @Html.HiddenFor(model => model.Country)
+                @Html.HiddenFor(model => model.City)
+
+                @Html.HiddenFor(model => model.Description)
+                @Html.HiddenFor(model => model.Awards)
+                @Html.HiddenFor(model => model.Website)
+                @Html.HiddenFor(model => model.Vk)
+                @Html.HiddenFor(model => model.Telegram)
+                @Html.HiddenFor(model => model.WhatsApp)
+                @Html.HiddenFor(model => model.Viber)
+
+                <br>
+                <input type="submit" value="Сохранить" class="btn btn-outline-dark" />
+            }
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('imageInput').addEventListener('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('imagePreview').setAttribute('src', e.target.result);
+        }
+        reader.readAsDataURL(this.files[0]);
+    });
+</script>
+
+
 
 <ul class="nav nav-tabs" id="editProfileTab" role="tablist">
     <li class="nav-item" role="presentation">
@@ -12,15 +75,17 @@
 <div class="tab-content" id="editProfileTabContent">
     <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
         <div class="containerParentFlex">
-            <div class="containerCenter mb-4 mt-4">
+            <div class="containerCenter mt-4">
 
-                <h3>Изменение основной информации профиля</h3>
+                <h4>Изменение основной информации профиля</h4>
                 <hr />
 
                 @using (Html.BeginForm("UpdatePhotographer", "Settings", FormMethod.Post))
                 {
                     <div class="form-horizontal">
                         @Html.HiddenFor(model => model.Id)
+
+                        @Html.HiddenFor(model => model.PhotoProfile)
 
                         <div class="form-group mb-3">
                             @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label" })
@@ -62,6 +127,14 @@
                             </div>
                         </div>
 
+                        @Html.HiddenFor(model => model.Description)
+                        @Html.HiddenFor(model => model.Awards)
+                        @Html.HiddenFor(model => model.Website)
+                        @Html.HiddenFor(model => model.Vk)
+                        @Html.HiddenFor(model => model.Telegram)
+                        @Html.HiddenFor(model => model.WhatsApp)
+                        @Html.HiddenFor(model => model.Viber)
+
                         @Html.ValidationSummary(true, "", new { @class = "text-danger listError" })
 
                         <div class="form-group">
@@ -78,9 +151,9 @@
 
     <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
         <div class="containerParentFlex">
-            <div class="containerCenter mb-4 mt-4">
+            <div class="containerCenter mt-4">
 
-                <h3>Изменение дополнительной информации профиля</h3>
+                <h4>Изменение дополнительной информации профиля</h4>
                 <hr />
 
                 @using (Html.BeginForm("UpdatePhotographerInfo", "Settings", FormMethod.Post))
@@ -88,63 +161,69 @@
                     <div class="form-horizontal">
                         @Html.HiddenFor(model => model.Id)
 
+                        @Html.HiddenFor(model => model.PhotoProfile)
+
+                        @Html.HiddenFor(model => model.Username)
+                        @Html.HiddenFor(model => model.Email)
+                        @Html.HiddenFor(model => model.Name)
+                        @Html.HiddenFor(model => model.Country)
+                        @Html.HiddenFor(model => model.City)
+
                         <div class="form-group mb-3">
-                            @Html.LabelFor(model => model.PhotographerInfo.Description, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
                             <div>
-                                @Html.TextAreaFor(model => model.PhotographerInfo.Description, new { @class = "form-control", rows = "10" })
-                                @Html.ValidationMessageFor(model => model.PhotographerInfo.Description, "", new { @class = "text-danger" })
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "10" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            @Html.LabelFor(model => model.PhotographerInfo.Awards, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.Awards, htmlAttributes: new { @class = "control-label" })
                             <div>
-                                @Html.TextAreaFor(model => model.PhotographerInfo.Awards, new { @class = "form-control", rows = "10" })
-                                @Html.ValidationMessageFor(model => model.PhotographerInfo.Awards, "", new { @class = "text-danger" })
+                                @Html.TextAreaFor(model => model.Awards, new { @class = "form-control", rows = "10" })
+                                @Html.ValidationMessageFor(model => model.Awards, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            @Html.LabelFor(model => model.PhotographerInfo.Website, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.Website, htmlAttributes: new { @class = "control-label" })
                             <div>
-                                @Html.EditorFor(model => model.PhotographerInfo.Website, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.PhotographerInfo.Website, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            @Html.LabelFor(model => model.PhotographerInfo.Vk, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.Vk, htmlAttributes: new { @class = "control-label" })
                             <div>
-                                @Html.EditorFor(model => model.PhotographerInfo.Vk, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.PhotographerInfo.Vk, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Vk, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Vk, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            @Html.LabelFor(model => model.PhotographerInfo.Telegram, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.Telegram, htmlAttributes: new { @class = "control-label" })
                             <div>
-                                @Html.EditorFor(model => model.PhotographerInfo.Telegram, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.PhotographerInfo.Telegram, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Telegram, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Telegram, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            @Html.LabelFor(model => model.PhotographerInfo.WhatsApp, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.WhatsApp, htmlAttributes: new { @class = "control-label" })
                             <div>
-                                @Html.EditorFor(model => model.PhotographerInfo.WhatsApp, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.PhotographerInfo.WhatsApp, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.WhatsApp, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.WhatsApp, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            @Html.LabelFor(model => model.PhotographerInfo.Viber, htmlAttributes: new { @class = "control-label" })
+                            @Html.LabelFor(model => model.Viber, htmlAttributes: new { @class = "control-label" })
                             <div>
-                                @Html.EditorFor(model => model.PhotographerInfo.Viber, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.PhotographerInfo.Viber, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.Viber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Viber, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger listError" })
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">

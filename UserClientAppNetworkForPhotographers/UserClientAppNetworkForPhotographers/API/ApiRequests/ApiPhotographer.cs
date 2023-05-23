@@ -4,7 +4,6 @@ using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
-using UserClientAppNetworkForPhotographers.Models.Data.Dtos.PhotographersInfo;
 
 namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 {
@@ -54,9 +53,9 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return photographer;
         }
 
-        public static async Task<Photographer> UpdateProfilePhoto(int id, IFormFile photo, string token)
+        public static async Task<Photographer> UpdatePhotoProfile(int id, IFormFile photo, string token)
         {
-            var response = await ApiRequest.Put($"{ApiUrl.Photographers}/{id}", photo, token);
+            var response = await ApiRequest.PutPhoto($"{ApiUrl.PhotographersPhoto}/{id}", photo, token);
 
             string responseMessage = await response.Content.ReadAsStringAsync();
             var photographer = JsonConvert.DeserializeObject<Photographer>(responseMessage);

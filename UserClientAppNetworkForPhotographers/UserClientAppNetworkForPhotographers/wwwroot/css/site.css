@@ -2,7 +2,7 @@ html {
     font-size: 16px;
 }
 
-h3 {
+h3, h4 {
     text-shadow: 0.2px 0px 0.2px #222;
 }
 
@@ -62,8 +62,32 @@ html {
     width: 1000px;
 }
 
-/* ===== MENU ===== */
 
+
+.containerParentFlexMany {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.divForPhoto{
+    display: inline;
+    margin-right: 20px;
+}
+
+.divAfterPhoto{
+}
+
+
+.profilePhoto {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+/* ===== MENU ===== */
 .ico-logo {
     height: 35px;
     padding: 0 10px 8px 0;

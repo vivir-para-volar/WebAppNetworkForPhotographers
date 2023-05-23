@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using UserClientAppNetworkForPhotographers.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => options.LoginPath = "/Account/Login");
+    .AddCookie(options => options.LoginPath = $"/Account/{nameof(AccountController.Login)}");
 
 var app = builder.Build();
 
@@ -35,6 +35,6 @@ app.UseEndpoints(endpoints =>
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=" + nameof(HomeController.Index) + "}/{id?}");
 
 app.Run();

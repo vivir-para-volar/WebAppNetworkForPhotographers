@@ -21,7 +21,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
         public ActionResult AccessDenied()
         {
-            return RedirectToAction("Login");
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpPost]
@@ -43,7 +43,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return RedirectToAction("Login");
+            return RedirectToAction(nameof(Login));
         }
 
         public ActionResult Login()
@@ -74,7 +74,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             await CreateCookieAuthentication(tokenDto);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [Authorize]
@@ -82,7 +82,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Login");
+            return RedirectToAction(nameof(Login));
         }
 
         private async Task CreateCookieAuthentication(TokenDto tokenDto)

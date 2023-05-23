@@ -9,7 +9,6 @@ using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Account;
 using UserClientAppNetworkForPhotographers.Models.Data;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
-using UserClientAppNetworkForPhotographers.Models.Data.Dtos.PhotographersInfo;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
@@ -27,7 +26,6 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             try
             {
                 var token = AppUser.GetToken(HttpContext);
-                var photographerId = AppUser.GetPhotographerId(HttpContext);
 
                 photographer = await ApiPhotographer.GetById(AppUser.GetPhotographerId(HttpContext), token);
                 photographer.PhotographerInfo = await ApiPhotographer.GetInfoByPhotographerId(photographer.Id, token);
@@ -37,11 +35,32 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return View(photographer);
+            return View(new PhotographerWithInfoDto(photographer));
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdatePhotographer(Photographer photographer)
+        public async Task<ActionResult> UpdateProfilePhoto(IFormFile photo, PhotographerWithInfoDto photographer)
+        {
+            if (photo == null)
+            {
+                ModelState.AddModelError(nameof(Photographer.PhotoProfile), "Выберите фото");
+                return View(nameof(UpdateProfile), photographer);
+            }
+
+            try
+            {
+                await ApiPhotographer.UpdatePhotoProfile(AppUser.GetPhotographerId(HttpContext), photo, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdatePhotographer(PhotographerWithInfoDto photographer)
         {
             if (!ModelState.IsValid) return View(nameof(UpdateProfile), photographer);
 
@@ -56,13 +75,13 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdatePhotographerInfo(Photographer photographer)
+        public async Task<ActionResult> UpdatePhotographerInfo(PhotographerWithInfoDto photographer)
         {
-            if (!ModelState.IsValid) return View(photographer);
+            if (!ModelState.IsValid) return View(nameof(UpdateProfile), photographer);
 
             var updatePhotographerInfo = new UpdatePhotographerInfoDto(photographer);
 
@@ -75,7 +94,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public ActionResult UpdatePassword()
@@ -105,7 +124,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
         public async Task<ActionResult> DeleteAccount()
@@ -121,7 +140,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
     }
 }
