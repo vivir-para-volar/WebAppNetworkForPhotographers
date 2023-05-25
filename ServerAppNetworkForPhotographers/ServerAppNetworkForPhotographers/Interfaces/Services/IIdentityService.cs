@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
+﻿using ServerAppNetworkForPhotographers.Models.Identity.Dtos;
 
 namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {

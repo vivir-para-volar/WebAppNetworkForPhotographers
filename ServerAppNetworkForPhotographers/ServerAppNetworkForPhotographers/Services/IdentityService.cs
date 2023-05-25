@@ -188,7 +188,7 @@ namespace ServerAppNetworkForPhotographers.Services
             var result = await _userManager.ChangePasswordAsync(user, updatePassword.OldPassword, updatePassword.NewPassword);
             if (!result.Succeeded)
             {
-                if(result.Errors.Any(item => item.Code == "PasswordMismatch"))
+                if (result.Errors.Any(item => item.Code == "PasswordMismatch"))
                 {
                     throw new ArgumentException(result.ToString());
                 }
