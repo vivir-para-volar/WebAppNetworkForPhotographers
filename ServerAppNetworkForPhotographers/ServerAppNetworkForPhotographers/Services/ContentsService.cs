@@ -44,8 +44,8 @@ namespace ServerAppNetworkForPhotographers.Services
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
-                .Where(item => item.PhotographerId == photographerId && 
-                       item.Status == StatusContent.Open && 
+                .Where(item => item.PhotographerId == photographerId &&
+                       item.Status == StatusContent.Open &&
                        item.Type == typeContent)
                 .ToListAsync();
 

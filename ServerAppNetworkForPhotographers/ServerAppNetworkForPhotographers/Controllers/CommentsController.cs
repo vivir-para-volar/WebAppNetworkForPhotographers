@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
-using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Comments;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Lists;
@@ -37,9 +36,9 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Comment>> CreateComment(CreateCommentDto commentDto)
+        public async Task<ActionResult<GetCommentDto>> CreateComment(CreateCommentDto commentDto)
         {
-            Comment comment;
+            GetCommentDto comment;
 
             try
             {

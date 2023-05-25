@@ -32,7 +32,7 @@ namespace ServerAppNetworkForPhotographers.Services
             return await Comment.ToListGetCommentDto(comments);
         }
 
-        public async Task<Comment> CreateComment(CreateCommentDto commentDto)
+        public async Task<GetCommentDto> CreateComment(CreateCommentDto commentDto)
         {
             if (!await CheckExistencePhotographer(commentDto.PhotographerId))
             {
@@ -48,19 +48,31 @@ namespace ServerAppNetworkForPhotographers.Services
             await _context.Comments.AddAsync(comment);
             await _context.SaveChangesAsync();
 
-            return comment;
+            var getComment = (await GetCommentById(comment.Id)) ??
+                throw new NotFoundException(nameof(Comment), comment.Id);
+
+            return getComment;
         }
 
         public async Task DeleteComment(int id)
         {
-            var comment = (await GetComment(id)) ??
+            var comment = (await GetSimpleCommentById(id)) ??
                 throw new NotFoundException(nameof(Comment), id);
 
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
         }
 
-        private async Task<Comment?> GetComment(int id)
+        private async Task<GetCommentDto?> GetCommentById(int id)
+        {
+            var comment = await _context.Comments
+                .Include(item => item.Photographer)
+                .FirstOrDefaultAsync(item => item.Id == id);
+
+            return comment != null ? await comment.ToGetCommentDto() : null;
+        }
+
+        private async Task<Comment?> GetSimpleCommentById(int id)
         {
             return await _context.Comments.FindAsync(id);
         }
