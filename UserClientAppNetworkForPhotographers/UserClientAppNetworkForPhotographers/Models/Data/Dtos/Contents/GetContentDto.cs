@@ -1,9 +1,12 @@
-﻿using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+﻿using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Comments;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
     public class GetContentDto
     {
+        public int? UserId { get; set; }
+
         public int Id { get; set; }
         public string Type { get; set; }
         public string Title { get; set; }
@@ -20,5 +23,11 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
 
         public List<Category> Categories { get; set; }
         public List<GetPhotoDto> Photos { get; set; }
+
+        public List<GetCommentDto>? Comments { get; set; }
+
+        public bool IsLike { get; set; }
+        public bool IsFavourite { get; set; }
+
     }
 }

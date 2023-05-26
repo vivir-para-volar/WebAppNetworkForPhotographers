@@ -27,12 +27,12 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             {
                 var token = AppUser.GetToken(HttpContext);
 
-                photographer = await ApiPhotographer.GetById(AppUser.GetPhotographerId(HttpContext), token);
-                photographer.PhotographerInfo = await ApiPhotographer.GetInfoByPhotographerId(photographer.Id, token);
+                photographer = await ApiPhotographers.GetById(AppUser.GetPhotographerId(HttpContext), token);
+                photographer.PhotographerInfo = await ApiPhotographers.GetInfoByPhotographerId(photographer.Id, token);
             }
             catch (ApiException ex)
             {
-                return StatusCode(ex.Status, ex.Message);
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             return View(new PhotographerWithInfoDto(photographer));
@@ -49,11 +49,11 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
-                await ApiPhotographer.UpdatePhotoProfile(AppUser.GetPhotographerId(HttpContext), photo, AppUser.GetToken(HttpContext));
+                await ApiPhotographers.UpdatePhotoProfile(AppUser.GetPhotographerId(HttpContext), photo, AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
-                return StatusCode(ex.Status, ex.Message);
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             return RedirectToAction(nameof(Index));
@@ -68,11 +68,11 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
-                await ApiPhotographer.Update(updatePhotographer, AppUser.GetToken(HttpContext));
+                await ApiPhotographers.Update(updatePhotographer, AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
-                return StatusCode(ex.Status, ex.Message);
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             return RedirectToAction(nameof(Index));
@@ -87,11 +87,11 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
-                await ApiPhotographer.UpdateInfo(updatePhotographerInfo, AppUser.GetToken(HttpContext));
+                await ApiPhotographers.UpdateInfo(updatePhotographerInfo, AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
-                return StatusCode(ex.Status, ex.Message);
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             return RedirectToAction(nameof(Index));
@@ -120,7 +120,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return StatusCode(ex.Status, ex.Message);
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -133,11 +133,11 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
-                await ApiPhotographer.Delete(AppUser.GetPhotographerId(HttpContext), AppUser.GetToken(HttpContext));
+                await ApiPhotographers.Delete(AppUser.GetPhotographerId(HttpContext), AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
-                return StatusCode(ex.Status, ex.Message);
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             return RedirectToAction(nameof(AccountController.Login), "Account");

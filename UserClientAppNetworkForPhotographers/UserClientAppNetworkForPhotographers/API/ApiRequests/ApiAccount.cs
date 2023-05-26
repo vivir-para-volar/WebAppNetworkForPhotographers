@@ -20,7 +20,7 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             string responseMessage = await response.Content.ReadAsStringAsync();
             var tokenDto = JsonConvert.DeserializeObject<TokenDto>(responseMessage);
 
-            if (tokenDto == null) throw new ApiException((int)HttpStatusCode.InternalServerError);
+            if (tokenDto == null) throw new ApiException(StatusCodes.Status500InternalServerError);
 
             return tokenDto;
         }
@@ -31,7 +31,7 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 
             if (response.StatusCode != HttpStatusCode.NoContent)
             {
-                throw new ApiException((int)HttpStatusCode.InternalServerError);
+                throw new ApiException(StatusCodes.Status500InternalServerError);
             }
         }
     }

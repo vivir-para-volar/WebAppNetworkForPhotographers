@@ -40,7 +40,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return StatusCode(ex.Status, ex.Message);
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             return RedirectToAction(nameof(Login));
@@ -64,12 +64,12 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                if (ex.Status == (int)HttpStatusCode.NotFound)
+                if (ex.Status == StatusCodes.Status404NotFound)
                 {
                     ModelState.AddModelError("", "Неправильный логин или пароль");
                     return View(userLogin);
                 }
-                else return StatusCode(ex.Status, ex.Message);
+                else return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
             await CreateCookieAuthentication(tokenDto);

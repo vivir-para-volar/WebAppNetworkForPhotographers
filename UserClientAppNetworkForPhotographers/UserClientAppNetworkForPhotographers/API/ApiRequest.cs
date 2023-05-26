@@ -1,9 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ServerAppNetworkForPhotographers.Exceptions;
-using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using UserClientAppNetworkForPhotographers.Exceptions;
@@ -27,6 +24,10 @@ namespace UserClientAppNetworkForPhotographers.API
 
             HttpResponseMessage response = await _client.SendAsync(request);
             if (!response.IsSuccessStatusCode) await ProcessException(response);
+            if (response.StatusCode == HttpStatusCode.NoContent)
+            {
+                throw new ApiException(StatusCodes.Status404NotFound, "Not found");
+            }
 
             return response;
         }
@@ -135,6 +136,28 @@ namespace UserClientAppNetworkForPhotographers.API
             return response;
         }
 
+        public static async Task<HttpResponseMessage> DeleteWithBody(string url, Object objectToSend, string token)
+        {
+            var request = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(url),
+                Method = HttpMethod.Delete
+            };
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            request.Content = new StringContent(
+                JsonConvert.SerializeObject(objectToSend),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            HttpResponseMessage response = await _client.SendAsync(request);
+            if (!response.IsSuccessStatusCode) await ProcessException(response);
+
+            return response;
+        }
+
         public static async Task ProcessException(HttpResponseMessage response)
         {
             string responseMessage = await response.Content.ReadAsStringAsync();
@@ -150,7 +173,7 @@ namespace UserClientAppNetworkForPhotographers.API
             if (exceptionResponse != null)
                 throw new ApiException(exceptionResponse.Status, exceptionResponse.Message);
 
-            throw new ApiException((int)HttpStatusCode.InternalServerError);
+            throw new ApiException(StatusCodes.Status500InternalServerError);
         }
     }
 }

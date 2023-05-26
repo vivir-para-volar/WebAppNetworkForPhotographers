@@ -7,12 +7,12 @@ namespace UserClientAppNetworkForPhotographers.Controllers
     [Authorize(Roles = UserRoles.User)]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public ActionResult Privacy()
         {
             return View();
         }
