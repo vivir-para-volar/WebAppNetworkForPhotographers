@@ -6,11 +6,11 @@ namespace ServerAppNetworkForPhotographers.Interfaces.Services
 {
     public interface IContentsServices
     {
-        Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent);
-        Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent);
-        Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent);
-        Task<GetContentDto?> GetContentById(int id);
-        Task<List<GetContentForListDto>> SearchContents(SearchDto searchDto, string typeContent);
+        Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent, string userId);
+        Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent, string userId);
+        Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent, string userId);
+        Task<GetContentDto?> GetContentById(int id, string userId);
+        Task<List<GetContentForListDto>> SearchContents(SearchDto searchDto, string typeContent, string userId);
         Task<Content> CreateContentPost(CreateContentPostDto contentPostDto);
         Task<Content> CreateContentBlog(CreateContentBlogDto contentBlogDto);
         Task<string> UpdateBlogMainPhoto(int id, IFormFile photo);

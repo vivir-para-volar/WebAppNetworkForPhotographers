@@ -9,6 +9,7 @@ using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
+using System.Security.Claims;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
@@ -28,9 +29,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetUserPosts(int photographerId)
         {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
             try
             {
-                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Post));
+                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Post, userId));
             }
             catch (NotFoundException ex)
             {
@@ -42,9 +46,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetUserBlogs(int photographerId)
         {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
             try
             {
-                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Blog));
+                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Blog, userId));
             }
             catch (NotFoundException ex)
             {
@@ -56,9 +63,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerPosts(int photographerId)
         {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
             try
             {
-                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Post));
+                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Post, userId));
             }
             catch (NotFoundException ex)
             {
@@ -70,9 +80,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerBlogs(int photographerId)
         {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
             try
             {
-                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Blog));
+                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Blog, userId));
             }
             catch (NotFoundException ex)
             {
@@ -84,9 +97,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId)
         {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
             try
             {
-                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Post));
+                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Post, userId));
             }
             catch (NotFoundException ex)
             {
@@ -98,9 +114,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId)
         {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
             try
             {
-                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Blog));
+                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Blog, userId));
             }
             catch (NotFoundException ex)
             {
@@ -111,21 +130,30 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GetContentDto?>> GetContentById(int id)
         {
-            return Ok(await _contentsService.GetContentById(id));
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if(userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(await _contentsService.GetContentById(id, userId));
         }
 
         [HttpPost("Posts/Search")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchPosts(SearchDto searchDto)
         {
-            return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Post));
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Post, userId));
         }
 
         [HttpPost("Blogs/Search")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchBlogs(SearchDto searchDto)
         {
-            return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Blog));
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Blog, userId));
         }
 
         [HttpPost("Posts")]

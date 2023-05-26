@@ -19,6 +19,9 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
         public GetPhotographerForListDto Photographer { get; set; }
         public List<Photo> Photos { get; set; }
 
+        public bool IsLike { get; set; }
+        public bool IsFavourite { get; set; }
+
         public GetContentForListDto(Content content, int countLikes, int countComments, int countFavourites, GetPhotographerForListDto photographer)
         {
             Id = content.Id;

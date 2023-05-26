@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Likes;
 using ServerAppNetworkForPhotographers.Models.Lists;
 
 namespace ServerAppNetworkForPhotographers.Services
@@ -18,7 +20,7 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
-        public async Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent)
+        public async Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent, string userId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -31,10 +33,10 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.PhotographerId == photographerId && item.Type == typeContent)
                 .ToListAsync();
 
-            return await ConvertListContents(contents);
+            return await ConvertListContents(contents, userId);
         }
 
-        public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent)
+        public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent, string userId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -49,10 +51,10 @@ namespace ServerAppNetworkForPhotographers.Services
                        item.Type == typeContent)
                 .ToListAsync();
 
-            return await ConvertListContents(contents);
+            return await ConvertListContents(contents, userId);
         }
 
-        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent)
+        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent, string userId)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -69,10 +71,10 @@ namespace ServerAppNetworkForPhotographers.Services
                                item.Content.Type == typeContent)
                 .ForEachAsync(item => contents.Add(item.Content));
 
-            return await ConvertListContents(contents);
+            return await ConvertListContents(contents, userId);
         }
 
-        public async Task<GetContentDto?> GetContentById(int id)
+        public async Task<GetContentDto?> GetContentById(int id, string userId)
         {
             var content = await _context.Contents
                 .Include(item => item.Photographer)
@@ -86,10 +88,13 @@ namespace ServerAppNetworkForPhotographers.Services
             var countComments = await _context.Comments.CountAsync(item => item.ContentId == content.Id);
             var countFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
 
-            return await content.ToGetContentDto(countLikes, countComments, countFavourites);
+            var getContent = await content.ToGetContentDto(countLikes, countComments, countFavourites);
+            await SetUserLikeAndFavourite(getContent, userId);
+
+            return getContent;
         }
 
-        public async Task<List<GetContentForListDto>> SearchContents(SearchDto searchDto, string typeContent)
+        public async Task<List<GetContentForListDto>> SearchContents(SearchDto searchDto, string typeContent, string userId)
         {
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
@@ -99,7 +104,7 @@ namespace ServerAppNetworkForPhotographers.Services
                                EF.Functions.Like(item.Title, $"%{searchDto.SearchData}%"))
                 .ToListAsync();
 
-            return await ConvertListContents(contents);
+            return await ConvertListContents(contents, userId);
         }
 
         public async Task<Content> CreateContentPost(CreateContentPostDto contentPostDto)
@@ -199,7 +204,7 @@ namespace ServerAppNetworkForPhotographers.Services
             return categories;
         }
 
-        private async Task<List<GetContentForListDto>> ConvertListContents(List<Content> contents)
+        private async Task<List<GetContentForListDto>> ConvertListContents(List<Content> contents, string userId)
         {
             var getContents = new List<GetContentForListDto>();
 
@@ -214,10 +219,44 @@ namespace ServerAppNetworkForPhotographers.Services
                     content.Photos = await _context.Photos.Where(item => item.ContentId == content.Id).ToListAsync();
                 }
 
-                getContents.Add(await content.ToGetContentForListDto(countLikes, countComments, countFavourites));
+                var getContent = await content.ToGetContentForListDto(countLikes, countComments, countFavourites);
+                await SetUserLikeAndFavourite(getContent, userId);
+
+                getContents.Add(getContent);
             }
 
             return getContents;
+        }
+
+        private async Task SetUserLikeAndFavourite(GetContentDto getContent, string userId)
+        {
+            var photographer = await GetPhotographerByUserId(userId);
+
+            getContent.IsLike = await CheckLike(photographer.Id, getContent.Id);
+            getContent.IsFavourite = await CheckFavourite(photographer.Id, getContent.Id);
+        }
+
+        private async Task SetUserLikeAndFavourite(GetContentForListDto getContent, string userId)
+        {
+            var photographer = await GetPhotographerByUserId(userId);
+
+            getContent.IsLike = await CheckLike(photographer.Id, getContent.Id);
+            getContent.IsFavourite = await CheckFavourite(photographer.Id, getContent.Id);
+        }
+
+        private async Task<Photographer> GetPhotographerByUserId(string userId)
+        {
+            return await _context.Photographers.FirstOrDefaultAsync(item => item.UserId == userId);
+        }
+
+        private async Task<bool> CheckLike(int photographerId, int contentId)
+        {
+            return await _context.Likes.AnyAsync(item => item.PhotographerId == photographerId && item.ContentId == contentId);
+        }
+
+        private async Task<bool> CheckFavourite(int photographerId, int contentId)
+        {
+            return await _context.Favourites.AnyAsync(item => item.PhotographerId == photographerId && item.ContentId == contentId);
         }
     }
 }

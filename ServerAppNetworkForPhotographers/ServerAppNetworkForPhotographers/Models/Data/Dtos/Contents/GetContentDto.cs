@@ -21,6 +21,9 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
         public List<Category> Categories { get; set; }
         public List<GetPhotoDto> Photos { get; set; }
 
+        public bool IsLike { get; set; }
+        public bool IsFavourite { get; set; }
+
         public GetContentDto(
             Content content,
             int countLikes, int countComments, int countFavourites,
