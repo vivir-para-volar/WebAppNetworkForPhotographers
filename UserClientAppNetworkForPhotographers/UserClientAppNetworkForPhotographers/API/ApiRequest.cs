@@ -26,7 +26,7 @@ namespace UserClientAppNetworkForPhotographers.API
             if (!response.IsSuccessStatusCode) await ProcessException(response);
             if (response.StatusCode == HttpStatusCode.NoContent)
             {
-                throw new ApiException(StatusCodes.Status404NotFound, "Not found");
+                throw new ApiException(StatusCodes.Status404NotFound, HttpStatusCode.NotFound.ToString());
             }
 
             return response;

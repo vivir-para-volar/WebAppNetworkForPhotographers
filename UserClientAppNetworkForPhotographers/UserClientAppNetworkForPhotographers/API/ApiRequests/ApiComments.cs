@@ -18,6 +18,17 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return comments;
         }
 
+        public static async Task<List<GetCommentDto>> GetNewForContent(int contentId, string startTime, string token)
+        {
+            var response = await ApiRequest.Get($"{ApiUrl.CommentsContent}/{contentId}/{startTime}", token);
+
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            var comments = JsonConvert.DeserializeObject<List<GetCommentDto>>(responseMessage);
+
+            if (comments == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+            return comments;
+        }
+
         public static async Task<GetCommentDto> Create(CreateCommentDto commentDto, string token)
         {
             var response = await ApiRequest.Post(ApiUrl.Comments, commentDto, token);

@@ -1,7 +1,16 @@
 const clientUrl = "https://localhost:7247";
+
+let checkDate;
+let contentId;
 let countComments;
 
-function initCountComments(count) {
+
+
+function initComments(id, count) {
+    checkDate = new Date();
+
+    contentId = id;
+
     countComments = count;
     setCountComments(countComments);
 }
@@ -12,7 +21,34 @@ function setCountComments(count) {
     hCountComments.innerHTML = `${count} ${form}`;
 }
 
-async function createUserComment(contentId) {
+function downPage() {
+    const divCreateComment = document.getElementById("divCreateComment");
+    divCreateComment.scrollIntoView();
+}
+
+
+setInterval(checkNewComments, 3000);
+async function checkNewComments() {
+    const dateStringFormatted = `${checkDate.toLocaleDateString()} ${checkDate.toLocaleTimeString()}.${checkDate.getMilliseconds()}`;
+    checkDate = new Date();
+
+    const res = await serverGetNewContentComments(contentId, dateStringFormatted);
+
+    if (res) {
+        const comments = res.data;
+
+        for (let comment of comments) {
+            createCommentInHtml(comment, false);
+
+            countComments++;
+            setCountComments(countComments);
+        }
+    }
+}
+
+
+
+async function createUserComment() {
     const inputComment = document.getElementById("textCreateComment");
 
     const text = inputComment.value;
@@ -28,48 +64,7 @@ async function createUserComment(contentId) {
 
         inputComment.value = '';
 
-        const parent = document.getElementById("divComments");
-
-        let photo;
-        if (comment.photographer.photoProfile == null) {
-            photo = `<div class="divForPhoto"><img class="profilePhotoMini" src="~/image/emptyProfile.png"></div>`;
-        }
-        else {
-            photo = `<div class="divForPhoto">
-                         <img class="profilePhotoMini" src="${clientUrl}/General/GetPhotographerPhoto?name=${comment.photographer.photoProfile}">
-                     </div>`;
-        }
-
-        let date = new Date(comment.createdAt);
-        var dateStringFormatted = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-
-        const html =
-            `<div id="divComment${comment.id}" class="divComment containerParentFlex pt-3 pb-3">
-                <a href="/Profiles/Photographer/${comment.photographer.id}">
-                    ${photo}
-                </a>
-
-                <div class="divAfterPhoto">
-                    <a href="/Profiles/Photographer/${comment.photographer.id}">
-                        <p><strong>${comment.photographer.username}</strong></p>
-                    </a>
-
-                    <p class="textComment mt-1">${comment.text}</p>
-                    <div class="textDate mt-1">${dateStringFormatted}</div>
-                </div>
-
-                <div class="divDeleteComment pt-2">
-                    <button class="btnImg" data-bs-toggle="modal"
-                            data-bs-target="#modalDeleteComment" data-bs-whatever="${comment.id}">
-                        <img class="deleteCommentImg" src="${clientUrl}/image/delete.png">
-                    </button>
-                </div>
-            </div>`;
-
-        parent.innerHTML = parent.innerHTML + html;
-
-        const divCreateComment = document.getElementById("divCreateComment");
-        divCreateComment.scrollIntoView();
+        createCommentInHtml(comment, true);
 
         countComments++;
         setCountComments(countComments);
@@ -89,4 +84,54 @@ async function deleteUserComment(id) {
         countComments--;
         setCountComments(countComments);
     }
+}
+
+
+function createCommentInHtml(comment, isUser) {
+    const parent = document.getElementById("divComments");
+
+    let photo;
+    if (comment.photographer.photoProfile == null) {
+        photo = `<div class="divForPhoto"><img class="profilePhotoMini" src="~/image/emptyProfile.png"></div>`;
+    }
+    else {
+        photo = `<div class="divForPhoto">
+                    <img class="profilePhotoMini" src="${clientUrl}/General/GetPhotographerPhoto?name=${comment.photographer.photoProfile}">
+                 </div>`;
+    }
+
+    let date = new Date(comment.createdAt);
+    let dateStringFormatted = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+    let divDeleteComment = "";
+    if (isUser) {
+        divDeleteComment = 
+            `<div class="divDeleteComment pt-2">
+                <button class="btnImg" data-bs-toggle="modal"
+                        data-bs-target="#modalDeleteComment" data-bs-whatever="${comment.id}">
+                    <img class="deleteCommentImg" src="${clientUrl}/image/delete.png">
+                </button>
+            </div>`
+    }
+    const html =
+        `<div id="divComment${comment.id}" class="divComment containerParentFlex pt-3 pb-3">
+                <a href="/Profiles/Photographer/${comment.photographer.id}">
+                    ${photo}
+                </a>
+
+                <div class="divAfterPhoto">
+                    <a href="/Profiles/Photographer/${comment.photographer.id}">
+                        <p><strong>${comment.photographer.username}</strong></p>
+                    </a>
+
+                    <p class="textComment mt-1">${comment.text}</p>
+                    <div class="textDate mt-1">${dateStringFormatted}</div>
+                </div>
+
+                ${divDeleteComment}
+            </div>`;
+
+    parent.innerHTML = parent.innerHTML + html;
+
+    if (isUser) downPage();
 }

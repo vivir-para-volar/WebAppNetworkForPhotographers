@@ -80,6 +80,22 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
+        public async Task<ActionResult> GetNewContentComments(int contentId, string startTime)
+        {
+            List<GetCommentDto> comments;
+
+            try
+            {
+                comments = await ApiComments.GetNewForContent(contentId, startTime, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created, comments);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateComment(string text, int contentId)
         {

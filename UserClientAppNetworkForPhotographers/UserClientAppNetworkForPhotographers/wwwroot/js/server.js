@@ -1,4 +1,4 @@
-const method = { post: 'post', delete: 'delete' }
+const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
     createLike: '/ContentActions/CreateLike',
     deleteLike: '/ContentActions/DeleteLike',
@@ -6,6 +6,7 @@ const url = {
     createFavourite: '/ContentActions/CreateFavourite',
     deleteFavourite: '/ContentActions/DeleteFavourite',
 
+    getNewContentComments: '/ContentActions/GetNewContentComments',
     createComment: '/ContentActions/CreateComment',
     deleteComment: '/ContentActions/DeleteComment',
 }
@@ -57,6 +58,17 @@ async function serverDeleteComment(id) {
 }
 
 
+async function serverGetNewContentComments(contentId, startTime) {
+    try {
+        return await axios({
+            method: method.get,
+            url: `${url.getNewContentComments}?contentId=${contentId}&startTime=${startTime}`,
+        });
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
 
 
 

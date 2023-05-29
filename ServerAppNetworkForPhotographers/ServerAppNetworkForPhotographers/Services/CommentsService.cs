@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
@@ -25,6 +26,22 @@ namespace ServerAppNetworkForPhotographers.Services
             var comments = await _context.Comments
                 .Include(item => item.Photographer)
                 .Where(item => item.ContentId == contentId)
+                .OrderBy(item => item.CreatedAt)
+                .ToListAsync();
+
+            return Comment.ToListGetCommentDto(comments);
+        }
+
+        public async Task<List<GetCommentDto>> GetNewContentComments(int contentId, DateTime startTime, string userId)
+        {
+            if (!await CheckExistenceContent(contentId))
+            {
+                throw new NotFoundException(nameof(Content), contentId);
+            }
+
+            var comments = await _context.Comments
+                .Include(item => item.Photographer)
+                .Where(item => item.ContentId == contentId && item.CreatedAt >= startTime && item.Photographer.UserId != userId)
                 .OrderBy(item => item.CreatedAt)
                 .ToListAsync();
 

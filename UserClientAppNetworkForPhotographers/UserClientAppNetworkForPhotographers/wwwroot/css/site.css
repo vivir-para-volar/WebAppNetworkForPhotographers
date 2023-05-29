@@ -121,20 +121,38 @@ a {
     font-size: 14px;
 }
 
-.divComment {
-    border-top: 1px solid #DEE2E6;
+#divDown {
+    display: flex;
+    position: sticky;
+    bottom: 30px;
 }
 
-.divComment p {
-    margin: 0;
+#btnDown {
+    margin-left: auto;
 }
+
+.imgDown {
+    width: 35px;
+    height: 35px;
+    padding: 2px;
+    border: 1px solid #EB4C42;
+}
+
+.divComment {
+    border-top: 1px solid #DEE2E6;
+    margin-right: 4rem;
+}
+
+    .divComment p {
+        margin: 0;
+    }
 
 .textComment {
     overflow-wrap: anywhere;
 }
 
 .divDeleteComment {
-    margin-left: auto
+    margin-left: auto;
 }
 
 .deleteCommentImg {
