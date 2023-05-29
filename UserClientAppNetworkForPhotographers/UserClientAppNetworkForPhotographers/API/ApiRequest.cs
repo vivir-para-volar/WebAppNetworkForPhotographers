@@ -173,7 +173,7 @@ namespace UserClientAppNetworkForPhotographers.API
             if (exceptionResponse != null)
                 throw new ApiException(exceptionResponse.Status, exceptionResponse.Message);
 
-            throw new ApiException(StatusCodes.Status500InternalServerError);
+            throw new ApiException((int)response.StatusCode, response.StatusCode.ToString());
         }
     }
 }

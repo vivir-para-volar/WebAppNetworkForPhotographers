@@ -20,6 +20,12 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return photographer;
         }
 
+        public static async Task<Stream> GetPhotoByName(string name, string token)
+        {
+            var response = await ApiRequest.Get($"{ApiUrl.PhotographersPhoto}/{name}", token);
+            return await response.Content.ReadAsStreamAsync();
+        }
+
         public static async Task<PhotographerInfo> GetInfoByPhotographerId(int photographerId, string token)
         {
             var response = await ApiRequest.Get($"{ApiUrl.PhotographersInfo}/{photographerId}", token);

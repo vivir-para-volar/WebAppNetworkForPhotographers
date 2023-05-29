@@ -56,7 +56,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
         }
 
         [HttpPost]
@@ -75,7 +75,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
         }
 
         [HttpPost]
@@ -94,7 +94,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
         }
 
         public ActionResult UpdatePassword()

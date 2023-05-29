@@ -1,17 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Comments
+﻿namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Comments
 {
     public class CreateCommentDto
     {
-        [Required]
-        [StringLength(512, MinimumLength = 4)]
         public string Text { get; set; }
-
-        [Range(1, int.MaxValue)]
         public int PhotographerId { get; set; }
-
-        [Range(1, int.MaxValue)]
         public int ContentId { get; set; }
+
+        public CreateCommentDto() { }
+
+        public CreateCommentDto(string text, int photographerId, int contentId)
+        {
+            Text = text;
+            PhotographerId = photographerId;
+            ContentId = contentId;
+        }
     }
 }

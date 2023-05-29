@@ -2,7 +2,7 @@
 
 <div class="container p-3 mt-5 pb-5 pt-4">
 
-    <div class="containerParentFlex">
+    <div class="containerParentFlexCenter">
         <h3>Изменение профиля</h3>
     </div>
 
@@ -18,7 +18,9 @@
             }
             else
             {
-                <div class="divForPhoto"><img id="imagePreview" class="profilePhotoSettings" src="data:image/jpeg;base64,@(Model.PhotoProfile)"></div>
+                <div class="divForPhoto">
+                    <img id="imagePreview" class="profilePhotoSettings" src=@(Url.Action("GetPhotographerPhoto", "General", new { name = Model.PhotoProfile}))>
+                </div>
             }
             <div class="divAfterPhoto">
                 @using (Html.BeginForm("UpdateProfilePhoto", "Settings", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -77,7 +79,7 @@
 
     <div class="tab-content" id="editProfileTabContent">
         <div class="tab-pane fade show active" id="main" role="tabpanel" aria-labelledby="main-tab">
-            <div class="containerParentFlex">
+            <div class="containerParentFlexCenter">
                 <div class="containerCenter mt-4">
 
                     <h4>Изменение основной информации профиля</h4>
@@ -151,7 +153,7 @@
         </div>
 
         <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
-            <div class="containerParentFlex">
+            <div class="containerParentFlexCenter">
                 <div class="containerCenter mt-4">
 
                     <h4>Изменение дополнительной информации профиля</h4>

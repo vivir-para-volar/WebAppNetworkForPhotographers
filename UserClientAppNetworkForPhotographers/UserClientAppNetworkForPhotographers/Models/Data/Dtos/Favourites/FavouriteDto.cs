@@ -5,7 +5,7 @@
         public int PhotographerId { get; set; }
         public int ContentId { get; set; }
 
-       public FavouriteDto() { }
+        public FavouriteDto() { }
 
         public FavouriteDto(int photographerId, int contentId)
         {

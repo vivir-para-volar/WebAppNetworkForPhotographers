@@ -14,7 +14,7 @@ h3, h4 {
     text-shadow: 0.2px 0px 0.2px #222;
 }
 
-a:active, 
+a:active,
 a:hover,
 a {
     text-decoration: none;
@@ -31,6 +31,11 @@ a {
 
 .containerParentFlex {
     display: flex;
+}
+
+
+.containerParentFlexCenter {
+    display: flex;
     justify-content: center;
 }
 
@@ -43,7 +48,6 @@ a {
 }
 
 
-
 .containerParentFlexMany {
     display: flex;
     align-items: center;
@@ -51,8 +55,8 @@ a {
 }
 
 .divForPhoto {
-    display: inline;
     margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .divAfterPhoto {
@@ -65,6 +69,20 @@ a {
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #222;
+}
+
+.profilePhotoMini {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+
+.btnImg {
+    border: none;
+    background: transparent;
 }
 
 
@@ -94,17 +112,39 @@ a {
     }
 }
 
-.contentBtnImg {
-    border: none;
-    background: transparent;
-}
-
 .contentImg {
     width: 40px;
     height: 40px;
 }
 
+.textDate {
+    font-size: 14px;
+}
+
+.divComment {
+    border-top: 1px solid #DEE2E6;
+}
+
+.divComment p {
+    margin: 0;
+}
+
+.textComment {
+    overflow-wrap: anywhere;
+}
+
+.divDeleteComment {
+    margin-left: auto
+}
+
+.deleteCommentImg {
+    width: 20px;
+    height: 20px;
+}
+
+
 /* ===== SETTINGS ===== */
+
 .profilePhotoSettings {
     width: 150px;
     height: 150px;
@@ -147,7 +187,6 @@ a {
         height: 40px;
         padding: 2px;
     }
-
 
 
 

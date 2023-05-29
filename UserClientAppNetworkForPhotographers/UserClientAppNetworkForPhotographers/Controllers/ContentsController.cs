@@ -19,16 +19,16 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 var token = AppUser.GetToken(HttpContext);
 
                 post = await ApiContents.GetById(id, token);
+                if (post.Type != TypeContent.Post)
+                {
+                    return RedirectToAction(nameof(GeneralController.ApiError), "General", new { status = StatusCodes.Status400BadRequest });
+                }
+
                 post.Comments = await ApiComments.GetAllForContent(id, token);
             }
             catch (ApiException ex)
             {
                 return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
-            }
-
-            if (post.Type != TypeContent.Post)
-            {
-                return RedirectToAction(nameof(GeneralController.ApiError), "General", new { status = StatusCodes.Status400BadRequest });
             }
 
             post.UserId = AppUser.GetPhotographerId(HttpContext);
