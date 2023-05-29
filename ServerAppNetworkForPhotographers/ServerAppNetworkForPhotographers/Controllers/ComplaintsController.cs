@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
@@ -14,7 +13,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ComplaintsController : ControllerBase, IComplaintsController
+    public class ComplaintsController : ControllerBase
     {
         private readonly ComplaintsService _complaintsService;
 

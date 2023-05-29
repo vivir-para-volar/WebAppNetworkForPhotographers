@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Likes;
 using ServerAppNetworkForPhotographers.Models.Lists;
+using System.Security.Authentication;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class ContentsService : IContentsServices
+    public class ContentsService
     {
         private readonly DataContext _context;
 
@@ -83,12 +81,17 @@ namespace ServerAppNetworkForPhotographers.Services
                 .FirstOrDefaultAsync(item => item.Id == id);
 
             if (content == null) return null;
+            if (content.Status == StatusContent.Blocked && content.Photographer.UserId != userId)
+            {
+                throw new AuthenticationException();
+            }
 
-            var countLikes = await _context.Likes.CountAsync(item => item.ContentId == content.Id);
-            var countComments = await _context.Comments.CountAsync(item => item.ContentId == content.Id);
-            var countFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
+            var getContent = content.ToGetContentDto();
 
-            var getContent = await content.ToGetContentDto(countLikes, countComments, countFavourites);
+            getContent.CountLikes = await _context.Likes.CountAsync(item => item.ContentId == content.Id);
+            getContent.CountComments = await _context.Comments.CountAsync(item => item.ContentId == content.Id);
+            getContent.CountFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
+
             await SetUserLikeAndFavourite(getContent, userId);
 
             return getContent;
@@ -210,16 +213,17 @@ namespace ServerAppNetworkForPhotographers.Services
 
             foreach (var content in contents)
             {
-                var countLikes = await _context.Likes.CountAsync(item => item.ContentId == content.Id);
-                var countComments = await _context.Comments.CountAsync(item => item.ContentId == content.Id);
-                var countFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
+                var getContent = content.ToGetContentForListDto();
+
+                getContent.CountLikes = await _context.Likes.CountAsync(item => item.ContentId == content.Id);
+                getContent.CountComments = await _context.Comments.CountAsync(item => item.ContentId == content.Id);
+                getContent.CountFavourites = await _context.Favourites.CountAsync(item => item.ContentId == content.Id);
 
                 if (content.Type == TypeContent.Post)
                 {
                     content.Photos = await _context.Photos.Where(item => item.ContentId == content.Id).ToListAsync();
                 }
 
-                var getContent = await content.ToGetContentForListDto(countLikes, countComments, countFavourites);
                 await SetUserLikeAndFavourite(getContent, userId);
 
                 getContents.Add(getContent);

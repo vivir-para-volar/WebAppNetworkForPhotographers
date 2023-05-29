@@ -24,11 +24,6 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             this.ContentId = contentId;
         }
 
-        public async Task ConvertContentPhoto()
-        {
-            PhotoContent = await FileInteraction.GetBase64ContentPhoto(ContentId, PhotoContent);
-        }
-
         public static async Task<Photo> Save(int contentId, IFormFile photo)
         {
             var photoContentName = await FileInteraction.SaveContentPhoto(contentId, photo);

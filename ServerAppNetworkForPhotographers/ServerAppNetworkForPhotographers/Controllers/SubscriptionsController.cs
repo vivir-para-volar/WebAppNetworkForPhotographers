@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
@@ -15,7 +14,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = UserRoles.User)]
-    public class SubscriptionsController : ControllerBase, ISubscriptionsController
+    public class SubscriptionsController : ControllerBase
     {
         private readonly SubscriptionsService _subscriptionsService;
 

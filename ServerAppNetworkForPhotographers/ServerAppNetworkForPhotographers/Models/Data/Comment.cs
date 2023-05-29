@@ -29,18 +29,18 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             ContentId = commentDto.ContentId;
         }
 
-        public async Task<GetCommentDto> ToGetCommentDto()
+        public GetCommentDto ToGetCommentDto()
         {
-            var photographer = await Photographer.ToGetPhotographerForListDto();
+            var photographer = Photographer.ToGetPhotographerForListDto();
             return new GetCommentDto(Id, CreatedAt, Text, photographer, ContentId);
         }
 
-        public static async Task<List<GetCommentDto>> ToListGetCommentDto(List<Comment> comments)
+        public static List<GetCommentDto> ToListGetCommentDto(List<Comment> comments)
         {
             var getComments = new List<GetCommentDto>();
             foreach (var comment in comments)
             {
-                getComments.Add(await comment.ToGetCommentDto());
+                getComments.Add(comment.ToGetCommentDto());
             }
             return getComments;
         }

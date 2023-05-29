@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class CategoryDirsService : ICategoryDirsService
+    public class CategoryDirsService
     {
         private readonly DataContext _context;
 

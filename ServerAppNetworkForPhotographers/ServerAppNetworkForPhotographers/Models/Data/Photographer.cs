@@ -58,14 +58,6 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             City = photographerDto.City;
         }
 
-        public async Task ConvertProfilePhoto()
-        {
-            if (PhotoProfile != null)
-            {
-                PhotoProfile = await FileInteraction.GetBase64ProfilePhoto(PhotoProfile);
-            }
-        }
-
         public async Task UpdateProfilePhoto(IFormFile photo)
         {
             DeleteProfilePhoto();
@@ -82,18 +74,17 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             PhotoProfile = null;
         }
 
-        public async Task<GetPhotographerForListDto> ToGetPhotographerForListDto()
+        public GetPhotographerForListDto ToGetPhotographerForListDto()
         {
-            await ConvertProfilePhoto();
-            return new GetPhotographerForListDto(Id, Username, Name, PhotoProfile);
+            return new GetPhotographerForListDto(Id, Username, PhotoProfile);
         }
 
-        public static async Task<List<GetPhotographerForListDto>> ToListGetPhotographerForListDto(List<Photographer> photographers)
+        public static List<GetPhotographerForListDto> ToListGetPhotographerForListDto(List<Photographer> photographers)
         {
             var getPhotographers = new List<GetPhotographerForListDto>();
             foreach (var photographer in photographers)
             {
-                getPhotographers.Add(await photographer.ToGetPhotographerForListDto());
+                getPhotographers.Add(photographer.ToGetPhotographerForListDto());
             }
             return getPhotographers;
         }

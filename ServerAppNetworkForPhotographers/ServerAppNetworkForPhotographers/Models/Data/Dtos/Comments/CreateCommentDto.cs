@@ -5,7 +5,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Comments
     public class CreateCommentDto
     {
         [Required]
-        [StringLength(512, MinimumLength = 4)]
+        [StringLength(512, MinimumLength = 1)]
         public string Text { get; set; }
 
         [Range(1, int.MaxValue)]

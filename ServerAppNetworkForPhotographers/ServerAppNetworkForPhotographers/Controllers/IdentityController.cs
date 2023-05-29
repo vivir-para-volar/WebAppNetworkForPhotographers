@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Identity;
@@ -15,7 +14,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IdentityController : ControllerBase, IIdentityController
+    public class IdentityController : ControllerBase
     {
         private readonly IdentityService _identityService;
 

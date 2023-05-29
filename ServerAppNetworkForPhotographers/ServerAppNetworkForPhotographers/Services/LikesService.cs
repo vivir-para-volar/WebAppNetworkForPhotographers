@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Likes;
@@ -8,7 +7,7 @@ using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class LikesService : ILikesService
+    public class LikesService
     {
         private readonly DataContext _context;
 
@@ -30,7 +29,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.ContentId == contentId)
                 .ForEachAsync((item) => photographers.Add(item.Photographer));
 
-            return await Photographer.ToListGetPhotographerForListDto(photographers);
+            return Photographer.ToListGetPhotographerForListDto(photographers);
         }
 
         public async Task<Like> CreateLike(LikeDto likeDto)

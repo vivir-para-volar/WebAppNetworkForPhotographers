@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Controllers;
+using ServerAppNetworkForPhotographers.Files;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos;
@@ -9,6 +9,7 @@ using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
+using System.Security.Authentication;
 using System.Security.Claims;
 
 namespace ServerAppNetworkForPhotographers.Controllers
@@ -16,7 +17,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ContentsController : ControllerBase, IContentsController
+    public class ContentsController : ControllerBase
     {
         private readonly ContentsService _contentsService;
 
@@ -131,9 +132,24 @@ namespace ServerAppNetworkForPhotographers.Controllers
         public async Task<ActionResult<GetContentDto?>> GetContentById(int id)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
-            if(userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
-            return Ok(await _contentsService.GetContentById(id, userId));
+            try
+            {
+                return Ok(await _contentsService.GetContentById(id, userId));
+            }
+            catch (AuthenticationException)
+            {
+                return Forbid();
+            }
+        }
+
+        [HttpGet("Blogs/MainPhoto/{name}")]
+        public async Task<ActionResult> GetPhotographerPhotoByName(string name)
+        {
+            var filePath = FileInteraction.GetBlogMainPhotoPath(name);
+            var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+            return File(bytes, "image/jpeg");
         }
 
         [HttpPost("Posts/Search")]

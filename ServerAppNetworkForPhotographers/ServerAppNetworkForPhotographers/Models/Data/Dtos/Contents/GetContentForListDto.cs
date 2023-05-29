@@ -22,7 +22,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
         public bool IsLike { get; set; }
         public bool IsFavourite { get; set; }
 
-        public GetContentForListDto(Content content, int countLikes, int countComments, int countFavourites, GetPhotographerForListDto photographer)
+        public GetContentForListDto(Content content, GetPhotographerForListDto photographer)
         {
             Id = content.Id;
             Type = content.Type;
@@ -31,10 +31,6 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents
             Status = content.Status;
             BlogMainPhoto = content.BlogMainPhoto;
             BlogBody = content.BlogBody;
-
-            CountLikes = countLikes;
-            CountComments = countComments;
-            CountFavourites = countFavourites;
 
             Photographer = photographer;
             Photos = content.Photos;

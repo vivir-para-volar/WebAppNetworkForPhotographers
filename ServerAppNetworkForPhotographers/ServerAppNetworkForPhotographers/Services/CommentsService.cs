@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Comments;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class CommentsService : ICommentsService
+    public class CommentsService
     {
         private readonly DataContext _context;
 
@@ -29,7 +28,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .OrderBy(item => item.CreatedAt)
                 .ToListAsync();
 
-            return await Comment.ToListGetCommentDto(comments);
+            return Comment.ToListGetCommentDto(comments);
         }
 
         public async Task<GetCommentDto> CreateComment(CreateCommentDto commentDto)
@@ -69,7 +68,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Include(item => item.Photographer)
                 .FirstOrDefaultAsync(item => item.Id == id);
 
-            return comment != null ? await comment.ToGetCommentDto() : null;
+            return comment != null ? comment.ToGetCommentDto() : null;
         }
 
         private async Task<Comment?> GetSimpleCommentById(int id)

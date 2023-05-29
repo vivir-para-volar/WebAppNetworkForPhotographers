@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Categories;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class CategoriesService : ICategoriesService
+    public class CategoriesService
     {
         private readonly DataContext _context;
 

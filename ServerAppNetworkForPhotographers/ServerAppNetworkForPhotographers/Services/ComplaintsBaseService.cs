@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBase;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class ComplaintsBaseService : IComplaintsBaseService
+    public class ComplaintsBaseService
     {
         private readonly DataContext _context;
 

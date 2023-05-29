@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class PhotosService : IPhotosService
+    public class PhotosService
     {
         private readonly DataContext _context;
 

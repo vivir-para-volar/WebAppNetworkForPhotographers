@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Controllers;
+using ServerAppNetworkForPhotographers.Files;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos;
@@ -17,7 +17,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = UserRoles.User)]
-    public class PhotographersController : ControllerBase, IPhotographersController
+    public class PhotographersController : ControllerBase
     {
         private readonly PhotographersService _photographersService;
 
@@ -30,6 +30,14 @@ namespace ServerAppNetworkForPhotographers.Controllers
         public async Task<ActionResult<Photographer?>> GetPhotographerById(int id)
         {
             return Ok(await _photographersService.GetPhotographerById(id));
+        }
+
+        [HttpGet("Photo/{name}")]
+        public async Task<ActionResult> GetPhotographerPhotoByName(string name)
+        {
+            var filePath = FileInteraction.GetProfilePhotoPath(name);
+            var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+            return File(bytes, "image/jpeg");
         }
 
         [HttpPost("Search")]

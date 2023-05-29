@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Controllers;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Comments;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
@@ -13,7 +12,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = UserRoles.User)]
-    public class CommentsController : ControllerBase, ICommentsController
+    public class CommentsController : ControllerBase
     {
         private readonly CommentsService _commentsService;
 

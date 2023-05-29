@@ -13,20 +13,19 @@
             CreateDir(_contentPath);
         }
 
-        public static async Task<string> GetBase64ProfilePhoto(string photoName)
+        public static string GetProfilePhotoPath(string photoName)
         {
-            return await GetBase64(_profilePath + photoName);
+            return _profilePath + photoName;
         }
 
-        public static async Task<string> GetBase64BlogMainPhoto(string photoName)
+        public static string GetBlogMainPhotoPath(string photoName)
         {
-            return await GetBase64(_blogMainPath + photoName);
+            return _blogMainPath + photoName;
         }
 
-        public static async Task<string> GetBase64ContentPhoto(int contentId, string photoName)
+        public static string GetContentPhotoPath(int contentId, string photoName)
         {
-            var path = _contentPath + contentId + "\\";
-            return await GetBase64(path + photoName);
+            return _contentPath + contentId + "\\" + photoName;
         }
 
         public static async Task<string> SaveProfilePhoto(IFormFile photo)
@@ -73,7 +72,7 @@
 
         private static async Task<string> Save(string path, IFormFile photo)
         {
-            string photoName = $"{Guid.NewGuid()}.png";
+            string photoName = $"{Guid.NewGuid()}.jpeg";
             path += photoName;
 
             using (var stream = File.Create(path))
@@ -95,14 +94,6 @@
             }
 
             return photoName;
-        }
-
-        private static async Task<string> GetBase64(string path)
-        {
-            byte[] fileBytes = await File.ReadAllBytesAsync(path);
-            string base64String = Convert.ToBase64String(fileBytes);
-
-            return base64String;
         }
     }
 }

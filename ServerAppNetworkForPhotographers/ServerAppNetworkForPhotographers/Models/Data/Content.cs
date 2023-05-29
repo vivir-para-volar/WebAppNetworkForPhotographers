@@ -73,14 +73,6 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             Categories = categories;
         }
 
-        public async Task ConvertBlogMainPhoto()
-        {
-            if (BlogMainPhoto != null)
-            {
-                BlogMainPhoto = await FileInteraction.GetBase64BlogMainPhoto(BlogMainPhoto);
-            }
-        }
-
         public async Task UpdateBlogMainPhoto(IFormFile photo)
         {
             if (Type != TypeContent.Blog)
@@ -102,42 +94,16 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             BlogMainPhoto = null;
         }
 
-        public async Task<GetContentForListDto> ToGetContentForListDto(int countLikes, int countComments, int countFavourites)
+        public GetContentForListDto ToGetContentForListDto()
         {
-            if (Type == TypeContent.Blog)
-            {
-                await ConvertBlogMainPhoto();
-            }
-            else
-            {
-                foreach (var photo in Photos)
-                {
-                    await photo.ConvertContentPhoto();
-                }
-            }
-
-            var photographer = await Photographer.ToGetPhotographerForListDto();
-            return new GetContentForListDto(this, countLikes, countComments, countFavourites, photographer);
+            var photographer = Photographer.ToGetPhotographerForListDto();
+            return new GetContentForListDto(this, photographer);
         }
 
-        public async Task<GetContentDto> ToGetContentDto(int countLikes, int countComments, int countFavourites)
+        public GetContentDto ToGetContentDto()
         {
-            if (Type == TypeContent.Blog)
-            {
-                await ConvertBlogMainPhoto();
-            }
-
-            var photos = new List<GetPhotoDto>();
-            foreach (var photo in Photos)
-            {
-                var photoName = photo.PhotoContent;
-                await photo.ConvertContentPhoto();
-
-                photos.Add(new GetPhotoDto(photo.Id, photoName, photo.PhotoContent, photo.ContentId));
-            }
-
-            var photographer = await Photographer.ToGetPhotographerForListDto();
-            return new GetContentDto(this, countLikes, countComments, countFavourites, photographer, photos);
+            var photographer = Photographer.ToGetPhotographerForListDto();
+            return new GetContentDto(this, photographer);
         }
 
         public void UpdateStatus()

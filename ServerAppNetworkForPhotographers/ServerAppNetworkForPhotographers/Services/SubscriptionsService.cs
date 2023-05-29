@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
@@ -8,7 +7,7 @@ using ServerAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class SubscriptionsService : ISubscriptionsService
+    public class SubscriptionsService
     {
         private readonly DataContext _context;
 
@@ -99,7 +98,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.PhotographerId == photographerId)
                 .ForEachAsync((item) => subscribers.Add(item.Subscriber));
 
-            return await Photographer.ToListGetPhotographerForListDto(subscribers);
+            return Photographer.ToListGetPhotographerForListDto(subscribers);
         }
 
         public async Task<List<GetPhotographerForListDto>> GetSubscriptions(int photographerId)
@@ -115,7 +114,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.SubscriberId == photographerId)
                 .ForEachAsync((item) => subscriptions.Add(item.Photographer));
 
-            return await Photographer.ToListGetPhotographerForListDto(subscriptions);
+            return Photographer.ToListGetPhotographerForListDto(subscriptions);
         }
 
         private async Task<Subscription?> GetSubscription(SubscriptionDto subscriptionDto)

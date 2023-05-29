@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Services;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos;
@@ -10,7 +9,7 @@ using ServerAppNetworkForPhotographers.Models.Identity;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
-    public class PhotographersService : IPhotographersService
+    public class PhotographersService
     {
         private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -23,10 +22,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<Photographer?> GetPhotographerById(int id)
         {
-            var photographer = await _context.Photographers.FindAsync(id);
-            if (photographer != null) await photographer.ConvertProfilePhoto();
-
-            return photographer;
+            return await _context.Photographers.FindAsync(id);
         }
 
         public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto)
@@ -36,7 +32,7 @@ namespace ServerAppNetworkForPhotographers.Services
                                EF.Functions.Like(item.Name, $"%{searchDto.SearchData}%"))
                 .ToListAsync();
 
-            return await Photographer.ToListGetPhotographerForListDto(photographers);
+            return Photographer.ToListGetPhotographerForListDto(photographers);
         }
 
         public async Task<Photographer> CreatePhotographer(CreatePhotographerDto photographerDto)
@@ -88,8 +84,6 @@ namespace ServerAppNetworkForPhotographers.Services
             _context.Entry(photographer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            await photographer.ConvertProfilePhoto();
-
             return photographer;
         }
 
@@ -102,8 +96,6 @@ namespace ServerAppNetworkForPhotographers.Services
 
             _context.Entry(photographer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
-            await photographer.ConvertProfilePhoto();
 
             return photographer;
         }

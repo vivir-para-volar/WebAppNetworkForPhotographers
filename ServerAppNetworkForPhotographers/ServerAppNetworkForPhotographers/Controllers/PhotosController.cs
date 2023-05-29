@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Interfaces.Controllers;
+using ServerAppNetworkForPhotographers.Files;
 using ServerAppNetworkForPhotographers.Models.Contexts;
 using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
@@ -13,13 +13,21 @@ namespace ServerAppNetworkForPhotographers.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = UserRoles.User)]
-    public class PhotosController : ControllerBase, IPhotosController
+    public class PhotosController : ControllerBase
     {
         private readonly PhotosService _photosService;
 
         public PhotosController(DataContext dataContext)
         {
             _photosService = new PhotosService(dataContext);
+        }
+
+        [HttpGet("{contentId}/{name}")]
+        public async Task<ActionResult> GetPhotoByContentIdAndName(int contentId, string name)
+        {
+            var filePath = FileInteraction.GetContentPhotoPath(contentId, name);
+            var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
+            return File(bytes, "image/jpeg");
         }
 
         [HttpPost("{contentId}")]
