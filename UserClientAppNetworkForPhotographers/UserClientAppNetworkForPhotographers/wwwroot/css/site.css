@@ -1,3 +1,7 @@
+* {
+    overflow-wrap: anywhere;
+}
+
 html {
     font-size: 16px;
     position: relative;
@@ -10,8 +14,12 @@ html {
     }
 }
 
-h3, h4 {
+h1, h2, h3, h4, h5 {
     text-shadow: 0.2px 0px 0.2px #222;
+}
+
+p {
+    margin: 0;
 }
 
 a:active,
@@ -56,10 +64,15 @@ a {
 
 .divForPhoto {
     margin-right: 20px;
-    margin-bottom: 20px;
 }
 
 .divAfterPhoto {
+}
+
+@media (max-width: 576px) {
+    .divAfterPhoto {
+        margin-top: 20px;
+    }
 }
 
 
@@ -143,12 +156,7 @@ a {
     margin-right: 4rem;
 }
 
-    .divComment p {
-        margin: 0;
-    }
-
 .textComment {
-    overflow-wrap: anywhere;
 }
 
 .divDeleteComment {

@@ -23,6 +23,7 @@ async function deleteLike(contentId) {
 }
 
 
+
 async function createFavourite(contentId) {
     const res = await serverCreateFavourite(contentId);
 
@@ -45,4 +46,65 @@ async function deleteFavourite(contentId) {
         const aCountFavourites = document.getElementById("countFavourites" + contentId);
         aCountFavourites.innerHTML = +aCountFavourites.innerHTML - 1;
     }
+}
+
+
+
+// Модальное окно фотографов, которые поставили лайк
+
+const modalAllLikes = document.getElementById('modalAllLikes');
+
+modalAllLikes.addEventListener('show.bs.modal', async function (event) {
+    const button = event.relatedTarget;
+    contentId = button.getAttribute('data-bs-whatever');
+
+    await getAllContentLikes(contentId);
+});
+
+async function getAllContentLikes(contentId) {
+    const res = await serverGetAllContentLikes(contentId);
+
+    if (res) {
+        const photographers = res.data;
+
+        const parent = document.getElementById("modalAllLikesBody");
+
+        let html = "";
+        for (let photographer of photographers) {
+            html += createPhotographerInModalAllLikes(photographer);
+        }
+
+        parent.innerHTML = html;
+
+        const hModal = document.querySelector("#modalAllLikesHeader>h5");
+        const count = photographers.length;
+        const form = getFormLike(count);
+        hModal.innerHTML = `${count} ${form}`;
+    }
+}
+
+function createPhotographerInModalAllLikes(photographer) {
+    let photo;
+    if (photographer.photoProfile == null) {
+        photo = `<div class="divForPhoto"><img class="profilePhotoMini" src="${clientUrl}/image/emptyProfile.png"></div>`;
+    }
+    else {
+        photo = `<div class="divForPhoto">
+                    <img class="profilePhotoMini" src="${clientUrl}/General/GetPhotographerPhoto?name=${photographer.photoProfile}">
+                 </div>`;
+    }
+
+    const html =
+        `<div class="containerParentFlex pb-3">
+            <a href="/Profiles/Photographer/${photographer.id}">${photo}</a>
+
+            <div>
+                <a href="/Profiles/Photographer/${photographer.id}">
+                    <p><strong>${photographer.username}</strong></p>
+                    <p>${photographer.name ?? ""}</p>
+                </a>
+            </div>
+        </div>`;
+
+    return html;
 }

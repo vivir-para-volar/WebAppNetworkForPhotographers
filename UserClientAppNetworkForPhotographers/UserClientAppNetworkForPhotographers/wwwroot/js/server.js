@@ -1,5 +1,6 @@
 const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
+    getAllContentLikes: '/ContentActions/GetAllContentLikes',
     createLike: '/ContentActions/CreateLike',
     deleteLike: '/ContentActions/DeleteLike',
 
@@ -11,6 +12,20 @@ const url = {
     deleteComment: '/ContentActions/DeleteComment',
 }
 
+
+
+
+async function serverGetAllContentLikes(contentId) {
+    try {
+        return await axios({
+            method: method.get,
+            url: `${url.getAllContentLikes}?contentId=${contentId}`,
+        });
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
 
 async function serverCreateLike(contentId) {
     var formData = new FormData();
@@ -25,6 +40,8 @@ async function serverDeleteLike(contentId) {
 
     return await sendReq(method.delete, url.deleteLike, formData);
 }
+
+
 
 
 async function serverCreateFavourite(contentId) {
@@ -42,6 +59,20 @@ async function serverDeleteFavourite(contentId) {
 }
 
 
+
+
+async function serverGetNewContentComments(contentId, startTime) {
+    try {
+        return await axios({
+            method: method.get,
+            url: `${url.getNewContentComments}?contentId=${contentId}&startTime=${startTime}`,
+        });
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
 async function serverCreateComment(text, contentId) {
     var formData = new FormData();
     formData.append("text", text);
@@ -55,19 +86,6 @@ async function serverDeleteComment(id) {
     formData.append("id", id);
 
     return await sendReq(method.delete, url.deleteComment, formData);
-}
-
-
-async function serverGetNewContentComments(contentId, startTime) {
-    try {
-        return await axios({
-            method: method.get,
-            url: `${url.getNewContentComments}?contentId=${contentId}&startTime=${startTime}`,
-        });
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
 }
 
 

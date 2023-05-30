@@ -63,7 +63,10 @@
                         </button>
                     }
 
-                    <a id="countLikes@(Model.Id)" src="#" class="ps-1">@(Model.CountLikes)</a>
+                    <button id="countLikes@(Model.Id)" class="btnImg ps-1"
+                            data-bs-toggle="modal" data-bs-target="#modalAllLikes" data-bs-whatever="@(Model.Id)">
+                        @(Model.CountLikes)
+                    </button>
                 </div>
 
                 <div>
@@ -107,8 +110,9 @@
                         </div>
                     }
 
-                    <div>
+                    <div class="divAfterPhoto">
                         <p><strong>@(Model.Photographer.Username)</strong></p>
+                        <p>@(Model.Photographer.Name)</p>
                     </div>
                 </div>
             </a>
@@ -151,7 +155,7 @@
                             }
                         </a>
 
-                        <div class="divAfterPhoto">
+                        <div>
                             <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(comment.Photographer.Id)>
                                 <p><strong>@(comment.Photographer.Username)</strong></p>
                             </a>
@@ -197,7 +201,7 @@
 
 
 <!-- Модальное окно удаления комментария -->
-<div class="modal fade" id="modalDeleteComment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div id="modalDeleteComment" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -208,27 +212,28 @@
                 <p>Вы уверены что хотите удалить комментарий?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
                 <button id="btnDeleteComment" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Удалить</button>
             </div>
         </div>
     </div>
 </div>
-<script>
-    let id;
 
-    const modalDeleteComment = document.getElementById('modalDeleteComment');
-    modalDeleteComment.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        id = button.getAttribute('data-bs-whatever');
-    });
-
-    const btnDeleteComment = document.getElementById('btnDeleteComment');
-    btnDeleteComment.addEventListener("click", async function (event) {
-        await deleteUserComment(id);
-    });
-</script>
-
+<!-- Модальное окно фотографов, которые поставили лайк -->
+<div id="modalAllLikes" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div id="modalAllLikesHeader" class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div id="modalAllLikesBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script src="~/js/content.js" asp-append-version="true"></script>

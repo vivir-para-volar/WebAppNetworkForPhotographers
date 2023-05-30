@@ -6,12 +6,29 @@ using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Comments;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Likes;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
     [Authorize(Roles = UserRoles.User)]
     public class ContentActionsController : Controller
     {
+        public async Task<ActionResult<List<GetPhotographerForListDto>>> GetAllContentLikes(int contentId)
+        {
+            List<GetPhotographerForListDto> photographersForList;
+
+            try
+            {
+                photographersForList = await ApiLikes.GetAllForContent(contentId, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created, photographersForList);
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateLike(int contentId)
         {
@@ -46,6 +63,10 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
+
+
+
+
         [HttpPost]
         public async Task<ActionResult> CreateFavourite(int contentId)
         {
@@ -79,6 +100,9 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             return StatusCode(StatusCodes.Status204NoContent);
         }
+
+
+
 
         public async Task<ActionResult> GetNewContentComments(int contentId, string startTime)
         {

@@ -92,7 +92,7 @@ function createCommentInHtml(comment, isUser) {
 
     let photo;
     if (comment.photographer.photoProfile == null) {
-        photo = `<div class="divForPhoto"><img class="profilePhotoMini" src="~/image/emptyProfile.png"></div>`;
+        photo = `<div class="divForPhoto"><img class="profilePhotoMini" src="${clientUrl}/image/emptyProfile.png"></div>`;
     }
     else {
         photo = `<div class="divForPhoto">
@@ -113,13 +113,14 @@ function createCommentInHtml(comment, isUser) {
                 </button>
             </div>`
     }
+
     const html =
         `<div id="divComment${comment.id}" class="divComment containerParentFlex pt-3 pb-3">
                 <a href="/Profiles/Photographer/${comment.photographer.id}">
                     ${photo}
                 </a>
 
-                <div class="divAfterPhoto">
+                <div>
                     <a href="/Profiles/Photographer/${comment.photographer.id}">
                         <p><strong>${comment.photographer.username}</strong></p>
                     </a>
@@ -131,7 +132,25 @@ function createCommentInHtml(comment, isUser) {
                 ${divDeleteComment}
             </div>`;
 
-    parent.innerHTML = parent.innerHTML + html;
+    parent.innerHTML += html;
 
     if (isUser) downPage();
 }
+
+
+
+
+// Модальное окно удаления комментария
+
+let deleteCommentId;
+
+const modalDeleteComment = document.getElementById('modalDeleteComment');
+modalDeleteComment.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    deleteCommentId = button.getAttribute('data-bs-whatever');
+});
+
+const btnDeleteComment = document.getElementById('btnDeleteComment');
+btnDeleteComment.addEventListener("click", async function (event) {
+    await deleteUserComment(deleteCommentId);
+});

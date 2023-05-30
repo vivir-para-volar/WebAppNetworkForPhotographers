@@ -99,7 +99,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = false,
-                ExpiresUtc = DateTimeOffset.Now.AddHours(3),
+                ExpiresUtc = DateTimeOffset.Now.AddMonths(1),
                 IsPersistent = true,
             };
 
