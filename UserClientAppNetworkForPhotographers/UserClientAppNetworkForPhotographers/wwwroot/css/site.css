@@ -8,8 +8,21 @@ html {
     min-height: 100%;
 }
 
+pre {
+    --bs-font-sans-serif: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: var(--bs-font-sans-serif);
+    font-size: 16px;
+
+    white-space: pre-wrap;
+    margin: 0;
+}
+
 @media (min-width: 768px) {
     html {
+        font-size: 18px;
+    }
+
+    pre {
         font-size: 18px;
     }
 }
@@ -64,6 +77,10 @@ a {
 
 .divFlexEnd {
     margin-left: auto;
+}
+
+.divFlexCenter {
+    align-self: center;
 }
 
 
@@ -143,7 +160,7 @@ a {
 #divDown {
     display: flex;
     position: sticky;
-    bottom: 30px;
+    bottom: 180px;
 }
 
 .imgDown {

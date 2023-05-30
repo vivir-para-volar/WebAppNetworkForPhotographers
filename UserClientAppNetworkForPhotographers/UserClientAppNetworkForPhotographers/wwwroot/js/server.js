@@ -7,6 +7,9 @@ const url = {
     createFavourite: '/ContentActions/CreateFavourite',
     deleteFavourite: '/ContentActions/DeleteFavourite',
 
+    getAllComplaintsBase: '/ContentActions/GetAllComplaintsBase',
+    createComplaint: '/ContentActions/CreateComplaint',
+
     getNewContentComments: '/ContentActions/GetNewContentComments',
     createComment: '/ContentActions/CreateComment',
     deleteComment: '/ContentActions/DeleteComment',
@@ -86,6 +89,29 @@ async function serverDeleteComment(id) {
     formData.append("id", id);
 
     return await sendReq(method.delete, url.deleteComment, formData);
+}
+
+
+
+async function serverGetAllComplaintsBase() {
+    try {
+        return await axios({
+            method: method.get,
+            url: url.getAllComplaintsBase,
+        });
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
+
+async function serverCreateComplaint(text, complaintBaseId, contentId) {
+    var formData = new FormData();
+    formData.append("text", text);
+    formData.append("complaintBaseId", complaintBaseId);
+    formData.append("contentId", contentId);
+
+    return await sendReqWithRes(method.post, url.createComplaint, formData);
 }
 
 

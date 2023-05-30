@@ -1,6 +1,6 @@
 ﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentDto
 
-<div class="container pb-5 pt-5">
+<div class="container pt-5 pb-2">
     <div class="containerParentFlexCenter">
         <div class="containerCenter">
 
@@ -18,7 +18,7 @@
                             else
                             {
                                 <div class="divForPhoto">
-                                    <img class="profilePhotoMini" src=@(Url.Action("GetPhotographerPhoto", "General", new { name = comment.Photographer.PhotoProfile}))>
+                                    <img class="profilePhotoMini" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = comment.Photographer.PhotoProfile}))>
                                 </div>
                             }
                         </a>
@@ -28,7 +28,7 @@
                                 <p><strong>@(comment.Photographer.Username)</strong></p>
                             </a>
 
-                            <p class="textComment mt-1">@(comment.Text)</p>
+                            <pre class="textComment mt-1">@(comment.Text)</pre>
                             <div class="textDate mt-1">@(comment.CreatedAt)</div>
                         </div>
 
@@ -45,23 +45,23 @@
                 }
             </div>
 
-            <div id="divDown">
-                <button id="btnDown" class="btnImg divFlexEnd" onclick="downPage()">
-                    <img class="imgDown" src="~/image/content/down.png">
-                </button>
-            </div>
-
             <div id="divCreateComment" class="mt-3">
-                <div class="containerParentFlexCenter">
-                    <input id="textCreateComment" type="text" class="form-control"
-                           placeholder="Написать комментарий..." maxlength="512">
+                <div class="containerParentFlex">
+                    <textarea id="textCreateComment" type="text" class="form-control" rows="4"
+                              placeholder="Написать комментарий..." minlength="16" maxlength="512"></textarea>
 
-                    <div>
+                    <div class="divFlexCenter">
                         <button class="btnImg" onclick="createUserComment()">
                             <img class="contentImg" src="~/image/content/comment.png">
                         </button>
                     </div>
                 </div>
+            </div>
+
+            <div id="divDown">
+                <button id="btnDown" class="btnImg divFlexEnd" onclick="downPage()">
+                    <img class="imgDown" src="~/image/content/down.png">
+                </button>
             </div>
         </div>
     </div>
@@ -81,7 +81,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
-                <button id="btnDeleteComment" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Удалить</button>
+                <button type="button" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal" onclick="deleteUserComment()">
+                    Удалить
+                </button>
             </div>
         </div>
     </div>

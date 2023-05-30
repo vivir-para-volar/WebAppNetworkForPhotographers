@@ -4,7 +4,7 @@ using UserClientAppNetworkForPhotographers.Exceptions;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
-    public class GeneralController : Controller
+    public class CommonController : Controller
     {
         public ActionResult ApiError(int status, string message)
         {

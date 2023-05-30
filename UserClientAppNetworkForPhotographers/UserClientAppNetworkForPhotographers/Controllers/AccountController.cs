@@ -39,7 +39,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
             }
 
             return RedirectToAction(nameof(Login));
@@ -68,7 +68,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                     ModelState.AddModelError("", "Неправильный логин или пароль");
                     return View(userLogin);
                 }
-                else return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
+                else return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
             }
 
             await CreateCookieAuthentication(tokenDto);

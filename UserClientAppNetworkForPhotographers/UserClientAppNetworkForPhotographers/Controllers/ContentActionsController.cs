@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
+using UserClientAppNetworkForPhotographers.Models.Data;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Comments;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Likes;
@@ -151,6 +153,39 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
 
             return StatusCode(StatusCodes.Status204NoContent);
+        }
+
+
+
+        public async Task<ActionResult> GetAllComplaintsBase()
+        {
+            List<ComplaintBase> complaintsBase;
+
+            try
+            {
+                complaintsBase = await ApiComplaints.GetAllBase(AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created, complaintsBase);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateComplaint(CreateComplaintDto complaintDto)
+        {
+            try
+            {
+                await ApiComplaints.Create(complaintDto, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created);
         }
     }
 }

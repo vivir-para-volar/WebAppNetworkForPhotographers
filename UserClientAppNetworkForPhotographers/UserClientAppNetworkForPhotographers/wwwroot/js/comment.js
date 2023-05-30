@@ -34,41 +34,38 @@ async function checkNewComments() {
     checkDate = new Date();
 
     const res = await serverGetNewContentComments(contentId, dateStringFormatted);
+    if (!res) return false;
 
-    if (res) {
-        const comments = res.data;
+    const comments = res.data;
 
-        for (let comment of comments) {
-            createCommentInHtml(comment, false);
+    for (let comment of comments) {
+        createCommentInHtml(comment, false);
 
-            countComments++;
-            setCountComments(countComments);
-        }
+        countComments++;
+        setCountComments(countComments);
     }
 }
 
 
 async function createUserComment() {
-    const inputComment = document.getElementById("textCreateComment");
+    const inputText = document.getElementById("textCreateComment");
+    const text = inputText.value;
 
-    const text = inputComment.value;
     if (text.length < 1) {
-        alert("Комментарий должен быть не менее 1 символа");
         return false;
     }
 
     const res = await serverCreateComment(text, contentId);
+    if (!res) return false;
 
-    if (res) {
-        const comment = res.data;
+    const comment = res.data;
 
-        inputComment.value = '';
+    inputText.value = '';
 
-        createCommentInHtml(comment, true);
+    createCommentInHtml(comment, true);
 
-        countComments++;
-        setCountComments(countComments);
-    }
+    countComments++;
+    setCountComments(countComments);
 }
 
 
@@ -81,7 +78,7 @@ function createCommentInHtml(comment, isUser) {
     }
     else {
         photo = `<div class="divForPhoto">
-                    <img class="profilePhotoMini" src="${clientUrl}/General/GetPhotographerPhoto?name=${comment.photographer.photoProfile}">
+                    <img class="profilePhotoMini" src="${clientUrl}/Common/GetPhotographerPhoto?name=${comment.photographer.photoProfile}">
                  </div>`;
     }
 
@@ -90,7 +87,7 @@ function createCommentInHtml(comment, isUser) {
 
     let divDeleteComment = "";
     if (isUser) {
-        divDeleteComment = 
+        divDeleteComment =
             `<div class="divFlexEnd pt-2">
                 <button class="btnImg" data-bs-toggle="modal"
                         data-bs-target="#modalDeleteComment" data-bs-whatever="${comment.id}">
@@ -110,7 +107,7 @@ function createCommentInHtml(comment, isUser) {
                         <p><strong>${comment.photographer.username}</strong></p>
                     </a>
 
-                    <p class="textComment mt-1">${comment.text}</p>
+                    <pre class="textComment mt-1">${comment.text}</pre>
                     <div class="textDate mt-1">${dateStringFormatted}</div>
                 </div>
 
@@ -135,22 +132,16 @@ modalDeleteComment.addEventListener('show.bs.modal', function (event) {
     deleteCommentId = button.getAttribute('data-bs-whatever');
 });
 
-const btnDeleteComment = document.getElementById('btnDeleteComment');
-btnDeleteComment.addEventListener("click", async function (event) {
-    await deleteUserComment(deleteCommentId);
-});
+async function deleteUserComment() {
+    const res = await serverDeleteComment(deleteCommentId);
+    if (!res) return false;
 
-async function deleteUserComment(id) {
-    const res = await serverDeleteComment(id);
+    var divCommen = document.getElementById(`divComment${deleteCommentId}`);
 
-    if (res) {
-        var divCommen = document.getElementById(`divComment${id}`);
-
-        if (divCommen.parentNode) {
-            divCommen.parentNode.removeChild(divCommen);
-        }
-
-        countComments--;
-        setCountComments(countComments);
+    if (divCommen.parentNode) {
+        divCommen.parentNode.removeChild(divCommen);
     }
+
+    countComments--;
+    setCountComments(countComments);
 }

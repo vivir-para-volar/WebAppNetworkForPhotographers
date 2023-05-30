@@ -21,14 +21,14 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 post = await ApiContents.GetById(id, token);
                 if (post.Type != TypeContent.Post)
                 {
-                    return RedirectToAction(nameof(GeneralController.ApiError), "General", new { status = StatusCodes.Status400BadRequest });
+                    return RedirectToAction(nameof(CommonController.ApiError), "General", new { status = StatusCodes.Status400BadRequest });
                 }
 
                 post.Comments = await ApiComments.GetAllForContent(id, token);
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
             }
 
             post.UserId = AppUser.GetPhotographerId(HttpContext);
@@ -49,7 +49,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
             }
 
             return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
