@@ -76,7 +76,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
         public GetPhotographerForListDto ToGetPhotographerForListDto()
         {
-            return new GetPhotographerForListDto(Id, Username, PhotoProfile);
+            return new GetPhotographerForListDto(Id, Username, Name, PhotoProfile);
         }
 
         public static List<GetPhotographerForListDto> ToListGetPhotographerForListDto(List<Photographer> photographers)
