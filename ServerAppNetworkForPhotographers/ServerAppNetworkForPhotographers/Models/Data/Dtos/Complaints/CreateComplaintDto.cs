@@ -4,7 +4,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints
 {
     public class CreateComplaintDto
     {
-        [StringLength(256, MinimumLength = 4)]
+        [StringLength(512, MinimumLength = 16)]
         public string? Text { get; set; }
 
         [Range(1, int.MaxValue)]
