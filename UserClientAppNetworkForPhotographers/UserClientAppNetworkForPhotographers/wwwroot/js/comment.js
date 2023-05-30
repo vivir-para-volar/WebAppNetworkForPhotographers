@@ -27,6 +27,7 @@ function downPage() {
 }
 
 
+
 setInterval(checkNewComments, 3000);
 async function checkNewComments() {
     const dateStringFormatted = `${checkDate.toLocaleDateString()} ${checkDate.toLocaleTimeString()}.${checkDate.getMilliseconds()}`;
@@ -45,7 +46,6 @@ async function checkNewComments() {
         }
     }
 }
-
 
 
 async function createUserComment() {
@@ -71,21 +71,6 @@ async function createUserComment() {
     }
 }
 
-async function deleteUserComment(id) {
-    const res = await serverDeleteComment(id);
-
-    if (res) {
-        var divCommen = document.getElementById(`divComment${id}`);
-
-        if (divCommen.parentNode) {
-            divCommen.parentNode.removeChild(divCommen);
-        }
-
-        countComments--;
-        setCountComments(countComments);
-    }
-}
-
 
 function createCommentInHtml(comment, isUser) {
     const parent = document.getElementById("divComments");
@@ -106,10 +91,10 @@ function createCommentInHtml(comment, isUser) {
     let divDeleteComment = "";
     if (isUser) {
         divDeleteComment = 
-            `<div class="divDeleteComment pt-2">
+            `<div class="divFlexEnd pt-2">
                 <button class="btnImg" data-bs-toggle="modal"
                         data-bs-target="#modalDeleteComment" data-bs-whatever="${comment.id}">
-                    <img class="deleteCommentImg" src="${clientUrl}/image/delete.png">
+                    <img class="deleteCommentImg" src="${clientUrl}/image/content/delete.png">
                 </button>
             </div>`
     }
@@ -140,7 +125,7 @@ function createCommentInHtml(comment, isUser) {
 
 
 
-// Модальное окно удаления комментария
+// Modal window for deleting comment
 
 let deleteCommentId;
 
@@ -154,3 +139,18 @@ const btnDeleteComment = document.getElementById('btnDeleteComment');
 btnDeleteComment.addEventListener("click", async function (event) {
     await deleteUserComment(deleteCommentId);
 });
+
+async function deleteUserComment(id) {
+    const res = await serverDeleteComment(id);
+
+    if (res) {
+        var divCommen = document.getElementById(`divComment${id}`);
+
+        if (divCommen.parentNode) {
+            divCommen.parentNode.removeChild(divCommen);
+        }
+
+        countComments--;
+        setCountComments(countComments);
+    }
+}

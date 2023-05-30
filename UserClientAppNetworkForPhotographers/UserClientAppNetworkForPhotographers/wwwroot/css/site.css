@@ -62,6 +62,12 @@ a {
     flex-wrap: wrap;
 }
 
+.divFlexEnd {
+    margin-left: auto;
+}
+
+
+
 .divForPhoto {
     margin-right: 20px;
 }
@@ -140,10 +146,6 @@ a {
     bottom: 30px;
 }
 
-#btnDown {
-    margin-left: auto;
-}
-
 .imgDown {
     width: 35px;
     height: 35px;
@@ -157,10 +159,6 @@ a {
 }
 
 .textComment {
-}
-
-.divDeleteComment {
-    margin-left: auto;
 }
 
 .deleteCommentImg {

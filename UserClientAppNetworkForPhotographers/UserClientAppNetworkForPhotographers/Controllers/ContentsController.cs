@@ -40,5 +40,19 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             return View();
         }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await ApiContents.Delete(id, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(GeneralController.ApiError), "General", ex.ToObj());
+            }
+
+            return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
+        }
     }
 }

@@ -50,7 +50,7 @@ async function deleteFavourite(contentId) {
 
 
 
-// Модальное окно фотографов, которые поставили лайк
+// Modal window for photographers who have put a like
 
 const modalAllLikes = document.getElementById('modalAllLikes');
 
@@ -108,3 +108,16 @@ function createPhotographerInModalAllLikes(photographer) {
 
     return html;
 }
+
+
+
+// Modal window for deleting content
+
+const modalDeleteContent = document.getElementById('modalDeleteContent');
+modalDeleteContent.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    deleteContentId = button.getAttribute('data-bs-whatever');
+
+    var btnDeleteContent = document.getElementById("btnDeleteContent");
+    btnDeleteContent.href = `/Contents/Delete/${deleteContentId}`;
+});
