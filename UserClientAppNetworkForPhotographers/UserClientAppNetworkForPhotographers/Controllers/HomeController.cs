@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Models.Lists;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {

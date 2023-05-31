@@ -1,0 +1,10 @@
+﻿@model List<UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentForListDto>
+
+<div>
+    @foreach (var content in Model)
+    {
+        <div class="mb-4">
+            @(await Html.PartialAsync("~/Views/ContentsLists/Content.cshtml", content))
+        </div>
+    }
+</div>

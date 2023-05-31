@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Models.Lists;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
@@ -37,6 +37,16 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         }
 
         public ActionResult Blog(int id)
+        {
+            return View();
+        }
+
+        public ActionResult CreatePost()
+        {
+            return View();
+        }
+
+        public ActionResult CreateBlog()
         {
             return View();
         }

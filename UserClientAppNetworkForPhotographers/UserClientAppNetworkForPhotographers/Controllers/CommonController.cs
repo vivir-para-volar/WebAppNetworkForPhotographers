@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
@@ -11,12 +13,21 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return View(new ApiException(status, message));
         }
 
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> GetPhotographerPhoto(string name)
         {
             var photo = await ApiPhotographers.GetPhotoByName(name, AppUser.GetToken(HttpContext));
             return File(photo, "image/jpeg");
         }
 
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult> GetBlogMainPhoto(string name)
+        {
+            var photo = await ApiContents.GetBlogMainPhotoByName(name, AppUser.GetToken(HttpContext));
+            return File(photo, "image/jpeg");
+        }
+
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> GetContentPhoto(int contentId, string name)
         {
             var photo = await ApiPhotos.GetPhotoByName(contentId, name, AppUser.GetToken(HttpContext));

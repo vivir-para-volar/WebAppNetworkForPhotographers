@@ -1,4 +1,4 @@
-﻿namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints
+﻿namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Complaints
 {
     public class CreateComplaintDto
     {

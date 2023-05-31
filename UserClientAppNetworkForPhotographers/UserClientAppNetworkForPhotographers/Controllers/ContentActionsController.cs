@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
-using ServerAppNetworkForPhotographers.Models.Lists;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;

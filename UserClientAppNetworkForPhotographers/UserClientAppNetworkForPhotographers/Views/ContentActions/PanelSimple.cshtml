@@ -1,0 +1,77 @@
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentDto
+
+<div class="containerParentFlexMany">
+
+    <div class="pe-3">
+        @if (Model.IsLike == true)
+        {
+            <button id="btnCreateLike@(Model.Id)" class="btnImg"
+                    onclick="createLike(@(Model.Id))" style="display:none">
+                <img class="contentImg" src="~/image/content/heart.png">
+            </button>
+
+            <button id="btnDeleteLike@(Model.Id)" class="btnImg" onclick="deleteLike(@(Model.Id))">
+                <img class="contentImg" src="~/image/content/heartLike.png">
+            </button>
+        }
+        else
+        {
+            <button id="btnCreateLike@(Model.Id)" class="btnImg" onclick="createLike(@(Model.Id))">
+                <img class="contentImg" src="~/image/content/heart.png">
+            </button>
+
+            <button id="btnDeleteLike@(Model.Id)" class="btnImg"
+                    onclick="deleteLike(@(Model.Id))" style="display:none">
+                <img class="contentImg" src="~/image/content/heartLike.png">
+            </button>
+        }
+
+        <button id="countLikes@(Model.Id)" class="btnImg ps-1"
+                data-bs-toggle="modal" data-bs-target="#modalAllLikes" data-bs-whatever="@(Model.Id)">
+            @(Model.CountLikes)
+        </button>
+    </div>
+
+    <div>
+        @if (Model.IsFavourite == true)
+        {
+            <button id="btnCreateFavourite@(Model.Id)" class="btnImg"
+                    onclick="createFavourite(@(Model.Id))" style="display:none">
+                <img class="contentImg" src="~/image/content/star.png">
+            </button>
+
+            <button id="btnDeleteFavourite@(Model.Id)" class="btnImg" onclick="deleteFavourite(@(Model.Id))">
+                <img class="contentImg" src="~/image/content/starFavourite.png">
+            </button>
+        }
+        else
+        {
+            <button id="btnCreateFavourite@(Model.Id)" class="btnImg" onclick="createFavourite(@(Model.Id))">
+                <img class="contentImg" src="~/image/content/star.png">
+            </button>
+
+            <button id="btnDeleteFavourite@(Model.Id)" class="btnImg"
+                    onclick="deleteFavourite(@(Model.Id))" style="display:none">
+                <img class="contentImg" src="~/image/content/starFavourite.png">
+            </button>
+        }
+        <span id="countFavourites@(Model.Id)" class="ps-1">@(Model.CountFavourites)</span>
+    </div>
+
+    <div class="divFlexEnd">
+        @if (Model.Photographer.Id == Model.UserId)
+        {
+            <button class="btnImg" data-bs-toggle="modal"
+                    data-bs-target="#modalDeleteContent" data-bs-whatever="@(Model.Id)">
+                <img class="contentImg" src="~/image/content/deleteWhite.png">
+            </button>
+        }
+        else
+        {
+            <button class="btnImg" data-bs-toggle="modal"
+                    data-bs-target="#modalCreateComplaint" data-bs-whatever="@(Model.Id)">
+                <img class="contentImg" src="~/image/content/complaint.png">
+            </button>
+        }
+    </div>
+</div>

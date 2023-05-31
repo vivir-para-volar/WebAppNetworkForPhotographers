@@ -52,12 +52,8 @@ const modalAllLikes = document.getElementById('modalAllLikes');
 
 modalAllLikes.addEventListener('show.bs.modal', async function (event) {
     const button = event.relatedTarget;
-    contentId = button.getAttribute('data-bs-whatever');
+    const contentId = button.getAttribute('data-bs-whatever');
 
-    await getAllContentLikes(contentId);
-});
-
-async function getAllContentLikes(contentId) {
     const res = await serverGetAllContentLikes(contentId);
     if (!res) return false;
 
@@ -76,7 +72,7 @@ async function getAllContentLikes(contentId) {
     const count = photographers.length;
     const form = getFormLike(count);
     hModal.innerHTML = `${count} ${form}`;
-}
+});
 
 function createPhotographerInModalAllLikes(photographer) {
     let photo;
@@ -90,7 +86,7 @@ function createPhotographerInModalAllLikes(photographer) {
     }
 
     const html =
-        `<div class="containerParentFlex pb-3">
+        `<div class="containerParentFlex pb-2 pt-2">
             <a href="/Profiles/Photographer/${photographer.id}">${photo}</a>
 
             <div>
@@ -128,14 +124,14 @@ modalCreateComplaint.addEventListener('show.bs.modal', async function (event) {
     const button = event.relatedTarget;
     complaintContentId = button.getAttribute('data-bs-whatever');
 
-    const res = await serverGetAllComplaintsBase(contentId);
+    const res = await serverGetAllComplaintsBase();
     if (!res) return false;
 
     const complaintsBase = res.data;
 
     var parent = document.getElementById("divComplaints");
 
-    let html = 
+    let html =
         `<div class="form-check mt-1">
             <input type="radio" id="complaintBase${complaintsBase[0].id}" name="complaintBaseId" 
                    value="${complaintsBase[0].id}" class="form-check-input" checked>

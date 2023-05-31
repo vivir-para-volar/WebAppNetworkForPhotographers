@@ -1,5 +1,3 @@
-const clientUrl = "https://localhost:7247";
-
 let checkDate;
 let contentId;
 let countComments;

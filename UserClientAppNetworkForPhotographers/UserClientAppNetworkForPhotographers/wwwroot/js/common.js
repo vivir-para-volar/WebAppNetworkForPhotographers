@@ -1,3 +1,5 @@
+const clientUrl = "https://localhost:7247";
+
 function getFormComment(num) {
     return declension(num, "комментарий", "комментария", "комментариев");
 }

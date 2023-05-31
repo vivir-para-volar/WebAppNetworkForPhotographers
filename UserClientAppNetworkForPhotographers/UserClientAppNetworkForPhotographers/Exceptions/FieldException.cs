@@ -1,4 +1,4 @@
-﻿namespace ServerAppNetworkForPhotographers.Exceptions
+﻿namespace UserClientAppNetworkForPhotographers.Exceptions
 {
     public class FieldException : Exception
     {

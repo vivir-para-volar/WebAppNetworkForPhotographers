@@ -18,6 +18,12 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return content;
         }
 
+        public static async Task<Stream> GetBlogMainPhotoByName(string name, string token)
+        {
+            var response = await ApiRequest.Get($"{ApiUrl.ContentsBlogsMainPhoto}/{name}", token);
+            return await response.Content.ReadAsStreamAsync();
+        }
+
         public static async Task Delete(int id, string token)
         {
             var response = await ApiRequest.Delete($"{ApiUrl.Contents}/{id}", token);

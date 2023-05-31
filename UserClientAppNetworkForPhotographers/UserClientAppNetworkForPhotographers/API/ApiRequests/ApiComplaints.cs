@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using ServerAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
 

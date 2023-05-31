@@ -1,6 +1,4 @@
-﻿@using ServerAppNetworkForPhotographers.Models.Lists;
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
@@ -62,13 +60,13 @@
                                 </div><span>Добавить</span>
                             </a>
                             <ul>
-                                <li><a asp-controller="Home" asp-action="Privacy">Пост</a></li>
-                                <li><a asp-controller="Home" asp-action="Privacy">Блог</a></li>
+                                <li><a asp-controller="Contents" asp-action="CreatePost">Пост</a></li>
+                                <li><a asp-controller="Contents" asp-action="CreateBlog">Блог</a></li>
                             </ul>
                         </li>
 
                         <li>
-                            <a asp-controller="Home" asp-action="Index">
+                            <a asp-controller="Favourites" asp-action="Index">
                                 <div class="img_n"><img src="~/image/menu/favourite.png"></div><span>Избранное</span>
                             </a>
                         </li>

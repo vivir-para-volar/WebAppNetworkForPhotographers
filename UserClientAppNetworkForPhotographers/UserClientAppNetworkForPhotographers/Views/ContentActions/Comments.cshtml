@@ -1,69 +1,64 @@
 ﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentDto
 
-<div class="container pt-5 pb-2">
-    <div class="containerParentFlexCenter">
-        <div class="containerCenter">
+<div>
+    <h4 id="countComments"></h4>
 
-            <h4 id="countComments"></h4>
-
-            <div id="divComments">
-                @foreach (var comment in Model.Comments)
-                {
-                    <div id="divComment@(comment.Id)" class="divComment containerParentFlex pt-3 pb-3">
-                        <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(comment.Photographer.Id)>
-                            @if (comment.Photographer.PhotoProfile == null)
-                            {
-                                <div class="divForPhoto"><img class="profilePhotoMini" src="~/image/emptyProfile.png"></div>
-                            }
-                            else
-                            {
-                                <div class="divForPhoto">
-                                    <img class="profilePhotoMini" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = comment.Photographer.PhotoProfile}))>
-                                </div>
-                            }
-                        </a>
-
-                        <div>
-                            <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(comment.Photographer.Id)>
-                                <p><strong>@(comment.Photographer.Username)</strong></p>
-                            </a>
-
-                            <pre class="textComment mt-1">@(comment.Text)</pre>
-                            <div class="textDate mt-1">@(comment.CreatedAt)</div>
+    <div id="divComments">
+        @foreach (var comment in Model.Comments)
+        {
+            <div id="divComment@(comment.Id)" class="divComment containerParentFlex pt-3 pb-3">
+                <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(comment.Photographer.Id)>
+                    @if (comment.Photographer.PhotoProfile == null)
+                    {
+                        <div class="divForPhoto"><img class="profilePhotoMini" src="~/image/emptyProfile.png"></div>
+                    }
+                    else
+                    {
+                        <div class="divForPhoto">
+                            <img class="profilePhotoMini" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = comment.Photographer.PhotoProfile}))>
                         </div>
+                    }
+                </a>
 
-                        @if (comment.Photographer.Id == Model.UserId)
-                        {
-                            <div class="divFlexEnd pt-2">
-                                <button class="btnImg" data-bs-toggle="modal"
-                                        data-bs-target="#modalDeleteComment" data-bs-whatever="@(comment.Id)">
-                                    <img class="deleteCommentImg" src="~/image/content/delete.png">
-                                </button>
-                            </div>
-                        }
+                <div>
+                    <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(comment.Photographer.Id)>
+                        <p><strong>@(comment.Photographer.Username)</strong></p>
+                    </a>
+
+                    <pre class="textComment mt-1">@(comment.Text)</pre>
+                    <div class="textDate mt-1">@(comment.CreatedAt)</div>
+                </div>
+
+                @if (comment.Photographer.Id == Model.UserId)
+                {
+                    <div class="divFlexEnd pt-2">
+                        <button class="btnImg" data-bs-toggle="modal"
+                                data-bs-target="#modalDeleteComment" data-bs-whatever="@(comment.Id)">
+                            <img class="deleteCommentImg" src="~/image/content/delete.png">
+                        </button>
                     </div>
                 }
             </div>
+        }
+    </div>
 
-            <div id="divCreateComment" class="mt-3">
-                <div class="containerParentFlex">
-                    <textarea id="textCreateComment" type="text" class="form-control" rows="4"
-                              placeholder="Написать комментарий..." minlength="16" maxlength="512"></textarea>
+    <div id="divCreateComment" class="mt-3">
+        <div class="containerParentFlex">
+            <textarea id="textCreateComment" type="text" class="form-control" rows="4"
+                      placeholder="Написать комментарий..." minlength="16" maxlength="512"></textarea>
 
-                    <div class="divFlexCenter">
-                        <button class="btnImg" onclick="createUserComment()">
-                            <img class="contentImg" src="~/image/content/comment.png">
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="divDown">
-                <button id="btnDown" class="btnImg divFlexEnd" onclick="downPage()">
-                    <img class="imgDown" src="~/image/content/down.png">
+            <div class="divFlexCenter">
+                <button class="btnImg" onclick="createUserComment()">
+                    <img class="contentImg" src="~/image/content/create.png">
                 </button>
             </div>
         </div>
+    </div>
+
+    <div id="divDown">
+        <button id="btnDown" class="btnImg divFlexEnd" onclick="downPage()">
+            <img class="imgDown" src="~/image/content/down.png">
+        </button>
     </div>
 </div>
 

@@ -32,126 +32,57 @@
 
 </div>
 
-<div class="container pt-2">
+<div class="container pt-2 pb-2">
 
     <div class="containerParentFlexCenter">
         <div class="containerCenter">
-
-            <div class="containerParentFlexMany">
-
-                <div class="pe-4">
-                    @if (Model.IsLike == true)
-                    {
-                        <button id="btnCreateLike@(Model.Id)" class="btnImg"
-                                onclick="createLike(@(Model.Id))" style="display:none">
-                            <img class="contentImg" src="~/image/content/heart.png">
-                        </button>
-
-                        <button id="btnDeleteLike@(Model.Id)" class="btnImg" onclick="deleteLike(@(Model.Id))">
-                            <img class="contentImg" src="~/image/content/heartLike.png">
-                        </button>
-                    }
-                    else
-                    {
-                        <button id="btnCreateLike@(Model.Id)" class="btnImg" onclick="createLike(@(Model.Id))">
-                            <img class="contentImg" src="~/image/content/heart.png">
-                        </button>
-
-                        <button id="btnDeleteLike@(Model.Id)" class="btnImg"
-                                onclick="deleteLike(@(Model.Id))" style="display:none">
-                            <img class="contentImg" src="~/image/content/heartLike.png">
-                        </button>
-                    }
-
-                    <button id="countLikes@(Model.Id)" class="btnImg ps-1"
-                            data-bs-toggle="modal" data-bs-target="#modalAllLikes" data-bs-whatever="@(Model.Id)">
-                        @(Model.CountLikes)
-                    </button>
-                </div>
-
-                <div>
-                    @if (Model.IsFavourite == true)
-                    {
-                        <button id="btnCreateFavourite@(Model.Id)" class="btnImg"
-                                onclick="createFavourite(@(Model.Id))" style="display:none">
-                            <img class="contentImg" src="~/image/content/star.png">
-                        </button>
-
-                        <button id="btnDeleteFavourite@(Model.Id)" class="btnImg" onclick="deleteFavourite(@(Model.Id))">
-                            <img class="contentImg" src="~/image/content/starFavourite.png">
-                        </button>
-                    }
-                    else
-                    {
-                        <button id="btnCreateFavourite@(Model.Id)" class="btnImg" onclick="createFavourite(@(Model.Id))">
-                            <img class="contentImg" src="~/image/content/star.png">
-                        </button>
-
-                        <button id="btnDeleteFavourite@(Model.Id)" class="btnImg"
-                                onclick="deleteFavourite(@(Model.Id))" style="display:none">
-                            <img class="contentImg" src="~/image/content/starFavourite.png">
-                        </button>
-                    }
-                    <span id="countFavourites@(Model.Id)" class="ps-1">@(Model.CountFavourites)</span>
-                </div>
-
-                <div class="divFlexEnd">
-                    @if (Model.Photographer.Id == Model.UserId)
-                    {
-                        <button class="btnImg" data-bs-toggle="modal"
-                                data-bs-target="#modalDeleteContent" data-bs-whatever="@(Model.Id)">
-                            <img class="contentImg" src="~/image/content/deleteWhite.png">
-                        </button>
-                    }
-                    else
-                    {
-                        <button class="btnImg" data-bs-toggle="modal"
-                                data-bs-target="#modalCreateComplaint" data-bs-whatever="@(Model.Id)">
-                            <img class="contentImg" src="~/image/content/complaint.png">
-                        </button>
-                    }
-                </div>
+            <div>
+                @(await Html.PartialAsync("~/Views/ContentActions/PanelSimple.cshtml", Model))
             </div>
 
-            <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(Model.Photographer.Id)>
-                <div class="containerParentFlexMany mt-4">
-                    @if (Model.Photographer.PhotoProfile == null)
-                    {
-                        <div class="divForPhoto"><img class="profilePhoto" src="~/image/emptyProfile.png"></div>
-                    }
-                    else
-                    {
-                        <div class="divForPhoto">
-                            <img class="profilePhoto" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.Photographer.PhotoProfile}))>
+            <div>
+                <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(Model.Photographer.Id)>
+                    <div class="containerParentFlexMany mt-4">
+                        @if (Model.Photographer.PhotoProfile == null)
+                        {
+                            <div class="divForPhoto"><img class="profilePhoto" src="~/image/emptyProfile.png"></div>
+                        }
+                        else
+                        {
+                            <div class="divForPhoto">
+                                <img class="profilePhoto" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.Photographer.PhotoProfile}))>
+                            </div>
+                        }
+
+                        <div class="divAfterPhoto">
+                            <p><strong>@(Model.Photographer.Username)</strong></p>
+                            <p>@(Model.Photographer.Name)</p>
                         </div>
-                    }
-
-                    <div class="divAfterPhoto">
-                        <p><strong>@(Model.Photographer.Username)</strong></p>
-                        <p>@(Model.Photographer.Name)</p>
                     </div>
+                </a>
+
+                <div class="mt-4"><pre>@(Model.Title)</pre></div>
+
+                <div class="mt-4"><strong>Загружено: </strong>@(Model.CreatedAt)</div>
+
+                <div class="mt-3">
+                    <strong>Категории: </strong>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <a asp-controller="Settings" asp-action="UpdatePassword" class="btn btn-outline-dark" style="display: inline-block">@(category.Name)</a>
+                    }
                 </div>
-            </a>
 
-            <div class="mt-4"><pre>@(Model.Title)</pre></div>
-
-            <div class="mt-4"><strong>Загружено: </strong>@(Model.CreatedAt)</div>
-
-            <div class="mt-3">
-                <strong>Категории: </strong>
-                @foreach (var category in Model.Categories)
-                {
-                    <a asp-controller="Settings" asp-action="UpdatePassword" class="btn btn-outline-dark" style="display: inline-block">@(category.Name)</a>
-                }
+                <div class="mt-5">
+                    @(await Html.PartialAsync("~/Views/ContentActions/Comments.cshtml", Model))
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-@(await Html.PartialAsync("~/Views/ContentActions/Comments.cshtml", Model))
 @(await Html.PartialAsync("~/Views/ContentActions/ContentModals.cshtml"))
-
 
 <script src="~/js/content.js" asp-append-version="true"></script>
 <script src="~/js/comment.js" asp-append-version="true"></script>

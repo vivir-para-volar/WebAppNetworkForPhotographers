@@ -1,0 +1,38 @@
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Favourites.GetFavouritesDto
+
+<div class="container p-3 mt-5 pt-4">
+    <div class="containerParentFlexCenter">
+        <div class="containerCenter">
+
+            <ul class="nav nav-tabs" id="favouritesTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="posts-tab" data-bs-toggle="tab" data-bs-target="#posts" type="button" role="tab" aria-controls="main" aria-selected="false">Посты</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="blogs-tab" data-bs-toggle="tab" data-bs-target="#blogs" type="button" role="tab" aria-controls="other" aria-selected="false">Блоги</button>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="containerParentFlexCenter mt-4">
+        <div class="containerCenter">
+            <div class="tab-content" id="favouritesTabContent">
+
+                <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                    @(await Html.PartialAsync("~/Views/ContentsLists/List.cshtml", Model.Posts))
+                </div>
+
+                <div class="tab-pane fade" id="blogs" role="tabpanel" aria-labelledby="blogs-tab">
+                    @(await Html.PartialAsync("~/Views/ContentsLists/List.cshtml", Model.Blogs))
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@(await Html.PartialAsync("~/Views/ContentActions/ContentModals.cshtml"))
+
+<script src="~/js/content.js" asp-append-version="true"></script>

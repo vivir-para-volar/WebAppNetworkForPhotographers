@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ServerAppNetworkForPhotographers.Exceptions;
-using ServerAppNetworkForPhotographers.Models.Lists;
-using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
+using UserClientAppNetworkForPhotographers.Models.Lists;
+using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Models.Account;
 using UserClientAppNetworkForPhotographers.Models.Data;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;

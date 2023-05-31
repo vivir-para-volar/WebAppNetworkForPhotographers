@@ -1,4 +1,4 @@
-﻿namespace ServerAppNetworkForPhotographers.Models.Lists
+﻿namespace UserClientAppNetworkForPhotographers.Models.Lists
 {
     public static class StatusContent
     {
