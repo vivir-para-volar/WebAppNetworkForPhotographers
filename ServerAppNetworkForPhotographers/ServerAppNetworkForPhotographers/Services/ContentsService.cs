@@ -29,6 +29,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
                 .Where(item => item.PhotographerId == photographerId && item.Type == typeContent)
+                .OrderByDescending(item => item.CreatedAt)
                 .ToListAsync();
 
             return await ConvertListContents(contents, userId);
@@ -47,6 +48,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.PhotographerId == photographerId &&
                        item.Status == StatusContent.Open &&
                        item.Type == typeContent)
+                .OrderByDescending(item => item.CreatedAt)
                 .ToListAsync();
 
             return await ConvertListContents(contents, userId);
@@ -67,6 +69,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.PhotographerId == photographerId &&
                                item.Content.Status == StatusContent.Open &&
                                item.Content.Type == typeContent)
+                .OrderByDescending(item => item.Content.CreatedAt)
                 .ForEachAsync(item => contents.Add(item.Content));
 
             return await ConvertListContents(contents, userId);
@@ -105,6 +108,7 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Where(item => item.Type == typeContent &&
                                item.Status == StatusContent.Open &&
                                EF.Functions.Like(item.Title, $"%{searchDto.SearchData}%"))
+                .OrderByDescending(item => item.CreatedAt)
                 .ToListAsync();
 
             return await ConvertListContents(contents, userId);
@@ -144,7 +148,7 @@ namespace ServerAppNetworkForPhotographers.Services
             return content;
         }
 
-        public async Task<string> UpdateBlogMainPhoto(int id, IFormFile photo)
+        public async Task<Content> UpdateBlogMainPhoto(int id, IFormFile photo)
         {
             var content = (await GetSimpleContentById(id)) ??
                 throw new NotFoundException(nameof(Content), id);
@@ -154,7 +158,7 @@ namespace ServerAppNetworkForPhotographers.Services
             _context.Entry(content).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return content.BlogMainPhoto;
+            return content;
         }
 
         public async Task<Content> UpdateContentStatus(int id)

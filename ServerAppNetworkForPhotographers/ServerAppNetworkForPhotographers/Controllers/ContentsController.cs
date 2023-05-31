@@ -145,7 +145,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Blogs/MainPhoto/{name}")]
-        public async Task<ActionResult> GetPhotographerPhotoByName(string name)
+        public async Task<ActionResult> GetBlogMainPhotoByName(string name)
         {
             var filePath = FileInteraction.GetBlogMainPhotoPath(name);
             var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
@@ -210,7 +210,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPut("Blogs/MainPhoto/{id}")]
         [Authorize(Roles = UserRoles.User)]
-        public async Task<ActionResult<string>> UpdateBlogMainPhoto(int id, IFormFile photo)
+        public async Task<ActionResult<Content>> UpdateBlogMainPhoto(int id, IFormFile photo)
         {
             try
             {
