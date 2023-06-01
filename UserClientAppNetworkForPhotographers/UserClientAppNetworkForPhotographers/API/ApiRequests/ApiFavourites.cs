@@ -9,9 +9,9 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 {
     public class ApiFavourites
     {
-        public static async Task<List<GetContentForListDto>> GetPosts(int photographerId, string token)
+        public static async Task<List<GetContentForListDto>> GetPosts(int photographerId, int part, string token)
         {
-            var response = await ApiRequest.Get($"{ApiUrl.ContentsPostsFavourites}/{photographerId}", token);
+            var response = await ApiRequest.Get($"{ApiUrl.ContentsPostsFavourites}/{photographerId}/{part}", token);
 
             string responseMessage = await response.Content.ReadAsStringAsync();
             var contents = JsonConvert.DeserializeObject<List<GetContentForListDto>>(responseMessage);
@@ -20,9 +20,9 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return contents;
         }
 
-        public static async Task<List<GetContentForListDto>> GetBlogs(int photographerId, string token)
+        public static async Task<List<GetContentForListDto>> GetBlogs(int photographerId, int part, string token)
         {
-            var response = await ApiRequest.Get($"{ApiUrl.ContentsBlogsFavourites}/{photographerId}", token);
+            var response = await ApiRequest.Get($"{ApiUrl.ContentsBlogsFavourites}/{photographerId}/{part}", token);
 
             string responseMessage = await response.Content.ReadAsStringAsync();
             var contents = JsonConvert.DeserializeObject<List<GetContentForListDto>>(responseMessage);

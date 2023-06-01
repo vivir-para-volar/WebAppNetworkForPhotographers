@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserClientAppNetworkForPhotographers.Models.Lists;
+using Newtonsoft.Json;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
-using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using UserClientAppNetworkForPhotographers.Models.Data;
-using Newtonsoft.Json;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
@@ -84,7 +84,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             {
                 post = await ApiContents.CreatePost(contentPostDto, AppUser.GetToken(HttpContext));
 
-                foreach(var photo in photos)
+                foreach (var photo in photos)
                 {
                     await ApiPhotos.Create(post.Id, photo, AppUser.GetToken(HttpContext));
                 }

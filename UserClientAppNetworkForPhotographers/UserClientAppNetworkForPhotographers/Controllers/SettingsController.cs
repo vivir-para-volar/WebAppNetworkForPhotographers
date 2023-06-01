@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserClientAppNetworkForPhotographers.Exceptions;
-using UserClientAppNetworkForPhotographers.Models.Lists;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
+using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Account;
 using UserClientAppNetworkForPhotographers.Models.Data;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {

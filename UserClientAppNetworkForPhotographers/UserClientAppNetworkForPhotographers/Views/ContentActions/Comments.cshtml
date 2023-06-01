@@ -84,3 +84,8 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/contentComments.js" asp-append-version="true"></script>
+<script>
+    initComments(@(Model.Id), @(Model.CountComments));
+</script>

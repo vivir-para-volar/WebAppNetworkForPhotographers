@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
-using UserClientAppNetworkForPhotographers.Models.Lists;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Comments;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Complaints;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Favourites;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Likes;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
@@ -28,7 +28,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return StatusCode(StatusCodes.Status201Created, photographersForList);
+            return StatusCode(StatusCodes.Status200OK, photographersForList);
         }
 
         [HttpPost]
@@ -119,7 +119,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return StatusCode(StatusCodes.Status201Created, comments);
+            return StatusCode(StatusCodes.Status200OK, comments);
         }
 
         [HttpPost]
@@ -170,7 +170,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return StatusCode(StatusCodes.Status201Created, complaintsBase);
+            return StatusCode(StatusCodes.Status200OK, complaintsBase);
         }
 
         [HttpPost]

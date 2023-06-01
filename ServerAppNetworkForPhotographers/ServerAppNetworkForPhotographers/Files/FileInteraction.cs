@@ -1,6 +1,4 @@
-﻿using ServerAppNetworkForPhotographers.Models.Data;
-
-namespace ServerAppNetworkForPhotographers.Files
+﻿namespace ServerAppNetworkForPhotographers.Files
 {
     public static class FileInteraction
     {

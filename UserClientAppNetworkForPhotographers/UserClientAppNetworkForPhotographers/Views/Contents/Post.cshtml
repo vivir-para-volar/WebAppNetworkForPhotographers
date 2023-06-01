@@ -1,33 +1,42 @@
 ﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentDto
 
 <div class="pt-5">
-
     <div class="sliderContainer p-4">
-        <div id="carouselControls" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
-            <div class="carousel-inner">
 
-                <div class="carousel-item active">
-                    <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+        @if (Model.Photos.Count == 1)
+        {
+            <div>
+                <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+            </div>
+        }
+        else
+        {
+            <div id="carouselControls" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+                <div class="carousel-inner">
+
+                    <div class="carousel-item active">
+                        <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+                    </div>
+
+                    @for (var i = 1; i < Model.Photos.Count; i++)
+                    {
+                        <div class="carousel-item">
+                            <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent}))>
+                        </div>
+                    }
                 </div>
 
-                @for (var i = 1; i < Model.Photos.Count; i++)
-                {
-                    <div class="carousel-item">
-                        <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent}))>
-                    </div>
-                }
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Предыдущий</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Следующий</span>
+                </button>
             </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Предыдущий</span>
-            </button>
-
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Следующий</span>
-            </button>
-        </div>
+        }
     </div>
 
 </div>
@@ -81,11 +90,6 @@
     </div>
 </div>
 
+@(await Html.PartialAsync("~/Views/ContentActions/PanelModals.cshtml"))
 
-@(await Html.PartialAsync("~/Views/ContentActions/ContentModals.cshtml"))
-
-<script src="~/js/content.js" asp-append-version="true"></script>
-<script src="~/js/comment.js" asp-append-version="true"></script>
-<script>
-    initComments(@(Model.Id), @(Model.CountComments));
-</script>
+<script src="~/js/contentPanel.js" asp-append-version="true"></script>

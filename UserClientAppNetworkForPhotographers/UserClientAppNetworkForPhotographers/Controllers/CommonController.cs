@@ -26,7 +26,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             {
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
-            
+
             return File(photo, "image/jpeg");
         }
 
@@ -43,7 +43,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             {
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
-            
+
             return File(photo, "image/jpeg");
         }
 

@@ -4,7 +4,7 @@
     @foreach (var content in Model)
     {
         <div class="mb-4">
-            @(await Html.PartialAsync("~/Views/ContentsLists/Content.cshtml", content))
+            @(await Html.PartialAsync("~/Views/ContentList/Content.cshtml", content))
         </div>
     }
 </div>
