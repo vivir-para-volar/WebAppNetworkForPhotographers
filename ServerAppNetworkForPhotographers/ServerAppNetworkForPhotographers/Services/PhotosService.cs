@@ -14,25 +14,18 @@ namespace ServerAppNetworkForPhotographers.Services
             _context = context;
         }
 
-        public async Task<List<Photo>> CreatePhotos(int contentId, List<IFormFile> photos)
+        public async Task<Photo> Create(int contentId, IFormFile photo)
         {
             if (!await CheckExistenceContent(contentId))
             {
                 throw new NotFoundException(nameof(Content), contentId);
             }
 
-            var contentPhotos = new List<Photo>();
-
-            foreach (var photo in photos)
-            {
-                var contentPhoto = await Photo.Save(contentId, photo);
-                await _context.Photos.AddAsync(contentPhoto);
-
-                contentPhotos.Add(contentPhoto);
-            }
+            var contentPhoto = await Photo.Save(contentId, photo);
+            await _context.Photos.AddAsync(contentPhoto);
             await _context.SaveChangesAsync();
 
-            return contentPhotos;
+            return contentPhoto;
         }
 
         private async Task<bool> CheckExistenceContent(int contentId)

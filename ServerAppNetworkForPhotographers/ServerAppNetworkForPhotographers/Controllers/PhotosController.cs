@@ -30,12 +30,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return File(bytes, "image/jpeg");
         }
 
-        [HttpPost("{contentId}")]
-        public async Task<ActionResult<List<Photo>>> CreatePhotos(int contentId, List<IFormFile> photos)
+        [HttpPut("{contentId}")]
+        public async Task<ActionResult<Photo>> CreatePhoto(int contentId, IFormFile photo)
         {
             try
             {
-                return Ok(await _photosService.CreatePhotos(contentId, photos));
+                return Ok(await _photosService.Create(contentId, photo));
             }
             catch (NotFoundException ex)
             {

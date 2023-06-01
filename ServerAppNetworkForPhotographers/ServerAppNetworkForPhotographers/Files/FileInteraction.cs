@@ -1,4 +1,6 @@
-﻿namespace ServerAppNetworkForPhotographers.Files
+﻿using ServerAppNetworkForPhotographers.Models.Data;
+
+namespace ServerAppNetworkForPhotographers.Files
 {
     public static class FileInteraction
     {
@@ -43,23 +45,37 @@
             var path = _contentPath + contentId + "\\";
             CreateDir(path);
 
-            return await SaveWithOwnName(path, photo);
+            return await Save(path, photo);
         }
 
         public static void DeleteProfilePhoto(string photoName)
         {
-            File.Delete(_profilePath + photoName);
+            var path = _profilePath + photoName;
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
 
         public static void DeleteBlogMainPhoto(string photoName)
         {
-            File.Delete(_blogMainPath + photoName);
+            var path = _blogMainPath + photoName;
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
 
         public static void DeleteContentPhotos(int contentId)
         {
             var path = _contentPath + contentId;
-            Directory.Delete(path, true);
+
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
         }
 
         private static void CreateDir(string path)
@@ -83,17 +99,17 @@
             return photoName;
         }
 
-        private static async Task<string> SaveWithOwnName(string path, IFormFile photo)
-        {
-            string photoName = photo.FileName;
-            path += photoName;
+        //private static async Task<string> SaveWithOwnName(string path, IFormFile photo)
+        //{
+        //    string photoName = photo.FileName;
+        //    path += photoName;
 
-            using (var stream = File.Create(path))
-            {
-                await photo.CopyToAsync(stream);
-            }
+        //    using (var stream = File.Create(path))
+        //    {
+        //        await photo.CopyToAsync(stream);
+        //    }
 
-            return photoName;
-        }
+        //    return photoName;
+        //}
     }
 }
