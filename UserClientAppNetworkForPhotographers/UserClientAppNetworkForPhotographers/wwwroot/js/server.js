@@ -1,7 +1,11 @@
 const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
-    getFavouritesPosts: '/Favourites/GetFavouritesPosts',
-    getFavouritesBlogs: '/Favourites/GetFavouritesBlogs',
+    searchPhotographers: '/Search/Photographers',
+    searchPosts: '/Search/Posts',
+    searchBlogs: '/Search/Blogs',
+
+    getFavouritesPosts: '/Favourites/GetPosts',
+    getFavouritesBlogs: '/Favourites/GetBlogs',
 
     getAllContentLikes: '/ContentActions/GetAllContentLikes',
     createLike: '/ContentActions/CreateLike',
@@ -16,6 +20,23 @@ const url = {
     getNewContentComments: '/ContentActions/GetNewContentComments',
     createComment: '/ContentActions/CreateComment',
     deleteComment: '/ContentActions/DeleteComment',
+}
+
+
+
+async function serverSearchPhotographers(data, part) {
+    const currentUrl = `${url.searchPhotographers}?data=${data}&part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverSearchPosts(data, part) {
+    const currentUrl = `${url.searchPosts}?data=${data}&part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverSearchBlogs(data, part) {
+    const currentUrl = `${url.searchBlogs}?data=${data}&part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
 }
 
 

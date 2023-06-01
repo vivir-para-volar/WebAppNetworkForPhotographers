@@ -1,24 +1,17 @@
-function addContentForList(contentList, parentName, btnName) {
-    if (contentList.length < countInPart) {
-        document.getElementById(btnName).style.display = "none";
+function addContentsForList(addContentsList, parentAdd, btnAdd) {
+    if (addContentsList.length < countInPart) {
+        btnAdd.style.display = "none";
     }
-    if (contentList.length == 0) return false;
+    if (addContentsList.length == 0) return false;
 
-    let html = `<div>`;
-
-    for (let contentItem of contentList) {
+    let html = "";
+    for (let contentItem of addContentsList) {
         html += `<div class="mb-4">`;
-
         html += getContentItem(contentItem);
-
         html += `</div>`;
     }
 
-    html += `</div>`;
-
-
-    const parent = document.getElementById(parentName);
-    parent.innerHTML += html;
+    parentAdd.innerHTML += html;
 }
 
 function getContentItem(contentItem) {

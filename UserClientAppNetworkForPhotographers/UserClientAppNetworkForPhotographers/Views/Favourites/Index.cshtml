@@ -1,7 +1,12 @@
 ﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Favourites.GetFavouritesDto
 
 <div class="container p-3 mt-5 pt-4">
+
     <div class="containerParentFlexCenter">
+        <h3>Избранное</h3>
+    </div>
+
+    <div class="containerParentFlexCenter mt-4">
         <div class="containerCenter">
 
             <ul class="nav nav-tabs" id="favouritesTab" role="tablist">
@@ -36,7 +41,7 @@
                     else
                     {
                         <div id="listFavouritesPosts">
-                            @(await Html.PartialAsync("~/Views/ContentList/List.cshtml", Model.Posts))
+                            @(await Html.PartialAsync("~/Views/ContentsList/List.cshtml", Model.Posts))
                         </div>
 
                         <div class="containerParentFlexCenter">
@@ -58,7 +63,7 @@
                     else
                     {
                         <div id="listFavouritesBlogs">
-                            @(await Html.PartialAsync("~/Views/ContentList/List.cshtml", Model.Blogs))
+                            @(await Html.PartialAsync("~/Views/ContentsList/List.cshtml", Model.Blogs))
                         </div>
 
                         <div class="containerParentFlexCenter">
@@ -78,35 +83,8 @@
 @(await Html.PartialAsync("~/Views/ContentActions/PanelModals.cshtml"))
 
 <script src="~/js/contentPanel.js" asp-append-version="true"></script>
-<script src="~/js/contentList.js" asp-append-version="true"></script>
+<script src="~/js/contentsList.js" asp-append-version="true"></script>
+<script src="~/js/favourites.js" asp-append-version="true"></script>
 <script>
-    let partFavouritesPosts = 1;
-    let partFavouritesBlogs = 1;
-
-    if (@Model.Posts.Count < countInPart){
-        const btn = document.getElementById("btnMoreFavouritesPosts");
-        if (btn) btn.style.display = "none";
-    }
-    if (@Model.Blogs.Count < countInPart) {
-        const btn = document.getElementById("btnMoreFavouritesBlogs");
-        if (btn) btn.style.display = "none";
-    }
-
-    async function moreFavouritesPosts() {
-        partFavouritesPosts++;
-
-        const res = await serverGetFavouritesPosts(partFavouritesPosts);
-        if (!res) return false;
-
-        addContentForList(res.data, "listFavouritesPosts", "btnMoreFavouritesPosts");
-    }
-
-    async function moreFavouritesBlogs() {
-        partFavouritesBlogs++;
-
-        const res = await serverGetFavouritesBlogs(partFavouritesBlogs);
-        if (!res) return false;
-
-        addContentForList(res.data, "listFavouritesBlogs", "btnMoreFavouritesBlogs");
-    }
+    initFavourites(@(Model.Posts.Count), @(Model.Blogs.Count));
 </script>

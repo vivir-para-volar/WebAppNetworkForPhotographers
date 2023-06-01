@@ -31,7 +31,7 @@ namespace ServerAppNetworkForPhotographers.Services
             var photographers = await _context.Photographers
                 .Where(item => EF.Functions.Like(item.Username, $"%{searchDto.SearchData}%") ||
                                EF.Functions.Like(item.Name, $"%{searchDto.SearchData}%"))
-                .OrderByDescending(item => item.Id)
+                .OrderBy(item => item.Id)
                 .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ToListAsync();
 

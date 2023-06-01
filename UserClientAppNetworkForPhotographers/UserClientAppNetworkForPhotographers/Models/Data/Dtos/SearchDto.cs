@@ -1,10 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos
+﻿namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos
 {
     public class SearchDto
     {
-        [MinLength(2)]
-        public string? SearchData { get; set; }
+        public string SearchData { get; set; }
+
+        public SearchDto() { }
+
+        public SearchDto(string searchData)
+        {
+            SearchData = searchData;
+        }
     }
 }

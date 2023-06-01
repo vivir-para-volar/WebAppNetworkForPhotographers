@@ -59,14 +59,23 @@ modalAllLikes.addEventListener('show.bs.modal', async function (event) {
 
     const photographers = res.data;
 
-    const parent = document.getElementById("modalAllLikesBody");
+    if (photographers.length != 0) {
+        const parent = document.getElementById("modalAllLikesBody");
 
-    let html = "";
-    for (let photographer of photographers) {
-        html += createPhotographerInModalAllLikes(photographer);
+        let html = "";
+
+        html += `<div class="p-2">`;
+        html += createPhotographerInModalAllLikes(photographers[0]);
+        html += `</div>`;
+
+        for (let i = 1; i < photographers.length; i++) {
+            html += `<div class="border-top p-2">`;
+            html += createPhotographerInModalAllLikes(photographers[i]);
+            html += `</div>`;
+        }
+
+        parent.innerHTML = html;
     }
-
-    parent.innerHTML = html;
 
     const hModal = document.querySelector("#modalAllLikesHeader>h5");
     const count = photographers.length;
@@ -86,7 +95,7 @@ function createPhotographerInModalAllLikes(photographer) {
     }
 
     const html =
-        `<div class="containerParentFlex pb-2 pt-2">
+        `<div class="containerParentFlex">
             <a href="/Profiles/Photographer/${photographer.id}">${photo}</a>
 
             <div>

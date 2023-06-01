@@ -2,7 +2,6 @@
 using System.Net;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
-using UserClientAppNetworkForPhotographers.Models.Data.Dtos;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace UserClientAppNetworkForPhotographers.API.ApiRequests
@@ -35,17 +34,6 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 
             if (photographerInfo == null) throw new ApiException(StatusCodes.Status500InternalServerError);
             return photographerInfo;
-        }
-
-        public static async Task<List<GetPhotographerForListDto>> Search(SearchDto searchDto, string token)
-        {
-            var response = await ApiRequest.Post(ApiUrl.PhotographersSearch, searchDto, token);
-
-            string responseMessage = await response.Content.ReadAsStringAsync();
-            var listPhotographers = JsonConvert.DeserializeObject<List<GetPhotographerForListDto>>(responseMessage);
-
-            if (listPhotographers == null) throw new ApiException(StatusCodes.Status500InternalServerError);
-            return listPhotographers;
         }
 
         public static async Task<Photographer> Update(UpdatePhotographerDto photographerDto, string token)
