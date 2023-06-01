@@ -33,7 +33,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return View(favourites);
         }
 
-        public async Task<ActionResult> GetFavouritePosts(int part)
+        public async Task<ActionResult> GetFavouritesPosts(int part)
         {
             List<GetContentForListDto> contents;
 
@@ -49,7 +49,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return StatusCode(StatusCodes.Status200OK, contents);
         }
 
-        public async Task<ActionResult> GetFavouriteBlogs(int part)
+        public async Task<ActionResult> GetFavouritesBlogs(int part)
         {
             List<GetContentForListDto> contents;
 

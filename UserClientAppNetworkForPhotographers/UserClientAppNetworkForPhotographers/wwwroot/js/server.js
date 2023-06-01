@@ -1,5 +1,8 @@
 const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
+    getFavouritesPosts: '/Favourites/GetFavouritesPosts',
+    getFavouritesBlogs: '/Favourites/GetFavouritesBlogs',
+
     getAllContentLikes: '/ContentActions/GetAllContentLikes',
     createLike: '/ContentActions/CreateLike',
     deleteLike: '/ContentActions/DeleteLike',
@@ -17,17 +20,21 @@ const url = {
 
 
 
+async function serverGetFavouritesPosts(part) {
+    const currentUrl = `${url.getFavouritesPosts}?part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverGetFavouritesBlogs(part) {
+    const currentUrl = `${url.getFavouritesBlogs}?part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+
 
 async function serverGetAllContentLikes(contentId) {
-    try {
-        return await axios({
-            method: method.get,
-            url: `${url.getAllContentLikes}?contentId=${contentId}`,
-        });
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
+    const currentUrl = `${url.getAllContentLikes}?contentId=${contentId}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
 }
 
 async function serverCreateLike(contentId) {
@@ -65,15 +72,8 @@ async function serverDeleteFavourite(contentId) {
 
 
 async function serverGetNewContentComments(contentId, startTime) {
-    try {
-        return await axios({
-            method: method.get,
-            url: `${url.getNewContentComments}?contentId=${contentId}&startTime=${startTime}`,
-        });
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
+    const currentUrl = `${url.getNewContentComments}?contentId=${contentId}&startTime=${startTime}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
 }
 
 async function serverCreateComment(text, contentId) {
@@ -81,7 +81,7 @@ async function serverCreateComment(text, contentId) {
     formData.append("text", text);
     formData.append("contentId", contentId);
 
-    return await sendReqWithRes(method.post, url.createComment, formData);
+    return await sendReq(method.post, url.createComment, formData);
 }
 
 async function serverDeleteComment(id) {
@@ -94,15 +94,7 @@ async function serverDeleteComment(id) {
 
 
 async function serverGetAllComplaintsBase() {
-    try {
-        return await axios({
-            method: method.get,
-            url: url.getAllComplaintsBase,
-        });
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
+    return await sendReqWithoutBody(method.get, url.getAllComplaintsBase);
 }
 
 async function serverCreateComplaint(text, complaintBaseId, contentId) {
@@ -111,35 +103,30 @@ async function serverCreateComplaint(text, complaintBaseId, contentId) {
     formData.append("complaintBaseId", complaintBaseId);
     formData.append("contentId", contentId);
 
-    return await sendReqWithRes(method.post, url.createComplaint, formData);
+    return await sendReq(method.post, url.createComplaint, formData);
 }
 
 
 
 async function sendReq(method, url, data) {
     try {
-        await axios({
+        return await axios({
             method,
             url,
             data,
             headers: { "Content-Type": "multipart/form-data" },
         });
-
-        return true;
     } catch (error) {
         console.error(error);
         return false;
     }
 }
 
-
-async function sendReqWithRes(method, url, data) {
+async function sendReqWithoutBody(method, url) {
     try {
         return await axios({
             method,
             url,
-            data,
-            headers: { "Content-Type": "multipart/form-data" },
         });
     } catch (error) {
         console.error(error);

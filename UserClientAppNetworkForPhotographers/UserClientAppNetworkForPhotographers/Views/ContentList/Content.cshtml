@@ -23,10 +23,10 @@
         </div>
     </div>
 
-    @if (Model.Type == TypeContent.Post)
-    {
-        <div class="border-top border-bottom border-2 p-2">
+    <div class="border-top border-bottom border-2 p-2">
 
+        @if (Model.Type == TypeContent.Post)
+        {
             @if (Model.Photos.Count == 1)
             {
                 <div>
@@ -71,11 +71,9 @@
                     </a>
                 </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <div class="border-top border-bottom border-2 p-2">
+        }
+        else
+        {
             <div>
                 <img class="photoSliderMini" src=@(Url.Action("GetBlogMainPhoto", "Common", new { name = Model.BlogMainPhoto}))>
             </div>
@@ -88,8 +86,10 @@
                     </a>
                 </div>
             </div>
-        </div>
-    }
+
+        }
+
+    </div>
 
     <div class="p-2">
         @(await Html.PartialAsync("~/Views/ContentActions/Panel.cshtml", Model))
