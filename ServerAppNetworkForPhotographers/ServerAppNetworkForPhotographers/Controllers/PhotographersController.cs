@@ -40,10 +40,10 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return File(bytes, "image/jpeg");
         }
 
-        [HttpPost("Search")]
-        public async Task<ActionResult<List<GetPhotographerForListDto>>> SearchPhotographers(SearchDto searchDto)
+        [HttpPost("Search/{part}")]
+        public async Task<ActionResult<List<GetPhotographerForListDto>>> SearchPhotographers(SearchDto searchDto, int part)
         {
-            return Ok(await _photographersService.SearchPhotographers(searchDto));
+            return Ok(await _photographersService.SearchPhotographers(searchDto, part));
         }
 
         [HttpPut]

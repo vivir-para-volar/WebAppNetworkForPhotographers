@@ -13,6 +13,7 @@ namespace ServerAppNetworkForPhotographers.Services
     {
         private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private const int _countInPart = 2;
 
         public PhotographersService(DataContext context, UserManager<AppUser> userManager)
         {
@@ -25,11 +26,13 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.Photographers.FindAsync(id);
         }
 
-        public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto)
+        public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto, int part)
         {
             var photographers = await _context.Photographers
                 .Where(item => EF.Functions.Like(item.Username, $"%{searchDto.SearchData}%") ||
                                EF.Functions.Like(item.Name, $"%{searchDto.SearchData}%"))
+                .OrderByDescending(item => item.Id)
+                .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ToListAsync();
 
             return Photographer.ToListGetPhotographerForListDto(photographers);

@@ -12,13 +12,14 @@ namespace ServerAppNetworkForPhotographers.Services
     public class ContentsService
     {
         private readonly DataContext _context;
+        private const int _countInPart = 2;
 
         public ContentsService(DataContext context)
         {
             _context = context;
         }
 
-        public async Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent, string userId)
+        public async Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent, string userId, int part)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -30,12 +31,13 @@ namespace ServerAppNetworkForPhotographers.Services
                 .Include(item => item.Categories)
                 .Where(item => item.PhotographerId == photographerId && item.Type == typeContent)
                 .OrderByDescending(item => item.CreatedAt)
+                .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ToListAsync();
 
             return await ConvertListContents(contents, userId);
         }
 
-        public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent, string userId)
+        public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent, string userId, int part)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -49,12 +51,13 @@ namespace ServerAppNetworkForPhotographers.Services
                        item.Status == StatusContent.Open &&
                        item.Type == typeContent)
                 .OrderByDescending(item => item.CreatedAt)
+                .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ToListAsync();
 
             return await ConvertListContents(contents, userId);
         }
 
-        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent, string userId)
+        public async Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent, string userId, int part)
         {
             if (!await CheckExistencePhotographer(photographerId))
             {
@@ -70,6 +73,7 @@ namespace ServerAppNetworkForPhotographers.Services
                                item.Content.Status == StatusContent.Open &&
                                item.Content.Type == typeContent)
                 .OrderByDescending(item => item.Content.CreatedAt)
+                .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ForEachAsync(item => contents.Add(item.Content));
 
             return await ConvertListContents(contents, userId);
@@ -100,7 +104,7 @@ namespace ServerAppNetworkForPhotographers.Services
             return getContent;
         }
 
-        public async Task<List<GetContentForListDto>> SearchContents(SearchDto searchDto, string typeContent, string userId)
+        public async Task<List<GetContentForListDto>> SearchContents(SearchDto searchDto, string typeContent, string userId, int part)
         {
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
@@ -109,6 +113,7 @@ namespace ServerAppNetworkForPhotographers.Services
                                item.Status == StatusContent.Open &&
                                EF.Functions.Like(item.Title, $"%{searchDto.SearchData}%"))
                 .OrderByDescending(item => item.CreatedAt)
+                .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ToListAsync();
 
             return await ConvertListContents(contents, userId);
