@@ -12,7 +12,6 @@ pre {
     --bs-font-sans-serif: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
     font-family: var(--bs-font-sans-serif);
     font-size: 16px;
-
     white-space: pre-wrap;
     margin: 0;
 }
@@ -143,30 +142,50 @@ a {
     object-fit: contain;
 }
 
+.createPhotoSlider {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .createPhotoSlider input {
+        width: 40%;
+    }
+
 @media (max-width: 1152px) {
     .photoSlider {
         height: 400px;
     }
 
-    .photoSliderMini {
+    .photoSliderMini, .createPhotoSlider {
         height: 300px;
     }
+
+        .createPhotoSlider input {
+            width: 50%;
+        }
 }
 
 @media (max-width: 768px) {
     .photoSlider {
         height: 300px;
     }
+
+    .createPhotoSlider input {
+        width: 60%;
+    }
 }
 
 @media (max-width: 576px) {
-    .photoSlider {
+    .photoSlider, .photoSliderMini, .createPhotoSlider {
         height: 200px;
     }
 
-    .photoSliderMini {
-        height: 200px;
-    }
+        .createPhotoSlider input {
+            width: 70%;
+        }
 }
 
 .contentImg {

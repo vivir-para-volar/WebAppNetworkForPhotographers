@@ -20,7 +20,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return View(photographer);
@@ -41,7 +41,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return View(photographer);

@@ -5,7 +5,7 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
     public class CreateContentBlogDto
     {
         [Required]
-        [StringLength(256, MinimumLength = 4)]
+        [StringLength(512, MinimumLength = 4)]
         public string Title { get; set; }
 
         [Required]

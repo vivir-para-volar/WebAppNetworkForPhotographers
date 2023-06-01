@@ -31,7 +31,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return View(new PhotographerWithInfoDto(photographer));
@@ -52,7 +52,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
@@ -71,7 +71,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
@@ -90,7 +90,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
@@ -119,7 +119,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -136,7 +136,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return RedirectToAction(nameof(AccountController.Login), "Account");

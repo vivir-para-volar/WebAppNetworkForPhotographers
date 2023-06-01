@@ -4,6 +4,9 @@ using UserClientAppNetworkForPhotographers.Models.Lists;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+using UserClientAppNetworkForPhotographers.Models.Data;
+using Newtonsoft.Json;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
@@ -41,9 +44,67 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return View();
         }
 
-        public ActionResult CreatePost()
+        public async Task<ActionResult> CreatePost()
         {
-            return View();
+            var contentPostDto = new CreateContentPostDto();
+            contentPostDto.PhotographerId = AppUser.GetPhotographerId(HttpContext);
+
+            try
+            {
+                contentPostDto.CategoryDirs = await ApiCategories.GetAllWithDirs(AppUser.GetToken(HttpContext));
+                contentPostDto.CategoryDirsJson = JsonConvert.SerializeObject(contentPostDto.CategoryDirs);
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+
+            return View(contentPostDto);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreatePost(List<IFormFile> photos, CreateContentPostDto contentPostDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                contentPostDto.CategoryDirs = JsonConvert.DeserializeObject<List<GetCategoryDirDto>>(contentPostDto.CategoryDirsJson);
+                return View(contentPostDto);
+            }
+
+            if (photos.Count == 0)
+            {
+                contentPostDto.CategoryDirs = JsonConvert.DeserializeObject<List<GetCategoryDirDto>>(contentPostDto.CategoryDirsJson);
+
+                ModelState.AddModelError("", "Выберите фото");
+                return View(contentPostDto);
+            }
+
+            Content? post = null;
+            try
+            {
+                post = await ApiContents.CreatePost(contentPostDto, AppUser.GetToken(HttpContext));
+
+                foreach(var photo in photos)
+                {
+                    await ApiPhotos.Create(post.Id, photo, AppUser.GetToken(HttpContext));
+                }
+            }
+            catch (ApiException ex)
+            {
+                for (var i = 10; post != null && i != 0; i--)
+                {
+                    try
+                    {
+                        await ApiContents.Delete(post.Id, AppUser.GetToken(HttpContext));
+                        post = null;
+                    }
+                    catch (ApiException) { }
+                }
+
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+
+            return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
         }
 
         public ActionResult CreateBlog()
@@ -59,7 +120,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             }
             catch (ApiException ex)
             {
-                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
             return RedirectToAction(nameof(ProfilesController.Index), "Profiles");

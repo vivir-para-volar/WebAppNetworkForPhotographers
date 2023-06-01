@@ -16,21 +16,51 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> GetPhotographerPhoto(string name)
         {
-            var photo = await ApiPhotographers.GetPhotoByName(name, AppUser.GetToken(HttpContext));
+            Stream photo;
+
+            try
+            {
+                photo = await ApiPhotographers.GetPhotoByName(name, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+            
             return File(photo, "image/jpeg");
         }
 
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> GetBlogMainPhoto(string name)
         {
-            var photo = await ApiContents.GetBlogMainPhotoByName(name, AppUser.GetToken(HttpContext));
+            Stream photo;
+
+            try
+            {
+                photo = await ApiContents.GetBlogMainPhotoByName(name, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+            
             return File(photo, "image/jpeg");
         }
 
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> GetContentPhoto(int contentId, string name)
         {
-            var photo = await ApiPhotos.GetPhotoByName(contentId, name, AppUser.GetToken(HttpContext));
+            Stream photo;
+
+            try
+            {
+                photo = await ApiPhotos.GetPhotoByName(contentId, name, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+
             return File(photo, "image/jpeg");
         }
     }

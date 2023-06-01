@@ -28,7 +28,7 @@
                     @Html.HiddenFor(model => model.Id)
 
                     <div class="form-group mb-3">
-                        <input type="file" accept="image/*" name="photo" id="imageInput" class="form-control form-control-sm" />
+                        <input type="file" accept="image/*" name="photo" id="photoInput" class="form-control form-control-sm" />
                         @Html.HiddenFor(model => model.PhotoProfile)
                         @Html.ValidationMessageFor(model => model.PhotoProfile, "", new { @class = "text-danger" })
                     </div>
@@ -57,7 +57,14 @@
     </div>
 
     <script>
-        document.getElementById('imageInput').addEventListener('change', function () {
+        const photoInput = document.getElementById(`photoInput`);
+
+        photoInput.addEventListener('change', function () {
+            if (this.files[0].size > maxPhotoSize) {
+                photoInput.value = '';
+                return false;
+            }
+
             var reader = new FileReader();
             reader.onload = function (e) {
                 document.getElementById('imagePreview').setAttribute('src', e.target.result);
@@ -175,7 +182,7 @@
                             <div class="form-group mb-3">
                                 @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
                                 <div>
-                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "10" })
+                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "8" })
                                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -183,7 +190,7 @@
                             <div class="form-group mb-3">
                                 @Html.LabelFor(model => model.Awards, htmlAttributes: new { @class = "control-label" })
                                 <div>
-                                    @Html.TextAreaFor(model => model.Awards, new { @class = "form-control", rows = "10" })
+                                    @Html.TextAreaFor(model => model.Awards, new { @class = "form-control", rows = "8" })
                                     @Html.ValidationMessageFor(model => model.Awards, "", new { @class = "text-danger" })
                                 </div>
                             </div>
