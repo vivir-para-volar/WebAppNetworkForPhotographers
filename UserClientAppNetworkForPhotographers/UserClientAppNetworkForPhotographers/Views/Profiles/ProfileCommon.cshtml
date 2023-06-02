@@ -1,0 +1,218 @@
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers.GetPhotographerForProfileDto
+
+<div class="containerParentFlexCenter mt-5">
+    <div class="containerCenter">
+
+        <ul class="nav nav-tabs" id="profileTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="aboutTab" data-bs-toggle="tab" data-bs-target="#about"
+                        type="button" role="tab" aria-controls="main" aria-selected="false">
+                    Подробнее
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="postsTab" data-bs-toggle="tab" data-bs-target="#posts"
+                        type="button" role="tab" aria-controls="main" aria-selected="false">
+                    Посты
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="blogsTab" data-bs-toggle="tab" data-bs-target="#blogs"
+                        type="button" role="tab" aria-controls="other" aria-selected="false">
+                    Блоги
+                </button>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<div class="containerParentFlexCenter mt-4">
+    <div class="containerCenter">
+        <div class="tab-content" id="profileTabContent">
+
+            <div class="tab-pane fade show active mb-5" id="about" role="tabpanel" aria-labelledby="aboutTab">
+
+                <div class="containerParentFlexMany p-3 pt-0">
+                    <div>
+                        <strong>Подписчики</strong>
+                        <div id="countSubscribers" class="ps-1">0</div>
+                    </div>
+
+                    <div class="divFlexEnd">
+                        <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalAllSubscribers">
+                            <img class="contentImg p-1" src="~/image/profile/arrow.png">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border-top containerParentFlexMany p-3">
+                    <div>
+                        <strong>Подписки</strong>
+                        <div id="countSubscriptions" class="ps-1">0</div>
+                    </div>
+
+                    <div class="divFlexEnd">
+                        <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalAllSubscriptions">
+                            <img class="contentImg p-1" src="~/image/profile/arrow.png">
+                        </button>
+                    </div>
+                </div>
+
+                @if (Model.PhotographerInfo.Description != null)
+                {
+                    <div class="p-3 border-top">
+                        <strong>Описание</strong>
+                        <div class="ps-1"><pre>@(Model.PhotographerInfo.Description)</pre></div>
+                    </div>
+                }
+
+                @if (Model.Country != null || Model.City != null)
+                {
+                    <div class="p-3 border-top">
+                        @if (Model.Country != null)
+                        {
+                            <p><strong>Страна: </strong>@(Model.Country)</p>
+                        }
+                        @if (Model.City != null)
+                        {
+                            <p><strong>Город: </strong>@(Model.City)</p>
+                        }
+                    </div>
+                }
+
+                @if (Model.PhotographerInfo.Awards != null)
+                {
+                    <div class="p-3 border-top">
+                        <strong>Награды</strong>
+                        <div class="ps-1"><pre>@(Model.PhotographerInfo.Awards)</pre></div>
+                    </div>
+                }
+
+                @if (Model.PhotographerInfo.Website != null)
+                {
+                    <div class="p-3 border-top">
+                        <p>
+                            <strong>Website: </strong>
+                            <a class="link-dark" href="@(Model.PhotographerInfo.Website)">@(Model.PhotographerInfo.Website)</a>
+                        </p>
+                    </div>
+                }
+
+                @if (Model.PhotographerInfo.Vk != null || Model.PhotographerInfo.Telegram != null || Model.PhotographerInfo.WhatsApp != null || Model.PhotographerInfo.Viber != null)
+                {
+                    <div class="p-3 border-top">
+                        <strong>Вы можете связаться со мной</strong>
+                        <div class="ps-1 pt-2">
+                            @if (Model.PhotographerInfo.Vk != null)
+                            {
+                                <a class="btnImg me-2" href="@(Model.PhotographerInfo.Vk)">
+                                    <img class="contentImg" src="~/image/profile/vk.png">
+                                </a>
+                            }
+                            @if (Model.PhotographerInfo.Telegram != null)
+                            {
+                                <a class="btnImg me-2" href="@(Model.PhotographerInfo.Telegram)">
+                                    <img class="contentImg" src="~/image/profile/telegram.png">
+                                </a>
+                            }
+                            @if (Model.PhotographerInfo.WhatsApp != null)
+                            {
+                                <a class="btnImg me-2" href="@(Model.PhotographerInfo.WhatsApp)">
+                                    <img class="contentImg" src="~/image/profile/whatsapp.png">
+                                </a>
+                            }
+                            @if (Model.PhotographerInfo.Viber != null)
+                            {
+                                <a class="btnImg me-2" href="@(Model.PhotographerInfo.Viber)">
+                                    <img class="contentImg" src="~/image/profile/viber.png">
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="postsTab">
+                @if (Model.Posts.Count == 0)
+                {
+                    <div class="ps-2">
+
+                        @if (Model.Id == Model.AppUserId)
+                        {
+                            <p>У вас пока нет постов</p>
+                        }
+                        else
+                        {
+                            <p>У пользователя пока нет постов</p>
+                        }
+
+                    </div>
+                }
+                else
+                {
+                    <div id="listProfilePosts">
+                        @(await Html.PartialAsync("~/Views/ContentsList/List.cshtml", Model.Posts))
+                    </div>
+
+                    <div class="containerParentFlexCenter">
+                        <button id="btnMoreProfilePosts" type="button" class="btn btn-outline-dark mb-4"
+                                onclick="moreProfilePosts()">
+                            Показать ещё
+                        </button>
+                    </div>
+                }
+            </div>
+
+            <div class="tab-pane fade" id="blogs" role="tabpanel" aria-labelledby="blogsTab">
+                @if (Model.Blogs.Count == 0)
+                {
+                    <div class="ps-2">
+
+                        @if (Model.Id == Model.AppUserId)
+                        {
+                            <p>У вас пока нет блогов</p>
+                        }
+                        else
+                        {
+                            <p>У пользователя пока нет блогов</p>
+                        }
+
+                    </div>
+                }
+                else
+                {
+                    <div id="listProfileBlogs">
+                        @(await Html.PartialAsync("~/Views/ContentsList/List.cshtml", Model.Blogs))
+                    </div>
+
+                    <div class="containerParentFlexCenter">
+                        <button id="btnMoreProfileBlogs" type="button" class="btn btn-outline-dark mb-4"
+                                onclick="moreProfileBlogs()">
+                            Показать ещё
+                        </button>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@(await Html.PartialAsync("~/Views/ContentActions/PanelModals.cshtml"))
+@(await Html.PartialAsync("~/Views/Profiles/SubscriptionsModals.cshtml"))
+
+<script src="~/js/contentPanel.js" asp-append-version="true"></script>
+<script src="~/js/contentsList.js" asp-append-version="true"></script>
+<script src="~/js/photographersList.js" asp-append-version="true"></script>
+
+<script src="~/js/profileSubscriptions.js" asp-append-version="true"></script>
+<script src="~/js/profileTabs.js" asp-append-version="true"></script>
+<script>
+    if (@Model.Id == @Model.AppUserId) {
+        initProfileTabs(@(Model.Posts.Count), @(Model.Blogs.Count), true);
+    } else {
+        initProfileTabs(@(Model.Posts.Count), @(Model.Blogs.Count), false, @(Model.Id));
+    }
+</script>

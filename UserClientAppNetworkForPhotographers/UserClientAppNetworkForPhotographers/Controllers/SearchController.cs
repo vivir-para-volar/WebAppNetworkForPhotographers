@@ -36,7 +36,10 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
+                var userId = AppUser.GetPhotographerId(HttpContext);
+
                 contents = await ApiSearch.Posts(new SearchDto(data), part, AppUser.GetToken(HttpContext));
+                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
@@ -52,7 +55,10 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
+                var userId = AppUser.GetPhotographerId(HttpContext);
+
                 contents = await ApiSearch.Blogs(new SearchDto(data), part, AppUser.GetToken(HttpContext));
+                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {

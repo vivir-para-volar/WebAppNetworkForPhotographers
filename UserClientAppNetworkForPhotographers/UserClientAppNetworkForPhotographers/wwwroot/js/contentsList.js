@@ -28,6 +28,15 @@ function getContentItem(contentItem) {
     let date = new Date(contentItem.createdAt);
     let dateStringFormatted = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
 
+    let blocked = "";
+    if (contentItem.status == statusContent.blocked) {
+        blocked =
+            `<div class="divFlexEnd pt-2">
+                <button class="btnImg ps-1" data-bs-toggle="modal" data-bs-target="#modalBlocked">
+                    <img class="contentImg" src="${clientUrl}/image/content/block.png">
+                </button>
+            </div>`;
+    }
 
     let html =
         `<div class="border border-3 rounded box-shadow ps-2 pe-2">
@@ -40,10 +49,11 @@ function getContentItem(contentItem) {
                     </a>
                     <div class="textDate mt-1">${dateStringFormatted}</div>
                 </div>
+
+                ${blocked}
             </div>
 
             <div class="border-top border-bottom border-2 p-2">`;
-
 
     if (contentItem.type === typeContent.post) {
         if (contentItem.photos.count == 1) {
@@ -182,7 +192,7 @@ function getContentPanel(contentItem) {
     }
 
     let endPanel;
-    if (contentItem.photographer.id == contentItem.userId) {
+    if (contentItem.photographer.id == contentItem.appUserId) {
         endPanel =
             `<button class="btnImg" data-bs-toggle="modal"
                     data-bs-target="#modalDeleteContent" data-bs-whatever="${contentItem.id}">

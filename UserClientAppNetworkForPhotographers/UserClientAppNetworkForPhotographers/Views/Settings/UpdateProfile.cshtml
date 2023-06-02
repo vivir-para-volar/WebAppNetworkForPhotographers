@@ -1,4 +1,4 @@
-﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers.PhotographerWithInfoDto
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers.GetPhotographerWithInfoDto
 
 <div class="container p-3 mt-5 pb-5 pt-4">
 
@@ -14,12 +14,12 @@
 
             @if (Model.PhotoProfile == null)
             {
-                <div class="divForPhoto"><img id="imagePreview" class="profilePhotoSettings" src="~/image/emptyProfile.png"></div>
+                <div class="divForPhoto"><img id="imagePreview" class="profilePhotoBig" src="~/image/emptyProfile.png"></div>
             }
             else
             {
                 <div class="divForPhoto">
-                    <img id="imagePreview" class="profilePhotoSettings" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.PhotoProfile}))>
+                    <img id="imagePreview" class="profilePhotoBig" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.PhotoProfile}))>
                 </div>
             }
             <div class="divAfterPhoto">

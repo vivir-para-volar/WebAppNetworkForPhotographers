@@ -4,7 +4,7 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
     public class GetContentForListDto
     {
-        public int? UserId { get; set; }
+        public int? AppUserId { get; set; }
 
         public int Id { get; set; }
         public string Type { get; set; }

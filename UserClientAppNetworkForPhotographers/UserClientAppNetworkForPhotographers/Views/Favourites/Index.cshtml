@@ -35,7 +35,7 @@
                     @if(Model.Posts.Count == 0)
                     {
                         <div class="ps-2">
-                            <p>У вас нет избранных постов</p>
+                            <p>У вас пока нет избранных постов</p>
                         </div>
                     }
                     else
@@ -57,7 +57,7 @@
                     @if (Model.Blogs.Count == 0)
                     {
                         <div class="ps-2">
-                            <p>У вас нет избранных блогов</p>
+                            <p>У вас пока нет избранных блогов</p>
                         </div>
                     }
                     else
@@ -84,6 +84,7 @@
 
 <script src="~/js/contentPanel.js" asp-append-version="true"></script>
 <script src="~/js/contentsList.js" asp-append-version="true"></script>
+<script src="~/js/photographersList.js" asp-append-version="true"></script>
 <script src="~/js/favourites.js" asp-append-version="true"></script>
 <script>
     initFavourites(@(Model.Posts.Count), @(Model.Blogs.Count));

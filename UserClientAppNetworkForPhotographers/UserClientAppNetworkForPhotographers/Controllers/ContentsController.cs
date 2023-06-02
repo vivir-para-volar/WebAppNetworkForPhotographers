@@ -34,7 +34,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
             }
 
-            post.UserId = AppUser.GetPhotographerId(HttpContext);
+            post.AppUserId = AppUser.GetPhotographerId(HttpContext);
 
             return View(post);
         }

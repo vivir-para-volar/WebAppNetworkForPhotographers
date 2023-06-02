@@ -1,5 +1,19 @@
 const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
+    checkSubscription: '/Subscriptions/Check',
+    createSubscription: '/Subscriptions/Create',
+    deleteSubscription: '/Subscriptions/Delete',
+
+    getCountSubscribers: '/Subscriptions/GetCountSubscribers',
+    getCountSubscriptions: '/Subscriptions/GetCountSubscriptions',
+    getSubscribers: '/Subscriptions/GetSubscribers',
+    getSubscriptions: '/Subscriptions/GetSubscriptions',
+
+    getUserPosts: '/Profiles/GetUserPosts',
+    getUserBlogs: '/Profiles/GetUserBlogs',
+    getPhotographerPosts: '/Profiles/GetPhotographerPosts',
+    getPhotographerBlogs: '/Profiles/GetPhotographerBlogs',
+
     searchPhotographers: '/Search/Photographers',
     searchPosts: '/Search/Posts',
     searchBlogs: '/Search/Blogs',
@@ -20,6 +34,72 @@ const url = {
     getNewContentComments: '/ContentActions/GetNewContentComments',
     createComment: '/ContentActions/CreateComment',
     deleteComment: '/ContentActions/DeleteComment',
+}
+
+
+
+
+async function serverCheckSubscription(photographerId) {
+    const currentUrl = `${url.checkSubscription}?photographerId=${photographerId}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverCreateSubscription(photographerId) {
+    var formData = new FormData();
+    formData.append("photographerId", photographerId);
+
+    return await sendReq(method.post, url.createSubscription, formData);
+}
+
+async function serverDeleteSubscription(photographerId) {
+    var formData = new FormData();
+    formData.append("photographerId", photographerId);
+
+    return await sendReq(method.delete, url.deleteSubscription, formData);
+}
+
+
+
+async function serverGetCountSubscribers(photographerId) {
+    const currentUrl = `${url.getCountSubscribers}?photographerId=${photographerId}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverGetCountSubscriptions(photographerId) {
+    const currentUrl = `${url.getCountSubscriptions}?photographerId=${photographerId}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverGetSubscribers(photographerId) {
+    const currentUrl = `${url.getSubscribers}?photographerId=${photographerId}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverGetSubscriptions(photographerId) {
+    const currentUrl = `${url.getSubscriptions}?photographerId=${photographerId}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+
+
+async function serverGetUserPosts(part) {
+    const currentUrl = `${url.getUserPosts}?part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverGetUserBlogs(part) {
+    const currentUrl = `${url.getUserBlogs}?part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverGetPhotographerPosts(id, part) {
+    const currentUrl = `${url.getPhotographerPosts}?id=${id}&part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
+}
+
+async function serverGetPhotographerBlogs(id, part) {
+    const currentUrl = `${url.getPhotographerBlogs}?id=${id}&part=${part}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
 }
 
 

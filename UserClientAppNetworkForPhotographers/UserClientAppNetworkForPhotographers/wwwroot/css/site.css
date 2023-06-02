@@ -42,6 +42,12 @@ a {
     cursor: pointer;
 }
 
+.link-dark:active,
+.link-dark:hover,
+.link-dark {
+    text-decoration: underline;
+}
+
 .listError ul {
     padding: 0;
     list-style: none;
@@ -106,6 +112,14 @@ a {
     border: 2px solid #222;
 }
 
+.profilePhotoBig {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
 .profilePhotoMini {
     width: 50px;
     height: 50px;
@@ -114,10 +128,30 @@ a {
     border: 2px solid #222;
 }
 
+.profilePhotoAdaptive {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+@media (max-width: 768px) {
+    .profilePhotoAdaptive {
+        width: 120px;
+        height: 120px;
+    }
+}
+
 
 .btnImg {
     border: none;
     background: transparent;
+}
+
+.contentImg {
+    width: 35px;
+    height: 35px;
 }
 
 
@@ -188,11 +222,6 @@ a {
         }
 }
 
-.contentImg {
-    width: 35px;
-    height: 35px;
-}
-
 .textDate {
     font-size: 14px;
 }
@@ -225,14 +254,6 @@ a {
 
 
 /* ===== SETTINGS ===== */
-
-.profilePhotoSettings {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #222;
-}
 
 #menuSettings ul {
     display: block;

@@ -18,12 +18,13 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             try
             {
                 var userId = AppUser.GetPhotographerId(HttpContext);
+                var token = AppUser.GetToken(HttpContext);
 
-                favourites.Posts = await ApiFavourites.GetPosts(AppUser.GetPhotographerId(HttpContext), 1, AppUser.GetToken(HttpContext));
-                favourites.Posts.ForEach(item => item.UserId = userId);
+                favourites.Posts = await ApiFavourites.GetPosts(userId, 1, token);
+                favourites.Posts.ForEach(item => item.AppUserId = userId);
 
-                favourites.Blogs = await ApiFavourites.GetBlogs(AppUser.GetPhotographerId(HttpContext), 1, AppUser.GetToken(HttpContext));
-                favourites.Blogs.ForEach(item => item.UserId = userId);
+                favourites.Blogs = await ApiFavourites.GetBlogs(userId, 1, token);
+                favourites.Blogs.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
@@ -39,7 +40,10 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
-                contents = await ApiFavourites.GetPosts(AppUser.GetPhotographerId(HttpContext), part, AppUser.GetToken(HttpContext));
+                var userId = AppUser.GetPhotographerId(HttpContext);
+
+                contents = await ApiFavourites.GetPosts(userId, part, AppUser.GetToken(HttpContext));
+                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
@@ -55,7 +59,10 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             try
             {
-                contents = await ApiFavourites.GetBlogs(AppUser.GetPhotographerId(HttpContext), part, AppUser.GetToken(HttpContext));
+                var userId = AppUser.GetPhotographerId(HttpContext);
+
+                contents = await ApiFavourites.GetBlogs(userId, part, AppUser.GetToken(HttpContext));
+                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {

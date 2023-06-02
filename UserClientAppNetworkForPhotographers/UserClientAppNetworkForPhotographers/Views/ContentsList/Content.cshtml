@@ -21,6 +21,15 @@
             </a>
             <div class="textDate mt-1">@(Model.CreatedAt)</div>
         </div>
+
+        @if (Model.Status == StatusContent.Blocked)
+        {
+            <div class="divFlexEnd pt-2">
+                <button class="btnImg ps-1" data-bs-toggle="modal" data-bs-target="#modalBlocked">
+                    <img class="contentImg" src="~/image/content/block.png">
+                </button>
+            </div>
+        }
     </div>
 
     <div class="border-top border-bottom border-2 p-2">

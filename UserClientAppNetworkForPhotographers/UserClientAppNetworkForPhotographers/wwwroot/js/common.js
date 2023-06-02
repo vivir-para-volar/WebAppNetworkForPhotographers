@@ -1,6 +1,7 @@
 const clientUrl = "https://localhost:7247";
 
 const typeContent = { post: 'Post', blog: 'Blog' }
+const statusContent = { open: 'Open', blocked: 'Blocked' }
 
 const maxPhotoSize = 8 * 1024 * 1024; //8мб
 const countInPart = 2;

@@ -59,55 +59,15 @@ modalAllLikes.addEventListener('show.bs.modal', async function (event) {
 
     const photographers = res.data;
 
-    if (photographers.length != 0) {
-        const parent = document.getElementById("modalAllLikesBody");
+    const parent = document.getElementById("modalAllLikesBody");
+    addPhotographersForModal(photographers, parent);
 
-        let html = "";
-
-        html += `<div class="p-2">`;
-        html += createPhotographerInModalAllLikes(photographers[0]);
-        html += `</div>`;
-
-        for (let i = 1; i < photographers.length; i++) {
-            html += `<div class="border-top p-2">`;
-            html += createPhotographerInModalAllLikes(photographers[i]);
-            html += `</div>`;
-        }
-
-        parent.innerHTML = html;
-    }
 
     const hModal = document.querySelector("#modalAllLikesHeader>h5");
     const count = photographers.length;
     const form = getFormLike(count);
     hModal.innerHTML = `${count} ${form}`;
 });
-
-function createPhotographerInModalAllLikes(photographer) {
-    let photo;
-    if (photographer.photoProfile == null) {
-        photo = `<div class="divForPhoto"><img class="profilePhotoMini" src="${clientUrl}/image/emptyProfile.png"></div>`;
-    }
-    else {
-        photo = `<div class="divForPhoto">
-                    <img class="profilePhotoMini" src="${clientUrl}/Common/GetPhotographerPhoto?name=${photographer.photoProfile}">
-                 </div>`;
-    }
-
-    const html =
-        `<div class="containerParentFlex">
-            <a href="/Profiles/Photographer/${photographer.id}">${photo}</a>
-
-            <div>
-                <a href="/Profiles/Photographer/${photographer.id}">
-                    <p><strong>${photographer.username}</strong></p>
-                    <p>${photographer.name ?? ""}</p>
-                </a>
-            </div>
-        </div>`;
-
-    return html;
-}
 
 
 

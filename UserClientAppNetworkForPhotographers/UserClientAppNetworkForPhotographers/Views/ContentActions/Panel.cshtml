@@ -76,7 +76,7 @@
     </div>
 
     <div class="divFlexEnd">
-        @if (Model.Photographer.Id == Model.UserId)
+        @if (Model.Photographer.Id == Model.AppUserId)
         {
             <button class="btnImg" data-bs-toggle="modal"
                     data-bs-target="#modalDeleteContent" data-bs-whatever="@(Model.Id)">

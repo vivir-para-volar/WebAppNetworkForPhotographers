@@ -1,3 +1,22 @@
+function addPhotographersForModal(addPhotographersList, modalAdd) {
+    if (addPhotographersList.length == 0) return false;
+
+    let html = "";
+
+    html += `<div class="p-2">`;
+    html += getPhotographerItem(addPhotographersList[0]);
+    html += `</div>`;
+
+    for (let i = 1; i < addPhotographersList.length; i++) {
+        html += `<div class="border-top p-2">`;
+        html += getPhotographerItem(addPhotographersList[i]);
+        html += `</div>`;
+    }
+
+    modalAdd.innerHTML = html;
+}
+
+
 function addPhotographersForList(addPhotographersList, parentAdd, btnAdd) {
     if (addPhotographersList.length < countInPart) {
         btnAdd.style.display = "none";

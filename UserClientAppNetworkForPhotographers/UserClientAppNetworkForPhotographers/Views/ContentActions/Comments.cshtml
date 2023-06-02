@@ -29,7 +29,7 @@
                     <div class="textDate mt-1">@(comment.CreatedAt)</div>
                 </div>
 
-                @if (comment.Photographer.Id == Model.UserId)
+                @if (comment.Photographer.Id == Model.AppUserId)
                 {
                     <div class="divFlexEnd pt-2">
                         <button class="btnImg" data-bs-toggle="modal"

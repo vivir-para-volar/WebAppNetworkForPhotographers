@@ -1,10 +1,43 @@
-﻿@model UserClientAppNetworkForPhotographers.Models.Data.Photographer
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers.GetPhotographerForProfileDto
 
-<div class="container p-3 mt-5 pb-5 pt-4">
+<div class="container p-3 mt-5 pt-4">
 
-    <h1>Photographer Profile</h1>
+    <div class="containerParentFlexCenter">
+        <div class="containerCenter">
 
-    <p><strong>Id: </strong>@Model.Id</p>
-    <p><strong>Username: </strong>@Model.Username</p>
+            <div class="containerParentFlexMany mt-2">
+                @if (Model.PhotoProfile == null)
+                {
+                    <div class="divForPhoto"><img class="profilePhotoAdaptive" src="~/image/emptyProfile.png"></div>
+                }
+                else
+                {
+                    <div class="divForPhoto">
+                        <img class="profilePhotoAdaptive" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.PhotoProfile}))>
+                    </div>
+                }
 
+                <div>
+                    <h4>@(Model.Username)</h4>
+                    <p>@(Model.Name)</p>
+                </div>
+
+                <div class="divFlexEnd mt-3">
+                    <button id="btnUnsubscribe" type="button" class="btn btn-outline-dark ps-5 pe-5"
+                            onclick="createSubscription()">
+                        Подписаться
+                    </button>
+
+                    <button id="btnUnsubscribe" type="button" class="btn btn-dark ps-5 pe-5"
+                            onclick="deleteSubscription()" style="display:none">
+                        Отписаться
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    @(await Html.PartialAsync("~/Views/Profiles/ProfileCommon.cshtml", Model))
 </div>

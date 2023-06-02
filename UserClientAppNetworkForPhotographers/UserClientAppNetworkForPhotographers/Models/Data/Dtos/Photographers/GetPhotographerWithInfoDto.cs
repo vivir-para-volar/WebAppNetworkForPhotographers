@@ -2,7 +2,7 @@
 
 namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers
 {
-    public class PhotographerWithInfoDto
+    public class GetPhotographerWithInfoDto
     {
         public int Id { get; set; }
 
@@ -46,9 +46,9 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers
         public string? Viber { get; set; }
 
 
-        public PhotographerWithInfoDto() { }
+        public GetPhotographerWithInfoDto() { }
 
-        public PhotographerWithInfoDto(Photographer photographer)
+        public GetPhotographerWithInfoDto(Photographer photographer)
         {
             Id = photographer.Id;
             Username = photographer.Username;
