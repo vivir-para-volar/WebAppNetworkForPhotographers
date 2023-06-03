@@ -26,6 +26,11 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.Photographers.FindAsync(id);
         }
 
+        public async Task<Photographer?> GetSimplePhotographerByUserId(string userId)
+        {
+            return await _context.Photographers.FirstOrDefaultAsync(item => item.UserId == userId);
+        }
+
         public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto, int part)
         {
             var photographers = await _context.Photographers
@@ -103,18 +108,17 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
-        public async Task<Photographer> UpdatePhotographerLastLoginDate(string userId)
+        public async Task<Photographer> UpdatePhotographerStatus(int id)
         {
-            var photographer = (await GetSimplePhotographerByUserId(userId)) ??
-                throw new NotFoundException(nameof(Photographer), userId, nameof(Photographer.UserId));
+            var photographer = (await GetSimplePhotographerById(id)) ??
+                throw new NotFoundException(nameof(Photographer), id);
 
-            photographer.LastLoginDate = DateTime.Now;
+            photographer.UpdateStatus();
 
             _context.Entry(photographer).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return photographer;
-
         }
 
         public async Task DeletePhotographer(int id)
@@ -139,11 +143,6 @@ namespace ServerAppNetworkForPhotographers.Services
         private async Task<Photographer?> GetSimplePhotographerById(int id)
         {
             return await _context.Photographers.FindAsync(id);
-        }
-
-        private async Task<Photographer?> GetSimplePhotographerByUserId(string userId)
-        {
-            return await _context.Photographers.FirstOrDefaultAsync(item => item.UserId == userId);
         }
 
         private async Task<AppUser?> GetUserById(string id)

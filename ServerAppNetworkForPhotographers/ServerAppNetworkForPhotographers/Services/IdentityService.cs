@@ -96,6 +96,7 @@ namespace ServerAppNetworkForPhotographers.Services
             }
 
             var tokenDto = new TokenDto();
+            tokenDto.UserId = user.Id;
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -111,8 +112,13 @@ namespace ServerAppNetworkForPhotographers.Services
 
                 if (userRole == UserRoles.User)
                 {
-                    var photographer = await _photographersService.UpdatePhotographerLastLoginDate(user.Id);
-                    tokenDto.PhotographerId = photographer.Id;
+                    var photographer = await _photographersService.GetSimplePhotographerByUserId(user.Id);
+                    if (photographer == null)
+                    {
+                        throw new NotFoundException(nameof(Photographer), user.Id, "userId");
+                    }
+
+                    tokenDto.UserId = photographer.Id.ToString();
                 }
 
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));

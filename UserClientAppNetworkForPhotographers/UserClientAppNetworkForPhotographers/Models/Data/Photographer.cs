@@ -29,7 +29,7 @@ namespace UserClientAppNetworkForPhotographers.Models.Data
         public string? City { get; set; }
 
         public string? PhotoProfile { get; set; }
-        public DateTime LastLoginDate { get; set; }
+        public string Status { get; set; }
 
         [JsonIgnore]
         public string UserId { get; set; }

@@ -10,6 +10,7 @@ namespace UserClientAppNetworkForPhotographers.Models.Data
 
         public int ComplaintBaseId { get; set; }
         public int ContentId { get; set; }
+        public int PhotographerId { get; set; }
 
         public ComplaintBase ComplaintBase { get; set; }
 

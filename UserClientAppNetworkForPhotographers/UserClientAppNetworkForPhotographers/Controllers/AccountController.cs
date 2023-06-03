@@ -91,7 +91,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 new Claim(ClaimTypes.Name, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, tokenDto.Role),
                 new Claim("Token", tokenDto.Token),
-                new Claim("PhotographerId", tokenDto.PhotographerId.ToString() ?? "-1")
+                new Claim("PhotographerId", tokenDto.UserId)
             });
             var principal = new ClaimsPrincipal(identity);
 

@@ -108,14 +108,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
         public void UpdateStatus()
         {
-            if (Status == StatusContent.Open)
-            {
-                Status = StatusContent.Blocked;
-            }
-            else
-            {
-                Status = StatusContent.Open;
-            }
+            Status = StatusContent.Blocked;
         }
 
         private void InitLists()

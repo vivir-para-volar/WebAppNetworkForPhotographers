@@ -12,33 +12,32 @@ namespace ServerAppNetworkForPhotographers.Models.Data
 
         public int ComplaintBaseId { get; set; }
         public int ContentId { get; set; }
+        public int PhotographerId { get; set; }
 
         public ComplaintBase ComplaintBase { get; set; }
 
         [JsonIgnore]
         public Content Content { get; set; }
 
+        [JsonIgnore]
+        public Photographer Photographer { get; set; }
+
+
         public Complaint() { }
 
-        public Complaint(CreateComplaintDto complaintDto)
+        public Complaint(CreateComplaintDto complaintDto, int photographerId)
         {
             Text = complaintDto.Text;
             ComplaintBaseId = complaintDto.ComplaintBaseId;
             ContentId = complaintDto.ContentId;
+            PhotographerId = photographerId;
 
             Status = StatusComplaint.Open;
         }
 
         public void UpdateStatus()
         {
-            if (Status == StatusComplaint.Open)
-            {
-                Status = StatusComplaint.Processed;
-            }
-            else
-            {
-                Status = StatusComplaint.Open;
-            }
+            Status = StatusComplaint.Processed;
         }
     }
 }

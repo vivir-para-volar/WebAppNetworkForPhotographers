@@ -36,12 +36,10 @@ namespace ServerAppNetworkForPhotographers.Services
                 throw new NotFoundException(nameof(ComplaintBase), complaintDto.ComplaintBaseId);
             }
 
-            if (!await CheckExistenceContent(complaintDto.ContentId))
-            {
+            var content = (await GetContentById(complaintDto.ContentId)) ??
                 throw new NotFoundException(nameof(Content), complaintDto.ContentId);
-            }
 
-            var complaint = new Complaint(complaintDto);
+            var complaint = new Complaint(complaintDto, content.PhotographerId);
 
             await _context.Complaints.AddAsync(complaint);
             await _context.SaveChangesAsync();
@@ -67,9 +65,9 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.ComplaintsBase.AnyAsync(item => item.Id == complaintBaseId);
         }
 
-        private async Task<bool> CheckExistenceContent(int contentId)
+        private async Task<Content?> GetContentById(int contentId)
         {
-            return await _context.Contents.AnyAsync(item => item.Id == contentId);
+            return await _context.Contents.FindAsync(contentId);
         }
     }
 }

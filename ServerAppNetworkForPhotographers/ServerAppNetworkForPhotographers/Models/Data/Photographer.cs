@@ -1,5 +1,6 @@
 ﻿using ServerAppNetworkForPhotographers.Files;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+using ServerAppNetworkForPhotographers.Models.Lists;
 using System.Text.Json.Serialization;
 
 namespace ServerAppNetworkForPhotographers.Models.Data
@@ -13,13 +14,16 @@ namespace ServerAppNetworkForPhotographers.Models.Data
         public string? Country { get; set; }
         public string? City { get; set; }
         public string? PhotoProfile { get; set; }
-        public DateTime LastLoginDate { get; set; }
+        public string Status { get; set; }
 
         [JsonIgnore]
         public string UserId { get; set; }
 
         [JsonIgnore]
         public PhotographerInfo PhotographerInfo { get; set; }
+
+        [JsonIgnore]
+        public List<Complaint> Complaints { get; set; }
 
         [JsonIgnore]
         public List<Content> Contents { get; set; }
@@ -46,7 +50,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             Email = photographerDto.Email;
             UserId = photographerDto.UserId;
 
-            LastLoginDate = DateTime.Now;
+            Status = StatusPhotographer.Open;
         }
 
         public void Update(UpdatePhotographerDto photographerDto)
@@ -87,6 +91,11 @@ namespace ServerAppNetworkForPhotographers.Models.Data
                 getPhotographers.Add(photographer.ToGetPhotographerForListDto());
             }
             return getPhotographers;
+        }
+
+        public void UpdateStatus()
+        {
+            Status = StatusPhotographer.Blocked;
         }
 
         private void InitLists()
