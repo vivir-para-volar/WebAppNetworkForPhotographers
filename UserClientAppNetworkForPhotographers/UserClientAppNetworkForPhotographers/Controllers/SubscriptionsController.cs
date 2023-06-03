@@ -1,19 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Subscriptions;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
+    [Authorize(Roles = UserRoles.User)]
     public class SubscriptionsController : Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        public async Task<ActionResult<int>> GetCountSubscribers(int photographerId)
+        public async Task<ActionResult> GetCountSubscribers(int photographerId)
         {
             int count;
 
@@ -29,7 +27,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return StatusCode(StatusCodes.Status200OK, count);
         }
 
-        public async Task<ActionResult<int>> GetCountSubscriptions(int photographerId)
+        public async Task<ActionResult> GetCountSubscriptions(int photographerId)
         {
             int count;
 
@@ -45,7 +43,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return StatusCode(StatusCodes.Status200OK, count);
         }
 
-        public async Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscribers(int photographerId)
+        public async Task<ActionResult> GetSubscribers(int photographerId)
         {
             List<GetPhotographerForListDto> photographersForList;
 
@@ -61,7 +59,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return StatusCode(StatusCodes.Status200OK, photographersForList);
         }
 
-        public async Task<ActionResult<List<GetPhotographerForListDto>>> GetSubscriptions(int photographerId)
+        public async Task<ActionResult> GetSubscriptions(int photographerId)
         {
             List<GetPhotographerForListDto> photographersForList;
 
@@ -82,16 +80,17 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             var subscriptionDto = new SubscriptionDto(photographerId, AppUser.GetPhotographerId(HttpContext));
 
+            bool resCheck;
             try
             {
-                await ApiSubscriptions.Check(subscriptionDto, AppUser.GetToken(HttpContext));
+                resCheck = await ApiSubscriptions.Check(subscriptionDto, AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return StatusCode(StatusCodes.Status201Created);
+            return StatusCode(StatusCodes.Status201Created, resCheck);
         }
 
         [HttpPost]

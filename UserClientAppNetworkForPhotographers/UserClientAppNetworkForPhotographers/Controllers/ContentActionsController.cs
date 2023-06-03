@@ -15,7 +15,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
     [Authorize(Roles = UserRoles.User)]
     public class ContentActionsController : Controller
     {
-        public async Task<ActionResult<List<GetPhotographerForListDto>>> GetAllContentLikes(int contentId)
+        public async Task<ActionResult> GetAllContentLikes(int contentId)
         {
             List<GetPhotographerForListDto> photographersForList;
 

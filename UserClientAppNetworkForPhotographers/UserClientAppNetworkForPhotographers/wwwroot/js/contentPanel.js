@@ -49,7 +49,6 @@ async function deleteFavourite(contentId) {
 // Modal window for photographers who have put a like
 
 const modalAllLikes = document.getElementById('modalAllLikes');
-
 modalAllLikes.addEventListener('show.bs.modal', async function (event) {
     const button = event.relatedTarget;
     const contentId = button.getAttribute('data-bs-whatever');

@@ -36,7 +36,7 @@
                 <div class="containerParentFlexMany p-3 pt-0">
                     <div>
                         <strong>Подписчики</strong>
-                        <div id="countSubscribers" class="ps-1">0</div>
+                        <div id="divCountSubscribers" class="ps-1">0</div>
                     </div>
 
                     <div class="divFlexEnd">
@@ -49,7 +49,7 @@
                 <div class="border-top containerParentFlexMany p-3">
                     <div>
                         <strong>Подписки</strong>
-                        <div id="countSubscriptions" class="ps-1">0</div>
+                        <div id="divCountSubscriptions" class="ps-1">0</div>
                     </div>
 
                     <div class="divFlexEnd">
@@ -215,4 +215,8 @@
     } else {
         initProfileTabs(@(Model.Posts.Count), @(Model.Blogs.Count), false, @(Model.Id));
     }
+
+    window.onload = function () {
+        initSubscriptions(@(Model.Id));
+    };
 </script>
