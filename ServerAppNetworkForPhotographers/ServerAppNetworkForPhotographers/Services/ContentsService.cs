@@ -21,11 +21,6 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<List<GetContentForListDto>> GetUserContents(int photographerId, string typeContent, string userId, int part)
         {
-            if (!await CheckExistencePhotographer(photographerId))
-            {
-                throw new NotFoundException(nameof(Photographer), photographerId);
-            }
-
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
@@ -39,11 +34,6 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<List<GetContentForListDto>> GetPhotographerContents(int photographerId, string typeContent, string userId, int part)
         {
-            if (!await CheckExistencePhotographer(photographerId))
-            {
-                throw new NotFoundException(nameof(Photographer), photographerId);
-            }
-
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
@@ -59,11 +49,6 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<List<GetContentForListDto>> GetPhotographerFavouritesContents(int photographerId, string typeContent, string userId, int part)
         {
-            if (!await CheckExistencePhotographer(photographerId))
-            {
-                throw new NotFoundException(nameof(Photographer), photographerId);
-            }
-
             var contents = new List<Content>();
             await _context.Favourites
                 .Include(item => item.Content)
@@ -117,6 +102,81 @@ namespace ServerAppNetworkForPhotographers.Services
                 .ToListAsync();
 
             return await ConvertListContents(contents, userId);
+        }
+
+        public async Task<List<GetContentForListDto>> GetNews(NewsDto newsDto, string userId, int part)
+        {
+            var photographer = (await GetPhotographerById(newsDto.PhotographerId)) ??
+                throw new NotFoundException(nameof(Photographer), newsDto.PhotographerId);
+
+            var subscriptions = await GetPhotographerSubscriptionsIds(photographer.Id);
+
+            var contents = await _context.Contents
+                .Include(item => item.Photographer)
+                .Include(item => item.Categories)
+                .Where(item => subscriptions.Contains(item.Photographer.Id) &&
+                       newsDto.TypeContent == null ? true : item.Type == newsDto.TypeContent &&
+                       newsDto.CategoriesIds == null ? true : item.Categories.Any(category => newsDto.CategoriesIds.Contains(category.Id)))
+                .OrderByDescending(item => item.CreatedAt)
+                .Skip((part - 1) * _countInPart).Take(_countInPart)
+                .ToListAsync();
+
+            return await ConvertListContents(contents, userId);
+        }
+
+        public async Task<List<GetContentForListDto>> GetOthers(OthersDto othersDto, string userId, int part)
+        {
+            if (othersDto.TypeSorting == TypeSorting.New)
+            {
+                var contents = await _context.Contents
+                    .Include(item => item.Photographer)
+                    .Include(item => item.Categories)
+                    .Where(item => othersDto.TypeContent == null ? true : item.Type == othersDto.TypeContent &&
+                           othersDto.CategoriesIds == null ? true : item.Categories.Any(category => othersDto.CategoriesIds.Contains(category.Id)))
+                    .OrderByDescending(item => item.CreatedAt)
+                    .Skip((part - 1) * _countInPart).Take(_countInPart)
+                    .ToListAsync();
+
+                return await ConvertListContents(contents, userId);
+            }
+            else
+            {
+                DateTime startDate;
+                switch (othersDto.PerionSorting)
+                {
+                    case TypeSorting.PeriodAllTime:
+                        startDate = DateTime.MinValue;
+                        break;
+                    case TypeSorting.PeriodDay:
+                        startDate = DateTime.Now.AddDays(-1);
+                        break;
+                    case TypeSorting.PeriodWeek:
+                        startDate = DateTime.Now.AddDays(-7);
+                        break;
+                    case TypeSorting.PeriodMonth:
+                        startDate = DateTime.Now.AddMonths(-1);
+                        break;
+                    case TypeSorting.PeriodYear:
+                        startDate = DateTime.Now.AddYears(-1);
+                        break;
+                    default:
+                        startDate = DateTime.MinValue;
+                        break;
+                }
+
+                var contents = await _context.Contents
+                    .Include(item => item.Photographer)
+                    .Include(item => item.Categories)
+                    .Where(item => item.CreatedAt >= startDate &&
+                           othersDto.TypeContent == null ? true : item.Type == othersDto.TypeContent &&
+                           othersDto.CategoriesIds == null ? true : item.Categories.Any(category => othersDto.CategoriesIds.Contains(category.Id)))
+                    .OrderByDescending(item => item.Likes.Count)
+                    .Skip((part - 1) * _countInPart).Take(_countInPart)
+                    .ToListAsync();
+
+                return await ConvertListContents(contents, userId);
+            }
+
         }
 
         public async Task<Content> CreateContentPost(CreateContentPostDto contentPostDto)
@@ -194,6 +254,22 @@ namespace ServerAppNetworkForPhotographers.Services
         private async Task<Content?> GetSimpleContentById(int id)
         {
             return await _context.Contents.FindAsync(id);
+        }
+
+        private async Task<Photographer?> GetPhotographerById(int id)
+        {
+            return await _context.Photographers.FindAsync(id);
+        }
+
+        public async Task<List<int>> GetPhotographerSubscriptionsIds(int photographerId)
+        {
+            var subscriptions = new List<int>();
+            await _context.Subscriptions
+                .Include(item => item.Photographer)
+                .Where(item => item.SubscriberId == photographerId)
+                .ForEachAsync((item) => subscriptions.Add(item.Photographer.Id));
+
+            return subscriptions;
         }
 
         private async Task<bool> CheckExistencePhotographer(int photographerId)

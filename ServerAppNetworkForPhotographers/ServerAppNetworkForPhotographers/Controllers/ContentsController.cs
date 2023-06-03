@@ -33,14 +33,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
             if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
-            try
-            {
-                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Post, userId, part));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
+            return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Post, userId, part));
         }
 
         [HttpGet("Blogs/User/{photographerId}/{part}")]
@@ -50,14 +43,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
             if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
-            try
-            {
-                return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Blog, userId, part));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
+            return Ok(await _contentsService.GetUserContents(photographerId, TypeContent.Blog, userId, part));
         }
 
         [HttpGet("Posts/Photographer/{photographerId}/{part}")]
@@ -67,14 +53,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
             if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
-            try
-            {
-                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Post, userId, part));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
+            return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Post, userId, part));
         }
 
         [HttpGet("Blogs/Photographer/{photographerId}/{part}")]
@@ -84,14 +63,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
             if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
-            try
-            {
-                return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Blog, userId, part));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
+            return Ok(await _contentsService.GetPhotographerContents(photographerId, TypeContent.Blog, userId, part));
         }
 
         [HttpGet("Posts/Favourites/{photographerId}/{part}")]
@@ -101,14 +73,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
             if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
-            try
-            {
-                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Post, userId, part));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
+            return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Post, userId, part));
         }
 
         [HttpGet("Blogs/Favourites/{photographerId}/{part}")]
@@ -118,14 +83,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
             if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
-            try
-            {
-                return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Blog, userId, part));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
+            return Ok(await _contentsService.GetPhotographerFavouritesContents(photographerId, TypeContent.Blog, userId, part));
         }
 
         [HttpGet("{id}")]
@@ -170,6 +128,26 @@ namespace ServerAppNetworkForPhotographers.Controllers
             if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
 
             return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Blog, userId, part));
+        }
+
+        [HttpGet("News/{part}")]
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetNews(NewsDto newsDto, int part)
+        {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(await _contentsService.GetNews(newsDto, userId, part));
+        }
+
+        [HttpGet("Others/{part}")]
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<List<GetContentForListDto>>> GetOthers(OthersDto othersDto, int part)
+        {
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(await _contentsService.GetOthers(othersDto, userId, part));
         }
 
         [HttpPost("Posts")]
