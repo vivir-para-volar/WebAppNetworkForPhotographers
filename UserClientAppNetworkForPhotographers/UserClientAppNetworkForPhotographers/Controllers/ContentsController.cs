@@ -17,10 +17,10 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             GetContentDto post;
 
+            var token = AppUser.GetToken(HttpContext);
+
             try
             {
-                var token = AppUser.GetToken(HttpContext);
-
                 post = await ApiContents.GetById(id, token);
                 if (post.Type != TypeContent.Post)
                 {

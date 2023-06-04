@@ -37,17 +37,18 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             List<GetContentForListDto> contents;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-
                 contents = await ApiSearch.Posts(new SearchDto(data), part, AppUser.GetToken(HttpContext));
-                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
                 return StatusCode(ex.Status, ex.Message);
             }
+
+            contents.ForEach(item => item.AppUserId = userId);
 
             return StatusCode(StatusCodes.Status200OK, contents);
         }
@@ -56,17 +57,18 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             List<GetContentForListDto> contents;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-
                 contents = await ApiSearch.Blogs(new SearchDto(data), part, AppUser.GetToken(HttpContext));
-                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
                 return StatusCode(ex.Status, ex.Message);
             }
+
+            contents.ForEach(item => item.AppUserId = userId);
 
             return StatusCode(StatusCodes.Status200OK, contents);
         }

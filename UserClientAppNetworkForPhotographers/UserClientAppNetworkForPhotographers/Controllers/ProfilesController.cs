@@ -15,29 +15,27 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             ShowPhotographerForProfileDto getPhotographer;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+            var token = AppUser.GetToken(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-                var token = AppUser.GetToken(HttpContext);
-
                 var photographer = await ApiPhotographers.GetById(userId, token);
                 photographer.PhotographerInfo = await ApiPhotographers.GetInfoByPhotographerId(photographer.Id, token);
 
-
                 getPhotographer = new ShowPhotographerForProfileDto(photographer);
-                getPhotographer.AppUserId = userId;
 
                 getPhotographer.Posts = await ApiContentsProfile.GetUserPosts(photographer.Id, 1, token);
-                getPhotographer.Posts.ForEach(item => item.AppUserId = userId);
-
                 getPhotographer.Blogs = await ApiContentsProfile.GetUserBlogs(photographer.Id, 1, token);
-                getPhotographer.Blogs.ForEach(item => item.AppUserId = userId);
-
             }
             catch (ApiException ex)
             {
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
+
+            getPhotographer.AppUserId = userId;
+            getPhotographer.Posts.ForEach(item => item.AppUserId = userId);
+            getPhotographer.Blogs.ForEach(item => item.AppUserId = userId);
 
             return View(getPhotographer);
         }
@@ -51,29 +49,28 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
             ShowPhotographerForProfileDto getPhotographer;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+            var token = AppUser.GetToken(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-                var token = AppUser.GetToken(HttpContext);
-
                 var photographer = await ApiPhotographers.GetById(id, token);
                 photographer.PhotographerInfo = await ApiPhotographers.GetInfoByPhotographerId(photographer.Id, token);
 
-
                 getPhotographer = new ShowPhotographerForProfileDto(photographer);
-                getPhotographer.AppUserId = userId;
 
                 getPhotographer.Posts = await ApiContentsProfile.GetPhotographerPosts(photographer.Id, 1, token);
-                getPhotographer.Posts.ForEach(item => item.AppUserId = userId);
-
                 getPhotographer.Blogs = await ApiContentsProfile.GetPhotographerBlogs(photographer.Id, 1, token);
-                getPhotographer.Blogs.ForEach(item => item.AppUserId = userId);
 
             }
             catch (ApiException ex)
             {
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
+
+            getPhotographer.AppUserId = userId;
+            getPhotographer.Posts.ForEach(item => item.AppUserId = userId);
+            getPhotographer.Blogs.ForEach(item => item.AppUserId = userId);
 
             return View(getPhotographer);
         }
@@ -83,17 +80,18 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             List<GetContentForListDto> contents;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-
                 contents = await ApiContentsProfile.GetUserPosts(userId, part, AppUser.GetToken(HttpContext));
-                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
                 return StatusCode(ex.Status, ex.Message);
             }
+
+            contents.ForEach(item => item.AppUserId = userId);
 
             return StatusCode(StatusCodes.Status200OK, contents);
         }
@@ -102,17 +100,18 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             List<GetContentForListDto> contents;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-
                 contents = await ApiContentsProfile.GetUserBlogs(userId, part, AppUser.GetToken(HttpContext));
-                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
                 return StatusCode(ex.Status, ex.Message);
             }
+
+            contents.ForEach(item => item.AppUserId = userId);
 
             return StatusCode(StatusCodes.Status200OK, contents);
         }
@@ -122,17 +121,18 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             List<GetContentForListDto> contents;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-
                 contents = await ApiContentsProfile.GetPhotographerPosts(id, part, AppUser.GetToken(HttpContext));
-                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
                 return StatusCode(ex.Status, ex.Message);
             }
+
+            contents.ForEach(item => item.AppUserId = userId);
 
             return StatusCode(StatusCodes.Status200OK, contents);
         }
@@ -141,17 +141,18 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         {
             List<GetContentForListDto> contents;
 
+            var userId = AppUser.GetPhotographerId(HttpContext);
+
             try
             {
-                var userId = AppUser.GetPhotographerId(HttpContext);
-
                 contents = await ApiContentsProfile.GetPhotographerBlogs(id, part, AppUser.GetToken(HttpContext));
-                contents.ForEach(item => item.AppUserId = userId);
             }
             catch (ApiException ex)
             {
                 return StatusCode(ex.Status, ex.Message);
             }
+
+            contents.ForEach(item => item.AppUserId = userId);
 
             return StatusCode(StatusCodes.Status200OK, contents);
         }

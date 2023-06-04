@@ -22,10 +22,11 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         public async Task<ActionResult> UpdateProfile()
         {
             Photographer photographer;
+
+            var token = AppUser.GetToken(HttpContext);
+
             try
             {
-                var token = AppUser.GetToken(HttpContext);
-
                 photographer = await ApiPhotographers.GetById(AppUser.GetPhotographerId(HttpContext), token);
                 photographer.PhotographerInfo = await ApiPhotographers.GetInfoByPhotographerId(photographer.Id, token);
             }
