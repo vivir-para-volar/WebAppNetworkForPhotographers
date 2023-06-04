@@ -114,9 +114,10 @@ namespace ServerAppNetworkForPhotographers.Services
             var contents = await _context.Contents
                 .Include(item => item.Photographer)
                 .Include(item => item.Categories)
-                .Where(item => subscriptions.Contains(item.Photographer.Id) &&
-                       newsDto.TypeContent == null ? true : item.Type == newsDto.TypeContent &&
-                       newsDto.CategoriesIds == null ? true : item.Categories.Any(category => newsDto.CategoriesIds.Contains(category.Id)))
+                .Where(item => item.Status == StatusContent.Open &&
+                       subscriptions.Contains(item.Photographer.Id) &&
+                       (newsDto.TypeContent == null ? true : item.Type == newsDto.TypeContent) &&
+                       (newsDto.CategoriesIds == null ? true : item.Categories.Any(category => newsDto.CategoriesIds.Contains(category.Id))))
                 .OrderByDescending(item => item.CreatedAt)
                 .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ToListAsync();
@@ -131,8 +132,10 @@ namespace ServerAppNetworkForPhotographers.Services
                 var contents = await _context.Contents
                     .Include(item => item.Photographer)
                     .Include(item => item.Categories)
-                    .Where(item => othersDto.TypeContent == null ? true : item.Type == othersDto.TypeContent &&
-                           othersDto.CategoriesIds == null ? true : item.Categories.Any(category => othersDto.CategoriesIds.Contains(category.Id)))
+                    .Where(item => item.Likes.Count >= othersDto.CountLikeSorting &&
+                           item.Status == StatusContent.Open &&
+                           (othersDto.TypeContent == null ? true : item.Type == othersDto.TypeContent) &&
+                           (othersDto.CategoriesIds == null ? true : item.Categories.Any(category => othersDto.CategoriesIds.Contains(category.Id))))
                     .OrderByDescending(item => item.CreatedAt)
                     .Skip((part - 1) * _countInPart).Take(_countInPart)
                     .ToListAsync();
@@ -142,7 +145,7 @@ namespace ServerAppNetworkForPhotographers.Services
             else
             {
                 DateTime startDate;
-                switch (othersDto.PerionSorting)
+                switch (othersDto.PeriodSorting)
                 {
                     case TypeSorting.PeriodAllTime:
                         startDate = DateTime.MinValue;
@@ -168,8 +171,9 @@ namespace ServerAppNetworkForPhotographers.Services
                     .Include(item => item.Photographer)
                     .Include(item => item.Categories)
                     .Where(item => item.CreatedAt >= startDate &&
-                           othersDto.TypeContent == null ? true : item.Type == othersDto.TypeContent &&
-                           othersDto.CategoriesIds == null ? true : item.Categories.Any(category => othersDto.CategoriesIds.Contains(category.Id)))
+                           item.Status == StatusContent.Open &&
+                           (othersDto.TypeContent == null ? true : item.Type == othersDto.TypeContent) &&
+                           (othersDto.CategoriesIds == null ? true : item.Categories.Any(category => othersDto.CategoriesIds.Contains(category.Id))))
                     .OrderByDescending(item => item.Likes.Count)
                     .Skip((part - 1) * _countInPart).Take(_countInPart)
                     .ToListAsync();

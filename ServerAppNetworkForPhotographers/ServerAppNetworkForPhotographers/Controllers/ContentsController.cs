@@ -130,7 +130,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return Ok(await _contentsService.SearchContents(searchDto, TypeContent.Blog, userId, part));
         }
 
-        [HttpGet("News/{part}")]
+        [HttpPost("News/{part}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetNews(NewsDto newsDto, int part)
         {
@@ -140,7 +140,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return Ok(await _contentsService.GetNews(newsDto, userId, part));
         }
 
-        [HttpGet("Others/{part}")]
+        [HttpPost("Others/{part}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetOthers(OthersDto othersDto, int part)
         {
