@@ -1,0 +1,113 @@
+﻿@model List<UserClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs.GetCategoryDirDto>
+@using ServerAppNetworkForPhotographers.Models.Lists;
+
+<!-- Modal window for filter news -->
+<div id="modalFilterHomeNews" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div id="modalFilterHomeNewsHeader" class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Фильтр</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div id="modalFilterHomeNewsBody" class="modal-body">
+                <div class="mb-3">
+                    <label for="selectTypeContentNews" class="form-label">Тип контента</label>
+                    <select class="form-select" id="selectTypeContentNews">
+                        <option value="" selected>Все</option>
+                        <option value="@(TypeContent.Post)">Посты</option>
+                        <option value="@(TypeContent.Blog)">Блоги</option>
+                    </select>
+                </div>
+
+                <div id="categoriesHomeNews" class="mb-3">
+                    <label class="form-label">Категории</label>
+                    @(await Html.PartialAsync("~/Views/ContentsList/CategoriesList.cshtml", Model))
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" onclick="filterHomeNews()">
+                    Применить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal window for filter others -->
+<div id="modalFilterHomeOthers" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div id="modalFilterHomeOthersHeader" class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Фильтр</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div id="modalFilterHomeOthersBody" class="modal-body">
+                <div class="mb-3">
+                    <label for="selectTypeContentOthers" class="form-label">Тип контента</label>
+                    <select class="form-select" id="selectTypeContentOthers">
+                        <option value="" selected>Все</option>
+                        <option value="@(TypeContent.Post)">Посты</option>
+                        <option value="@(TypeContent.Blog)">Блоги</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="selectTypeSorting" class="form-label">Сначала показывать</label>
+                    <select class="form-select" id="selectTypeSorting">
+                        <option value="@(TypeSorting.New)">Новые</option>
+                        <option value="@(TypeSorting.Top)" selected>Лучшие</option>
+                    </select>
+                </div>
+
+                <div id="divCountLikeSorting" class="mb-3" style="display:none">
+                    <label for="selectCountLikeSorting" class="form-label">Количество лайков</label>
+                    <select class="form-select" id="selectCountLikeSorting">
+                        <option value="0" selected>Все</option>
+                        <option value="5">&ge; 5</option>
+                        <option value="10">&ge; 10</option>
+                        <option value="25">&ge; 25</option>
+                        <option value="50">&ge; 50</option>
+                    </select>
+                </div>
+
+                <div id="divPeriodSorting" class="mb-3">
+                    <label for="selectPeriodSorting" class="form-label">Период</label>
+                    <select class="form-select" id="selectPeriodSorting">
+                        <option value="@(TypeSorting.PeriodDay)">Сутки</option>
+                        <option value="@(TypeSorting.PeriodWeek)">Неделя</option>
+                        <option value="@(TypeSorting.PeriodMonth)">Месяц</option>
+                        <option value="@(TypeSorting.PeriodYear)">Год</option>
+                        <option value="@(TypeSorting.PeriodAllTime)" selected>Всё время</option>
+                    </select>
+                </div>
+
+                <div id="categoriesHomeOthers" class="mb-3">
+                    <label class="form-label">Категории</label>
+                    @(await Html.PartialAsync("~/Views/ContentsList/CategoriesList.cshtml", Model))
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" onclick="filterHomeOthers()">
+                    Применить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("selectTypeSorting").addEventListener("change", function () {
+        const selectedValue = document.getElementById("selectTypeSorting").value;
+
+        if (selectedValue === "@(TypeSorting.New)") {
+            divPeriodSorting.style.display = "none";
+            divCountLikeSorting.style.display = "block";
+        } else {
+            divPeriodSorting.style.display = "block";
+            divCountLikeSorting.style.display = "none";
+        };
+    });
+</script>

@@ -78,7 +78,10 @@
                     <strong>Категории: </strong>
                     @foreach (var category in Model.Categories)
                     {
-                        <a asp-controller="Settings" asp-action="UpdatePassword" class="btn btn-outline-dark" style="display: inline-block">@(category.Name)</a>
+                        <a asp-controller="Home" asp-action="IndexWithCategory" asp-route-id=@(category.Id)
+                           class="btn btn-outline-dark" style="display: inline-block">
+                            @(category.Name)
+                        </a>
                     }
                 </div>
 

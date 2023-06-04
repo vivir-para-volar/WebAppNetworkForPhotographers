@@ -1,5 +1,8 @@
 const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
+    getNews: '/Home/GetNews',
+    getOthers: '/Home/GetOthers',
+
     checkSubscription: '/Subscriptions/Check',
     createSubscription: '/Subscriptions/Create',
     deleteSubscription: '/Subscriptions/Delete',
@@ -37,6 +40,34 @@ const url = {
 }
 
 
+
+async function serverGetNews(data, part) {
+    var formData = new FormData();
+    formData.append("photographerId", 0);
+    formData.append("typeContent", data.typeContent);
+
+    for (let categoryId of data.categoriesIds) {
+        formData.append("categoriesIds", categoryId);
+    }
+
+    const currentUrl = `${url.getNews}?part=${part}`;
+    return await sendReq(method.post, currentUrl, formData);
+}
+
+async function serverGetOthers(data, part) {
+    var formData = new FormData();
+    formData.append("typeSorting", data.typeSorting);
+    formData.append("periodSorting", data.periodSorting);
+    formData.append("countLikeSorting", data.countLikeSorting);
+    formData.append("typeContent", data.typeContent);
+
+    for (let categoryId of data.categoriesIds) {
+        formData.append("categoriesIds", categoryId);
+    }
+
+    const currentUrl = `${url.getOthers}?part=${part}`;
+    return await sendReq(method.post, currentUrl, formData);
+}
 
 
 async function serverCheckSubscription(photographerId) {

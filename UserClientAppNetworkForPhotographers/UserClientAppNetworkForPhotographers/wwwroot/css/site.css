@@ -154,6 +154,12 @@ a {
     height: 35px;
 }
 
+.divBtnFilter {
+    position: absolute;
+    right: 2px;
+    bottom: 2px
+}
+
 
 
 /* ===== CONTENT ===== */

@@ -3,6 +3,19 @@ const clientUrl = "https://localhost:7247";
 const typeContent = { post: 'Post', blog: 'Blog' }
 const statusContent = { open: 'Open', blocked: 'Blocked' }
 
+const listTypeSorting = {
+    typeNew: "New",
+    typeTop: "Top",
+}
+
+const listPeriodSorting = {
+    periodAllTime: "AllTime",
+    periodDay: "Day",
+    periodWeek: "Week",
+    periodMonth: "Month",
+    periodYear: "Year",
+}
+
 const maxPhotoSize = 8 * 1024 * 1024; //8мб
 const countInPart = 2;
 

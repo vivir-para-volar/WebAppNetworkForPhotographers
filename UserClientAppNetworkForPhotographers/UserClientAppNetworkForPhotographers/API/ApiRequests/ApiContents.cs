@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ServerAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using System.Net;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
@@ -23,6 +24,28 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
         {
             var response = await ApiRequest.Get($"{ApiUrl.ContentsBlogsMainPhoto}/{name}", token);
             return await response.Content.ReadAsStreamAsync();
+        }
+
+        public static async Task<List<GetContentForListDto>> GetNews(NewsDto newsDto, int part, string token)
+        {
+            var response = await ApiRequest.Post($"{ApiUrl.ContentsNews}/{part}", newsDto, token);
+
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            var contents = JsonConvert.DeserializeObject<List<GetContentForListDto>>(responseMessage);
+
+            if (contents == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+            return contents;
+        }
+
+        public static async Task<List<GetContentForListDto>> GetOthers(OthersDto othersDto, int part, string token)
+        {
+            var response = await ApiRequest.Post($"{ApiUrl.ContentsOthers}/{part}", othersDto, token);
+
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            var contents = JsonConvert.DeserializeObject<List<GetContentForListDto>>(responseMessage);
+
+            if (contents == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+            return contents;
         }
 
         public static async Task<Content> CreatePost(CreateContentPostDto contentPostDto, string token)

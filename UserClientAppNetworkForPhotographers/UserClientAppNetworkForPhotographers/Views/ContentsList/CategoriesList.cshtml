@@ -1,0 +1,37 @@
+﻿@model List<UserClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs.GetCategoryDirDto>
+
+@{
+    var guidId = Guid.NewGuid().ToString();
+}
+
+<div class="accordion" id="accordionCategories@(guidId)">
+
+    @foreach (var categoryDir in Model)
+    {
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading@(guidId)-@(categoryDir.Id)">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse@(guidId)-@(categoryDir.Id)" aria-expanded="false"
+                        aria-controls="collapse@(guidId)-@(categoryDir.Id)">
+                    @(categoryDir.Name)
+                </button>
+            </h2>
+
+            <div id="collapse@(guidId)-@(categoryDir.Id)" class="accordion-collapse collapse"
+                 aria-labelledby="heading@(guidId)-@(categoryDir.Id)" data-bs-parent="#accordionCategories@(guidId)">
+                <div class="accordion-body">
+                    @foreach (var category in categoryDir.Categories)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="CategoriesIds"
+                                   value="@(category.Id)" id="flexCheck@(guidId)-@(category.Id)">
+                            <label class="form-check-label" for="flexCheck@(guidId)-@(category.Id)">
+                                @(category.Name)
+                            </label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

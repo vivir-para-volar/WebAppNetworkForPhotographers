@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using UserClientAppNetworkForPhotographers.Exceptions;
-using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 
 namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 {

@@ -41,6 +41,9 @@
         public const string ContentsPostsSearch = $"{ContentsPosts}/search";
         public const string ContentsBlogsSearch = $"{ContentsBlogs}/search";
 
+        public const string ContentsNews = $"{Contents}/news";
+        public const string ContentsOthers = $"{Contents}/others";
+
 
         public const string Photos = $"{Server}/photos";
         public const string PhotosInfo = $"{Server}/photosInfo";

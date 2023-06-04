@@ -1,8 +1,90 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.ShowHomeDto
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a> Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container p-3 mt-5 pt-4">
+
+    <div class="containerParentFlexCenter mt-4">
+        <div class="containerCenter" style="position: relative">
+
+            <ul class="nav nav-tabs" id="homeTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="newsTab" data-bs-toggle="tab" data-bs-target="#news"
+                            type="button" role="tab" aria-controls="main" aria-selected="false">
+                        Новости
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="othersTab" data-bs-toggle="tab" data-bs-target="#others"
+                            type="button" role="tab" aria-controls="other" aria-selected="false">
+                        Другое
+                    </button>
+                </li>
+            </ul>
+
+            <div class="divBtnFilter">
+                <button id="btnFilterHomeNews" class="btnImg" data-bs-toggle="modal" data-bs-target="#modalFilterHomeNews">
+                    <img class="contentImg" src="~/image/filter.png">
+                </button>
+
+                <button id="btnFilterHomeOthers" class="btnImg" data-bs-toggle="modal"
+                        data-bs-target="#modalFilterHomeOthers" style="display:none">
+                    <img class="contentImg" src="~/image/filter.png">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="containerParentFlexCenter mt-4">
+        <div class="containerCenter">
+            <div class="tab-content" id="homeTabContent">
+
+                <div class="tab-pane fade show active" id="news" role="tabpanel" aria-labelledby="news-tab">
+                    <div id="emptyHomeNews" class="ps-2" style="display:none">
+                        <p>Ничего не найдено</p>
+                    </div>
+
+                    <div id="listHomeNews">
+                        @(await Html.PartialAsync("~/Views/ContentsList/List.cshtml", Model.News))
+                    </div>
+
+                    <div class="containerParentFlexCenter">
+                        <button id="btnMoreHomeNews" type="button" class="btn btn-outline-dark mb-4"
+                                onclick="moreHomeNews()" style="display:none">
+                            Показать ещё
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
+                    <div id="emptyHomeOthers" class="ps-2" style="display:none">
+                        <p>Ничего не найдено</p>
+                    </div>
+
+                    <div id="listHomeOthers">
+                        @(await Html.PartialAsync("~/Views/ContentsList/List.cshtml", Model.Others))
+                    </div>
+
+                    <div class="containerParentFlexCenter">
+                        <button id="btnMoreHomeOthers" type="button" class="btn btn-outline-dark mb-4"
+                                onclick="moreHomeOthers()" style="display:none">
+                            Показать ещё
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
+
+@(await Html.PartialAsync("~/Views/ContentActions/PanelModals.cshtml"))
+@(await Html.PartialAsync("~/Views/Home/HomeModals.cshtml", Model.CategoryDirs))
+
+<script src="~/js/contentPanel.js" asp-append-version="true"></script>
+<script src="~/js/contentsList.js" asp-append-version="true"></script>
+<script src="~/js/photographersList.js" asp-append-version="true"></script>
+<script src="~/js/home.js" asp-append-version="true"></script>
+<script>
+    window.onload = function () {
+        initHome(@(Model.News.Count), @(Model.Others.Count), @(Model.ChooseCategory));
+    };
+</script>

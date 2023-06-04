@@ -14,7 +14,7 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers
         public string? City { get; set; }
 
         public string? PhotoProfile { get; set; }
-        
+
         public PhotographerInfo PhotographerInfo { get; set; }
 
         public List<GetContentForListDto> Posts { get; set; }
@@ -22,7 +22,7 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers
 
         public ShowPhotographerForProfileDto() { }
 
-        public ShowPhotographerForProfileDto(Photographer photographer) 
+        public ShowPhotographerForProfileDto(Photographer photographer)
         {
             Id = photographer.Id;
             Username = photographer.Username;
