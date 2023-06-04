@@ -11,7 +11,7 @@
         public string? WhatsApp { get; set; }
         public string? Viber { get; set; }
 
-        public UpdatePhotographerInfoDto(GetPhotographerWithInfoDto photographer)
+        public UpdatePhotographerInfoDto(PhotographerWithInfoDto photographer)
         {
             PhotographerId = photographer.Id;
             Description = photographer.Description;

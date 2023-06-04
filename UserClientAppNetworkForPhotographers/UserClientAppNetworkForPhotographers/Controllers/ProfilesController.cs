@@ -13,7 +13,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            GetPhotographerForProfileDto getPhotographer;
+            ShowPhotographerForProfileDto getPhotographer;
 
             try
             {
@@ -24,7 +24,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 photographer.PhotographerInfo = await ApiPhotographers.GetInfoByPhotographerId(photographer.Id, token);
 
 
-                getPhotographer = new GetPhotographerForProfileDto(photographer);
+                getPhotographer = new ShowPhotographerForProfileDto(photographer);
                 getPhotographer.AppUserId = userId;
 
                 getPhotographer.Posts = await ApiContentsProfile.GetUserPosts(photographer.Id, 1, token);
@@ -49,7 +49,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            GetPhotographerForProfileDto getPhotographer;
+            ShowPhotographerForProfileDto getPhotographer;
 
             try
             {
@@ -60,7 +60,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 photographer.PhotographerInfo = await ApiPhotographers.GetInfoByPhotographerId(photographer.Id, token);
 
 
-                getPhotographer = new GetPhotographerForProfileDto(photographer);
+                getPhotographer = new ShowPhotographerForProfileDto(photographer);
                 getPhotographer.AppUserId = userId;
 
                 getPhotographer.Posts = await ApiContentsProfile.GetPhotographerPosts(photographer.Id, 1, token);

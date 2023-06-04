@@ -34,11 +34,11 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
-            return View(new GetPhotographerWithInfoDto(photographer));
+            return View(new PhotographerWithInfoDto(photographer));
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateProfilePhoto(IFormFile photo, GetPhotographerWithInfoDto photographer)
+        public async Task<ActionResult> UpdateProfilePhoto(IFormFile photo, PhotographerWithInfoDto photographer)
         {
             if (photo == null)
             {
@@ -59,7 +59,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdatePhotographer(GetPhotographerWithInfoDto photographer)
+        public async Task<ActionResult> UpdatePhotographer(PhotographerWithInfoDto photographer)
         {
             if (!ModelState.IsValid) return View(nameof(UpdateProfile), photographer);
 
@@ -78,7 +78,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdatePhotographerInfo(GetPhotographerWithInfoDto photographer)
+        public async Task<ActionResult> UpdatePhotographerInfo(PhotographerWithInfoDto photographer)
         {
             if (!ModelState.IsValid) return View(nameof(UpdateProfile), photographer);
 

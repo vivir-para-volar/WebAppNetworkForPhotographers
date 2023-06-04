@@ -2,7 +2,7 @@
 
 namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers
 {
-    public class GetPhotographerForProfileDto
+    public class ShowPhotographerForProfileDto
     {
         public int AppUserId { get; set; }
 
@@ -20,9 +20,9 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers
         public List<GetContentForListDto> Posts { get; set; }
         public List<GetContentForListDto> Blogs { get; set; }
 
-        public GetPhotographerForProfileDto() { }
+        public ShowPhotographerForProfileDto() { }
 
-        public GetPhotographerForProfileDto(Photographer photographer) 
+        public ShowPhotographerForProfileDto(Photographer photographer) 
         {
             Id = photographer.Id;
             Username = photographer.Username;

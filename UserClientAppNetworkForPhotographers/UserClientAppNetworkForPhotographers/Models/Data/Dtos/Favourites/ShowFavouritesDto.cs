@@ -2,12 +2,12 @@
 
 namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Favourites
 {
-    public class GetFavouritesDto
+    public class ShowFavouritesDto
     {
         public List<GetContentForListDto> Posts { get; set; }
         public List<GetContentForListDto> Blogs { get; set; }
 
-        public GetFavouritesDto()
+        public ShowFavouritesDto()
         {
             Posts = new List<GetContentForListDto>();
             Blogs = new List<GetContentForListDto>();

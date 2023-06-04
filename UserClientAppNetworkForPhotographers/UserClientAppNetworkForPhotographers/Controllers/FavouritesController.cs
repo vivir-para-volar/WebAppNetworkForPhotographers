@@ -13,7 +13,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
     {
         public async Task<ActionResult> Index()
         {
-            var favourites = new GetFavouritesDto();
+            var favourites = new ShowFavouritesDto();
 
             try
             {

@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
+using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
 {
+    [Authorize(Roles = UserRoles.User)]
     public class SearchController : Controller
     {
         public ActionResult Index()

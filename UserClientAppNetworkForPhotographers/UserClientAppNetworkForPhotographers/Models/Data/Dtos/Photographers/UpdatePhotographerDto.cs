@@ -9,7 +9,7 @@
         public string? Country { get; set; }
         public string? City { get; set; }
 
-        public UpdatePhotographerDto(GetPhotographerWithInfoDto photographer)
+        public UpdatePhotographerDto(PhotographerWithInfoDto photographer)
         {
             Id = photographer.Id;
             Username = photographer.Username;
