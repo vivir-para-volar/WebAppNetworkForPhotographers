@@ -3,6 +3,8 @@ using EmployeeClientAppNetworkForPhotographers.Exceptions;
 using EmployeeClientAppNetworkForPhotographers.Models.Account;
 using EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos;
 using EmployeeClientAppNetworkForPhotographers.Models.Lists;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -162,6 +164,12 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
             catch (ApiException ex)
             {
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+
+            if (id == AppUser.GetUserId(HttpContext))
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return RedirectToAction(nameof(AccountController.Login), "Account");
             }
 
             return RedirectToAction("Index");
