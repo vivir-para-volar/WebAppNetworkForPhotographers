@@ -9,7 +9,7 @@
         public const string Login = $"{Account}/login";
         public const string RegisterEmployee = $"{Account}/register/employee";
         public const string RegisterAdmin = $"{Account}/register/admin";
-        public const string UpdatePassword = $"{Account}/password/user";
+        public const string UpdatePassword = $"{Account}/password";
 
 
         public const string Photographers = $"{Server}/photographers";

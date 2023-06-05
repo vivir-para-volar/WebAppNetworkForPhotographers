@@ -5,7 +5,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Models.Account
 {
     public class UpdatePassword
     {
-        public int PhotographerId { get; set; }
+        public string? Id { get; set; }
 
         [Display(Name = "Старый пароль")]
         [Required(ErrorMessage = "Поле обязательное для заполнения")]

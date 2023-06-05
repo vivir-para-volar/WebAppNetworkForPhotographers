@@ -1,0 +1,54 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos.AppUserDto
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenterMini">
+
+            <h3>Изменение профиля</h3>
+            <hr />
+
+            @using (Html.BeginForm("Update", "Profiles", FormMethod.Post))
+            {
+                <div class="form-horizontal">
+
+                    @Html.HiddenFor(model => model.Id)
+
+                    @Html.HiddenFor(model => model.Role)
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.DisplayFor(model => model.Role)
+                            @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger listError" })
+
+                    <div>
+                        <input type="submit" value="Изменить" class="btn btn-outline-dark" />
+                        <a class="btn btn-outline-secondary ms-2" asp-controller="Profiles" asp-action="Index">К профилю</a>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
