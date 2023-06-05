@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using System.Net;
-using EmployeeClientAppNetworkForPhotographers.Exceptions;
+﻿using EmployeeClientAppNetworkForPhotographers.Exceptions;
 using EmployeeClientAppNetworkForPhotographers.Models.Account;
 using EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace EmployeeClientAppNetworkForPhotographers.API.ApiRequests
 {

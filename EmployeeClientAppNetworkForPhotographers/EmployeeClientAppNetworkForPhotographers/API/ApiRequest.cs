@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using EmployeeClientAppNetworkForPhotographers.Exceptions;
+using EmployeeClientAppNetworkForPhotographers.Models.ExceptionsResponses;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
-using EmployeeClientAppNetworkForPhotographers.Exceptions;
-using EmployeeClientAppNetworkForPhotographers.Models.ExceptionsResponses;
 
 namespace EmployeeClientAppNetworkForPhotographers.API
 {

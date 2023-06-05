@@ -1,18 +1,272 @@
+* {
+    overflow-wrap: anywhere;
+}
+
 html {
-  font-size: 14px;
+    font-size: 16px;
+    position: relative;
+    min-height: 100%;
+}
+
+pre {
+    --bs-font-sans-serif: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-family: var(--bs-font-sans-serif);
+    font-size: 16px;
+    white-space: pre-wrap;
+    margin: 0;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 18px;
+    }
+
+    pre {
+        font-size: 18px;
+    }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+h1, h2, h3, h4, h5 {
+    text-shadow: 0.2px 0px 0.2px #222;
 }
 
-body {
-  margin-bottom: 60px;
+p {
+    margin: 0;
+}
+
+a:active,
+a:hover,
+a {
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+}
+
+.link-dark:active,
+.link-dark:hover,
+.link-dark {
+    text-decoration: underline;
+}
+
+.listError ul {
+    padding: 0;
+    list-style: none;
+}
+
+
+
+#title {
+    text-transform: uppercase;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px #222;
+}
+
+.ico-logo {
+    height: 35px;
+    padding: 0 10px 8px 0;
+}
+
+
+
+.containerParentFlex {
+    display: flex;
+}
+
+
+.containerParentFlexCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.containerCenterMini {
+    width: 500px;
+}
+
+.containerCenter {
+    width: 1000px;
+}
+
+
+.containerParentFlexMany {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.divFlexEnd {
+    margin-left: auto;
+}
+
+.divFlexCenter {
+    align-self: center;
+}
+
+
+
+.divForPhoto {
+    margin-right: 20px;
+}
+
+.divAfterPhoto {
+}
+
+@media (max-width: 576px) {
+    .divAfterPhoto {
+        margin-top: 20px;
+    }
+}
+
+
+.profilePhoto {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+.profilePhotoBig {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+.profilePhotoMini {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+.profilePhotoAdaptive {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+@media (max-width: 768px) {
+    .profilePhotoAdaptive {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+
+.btnImg {
+    border: none;
+    background: transparent;
+}
+
+.contentImg {
+    width: 35px;
+    height: 35px;
+}
+
+.divBtnFilter {
+    position: absolute;
+    right: 2px;
+    bottom: 2px
+}
+
+
+
+/* ===== CONTENT ===== */
+
+.sliderContainer {
+    background: #222222;
+}
+
+.photoSlider {
+    display: block;
+    width: 100%;
+    height: 500px;
+    object-fit: contain;
+}
+
+.photoSliderMini {
+    display: block;
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+}
+
+.createPhotoSlider {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .createPhotoSlider input {
+        width: 40%;
+    }
+
+@media (max-width: 1152px) {
+    .photoSlider {
+        height: 400px;
+    }
+
+    .photoSliderMini, .createPhotoSlider {
+        height: 300px;
+    }
+
+        .createPhotoSlider input {
+            width: 50%;
+        }
+}
+
+@media (max-width: 768px) {
+    .photoSlider {
+        height: 300px;
+    }
+
+    .createPhotoSlider input {
+        width: 60%;
+    }
+}
+
+@media (max-width: 576px) {
+    .photoSlider, .photoSliderMini, .createPhotoSlider {
+        height: 200px;
+    }
+
+        .createPhotoSlider input {
+            width: 70%;
+        }
+}
+
+.textDate {
+    font-size: 14px;
+}
+
+#divDown {
+    display: flex;
+    position: sticky;
+    bottom: 180px;
+}
+
+.imgDown {
+    width: 35px;
+    height: 35px;
+    padding: 2px;
+    border: 1px solid #EB4C42;
+}
+
+.divComment {
+    border-top: 1px solid #DEE2E6;
+    margin-right: 4rem;
+}
+
+.textComment {
+}
+
+.deleteCommentImg {
+    width: 20px;
+    height: 20px;
 }

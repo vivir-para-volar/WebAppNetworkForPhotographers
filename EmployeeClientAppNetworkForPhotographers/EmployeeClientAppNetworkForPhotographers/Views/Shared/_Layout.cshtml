@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Moments</title>
-    <link rel="shortcut icon" href="~/images/camera.png" type="image/png">
+    <link rel="shortcut icon" href="~/image/camera.png" type="image/png">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -18,97 +18,67 @@
 </head>
 <body>
     <header>
-        <nav class="navbar fixed-top navbar-light bg-white border-bottom box-shadow">
+        <nav class="navbar navbar-expand-md fixed-top navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid">
-                <a id="title" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <a id="title" class="navbar-brand pe-3" asp-area="" asp-controller="Complaints" asp-action="Index">
                     <img class="ico-logo" src="~/image/camera.png">Moments
                 </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Переключатель навигации">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+                    @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Employee))
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Complaints" asp-action="Index">Жалобы</a>
+                            </li>
+
+                            @if (User.IsInRole(UserRoles.Admin))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Компоненты
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <li><a class="dropdown-item" asp-controller="ComplaintsBase" asp-action="Index">Базовые жалобы</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Категории</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Employees" asp-action="Index">Сотрудники</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+
+                        <ul class="nav navbar-nav ms-auto pe-4">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Profiles" asp-action="Index">Профиль</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Logout">Выйти</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav ms-auto pe-4">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Авторизация</a>
+                            </li>
+                        </ul>
+                    }
+
+                </div>
+
             </div>
         </nav>
-
     </header>
 
-    <div id="divMain">
-        <div id="divMenu" class="border-end box-shadow">
-            <div id="menuVertical">
 
-                @if (User.IsInRole(UserRoles.User))
-                {
-                    <ul>
-                        <li>
-                            <a asp-controller="Profiles" asp-action="Index">
-                                <div class="img_n"><img src="~/image/menu/profile.png"></div><span>Профиль</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a asp-controller="Home" asp-action="Index">
-                                <div class="img_n"><img src="~/image/menu/home.png"></div><span>Главная</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a asp-controller="Search" asp-action="Index">
-                                <div class="img_n"><img src="~/image/menu/search.png"></div><span>Поиск</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <div class="img_n">
-                                    <img src="~/image/menu/addContent.png">
-                                </div><span>Добавить</span>
-                            </a>
-                            <ul>
-                                <li><a asp-controller="Contents" asp-action="CreatePost">Пост</a></li>
-                                <li><a asp-controller="Contents" asp-action="CreateBlog">Блог</a></li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a asp-controller="Favourites" asp-action="Index">
-                                <div class="img_n"><img src="~/image/menu/favourite.png"></div><span>Избранное</span>
-                            </a>
-                        </li>
-
-                        <li><a href="#"><hr></a></li>
-
-                        <li>
-                            <a asp-controller="Settings" asp-action="Index">
-                                <div class="img_n"><img src="~/image/menu/settings.png"></div><span>Настройки</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a asp-controller="Account" asp-action="Logout">
-                                <div class="img_n"><img src="~/image/menu/exit.png"></div><span>Выход</span>
-                            </a>
-                        </li>
-                    </ul>
-                }
-                else
-                {
-                    <ul>
-                        <li>
-                            <a asp-controller="Account" asp-action="Login">
-                                <div class="img_n"><img src="~/image/menu/login.png"></div><span>Авторизация</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a asp-controller="Account" asp-action="Register">
-                                <div class="img_n"><img src="~/image/menu/register.png"></div><span>Регистрация</span>
-                            </a>
-                        </li>
-                    </ul>
-                }
-            </div>
-        </div>
-
-
-        <div id="mainPart">
-            @RenderBody()
-        </div>
+    <div class="mt-5 pt-1">
+        @RenderBody()
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
