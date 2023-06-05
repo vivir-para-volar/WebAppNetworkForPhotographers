@@ -16,7 +16,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = UserRoles.User)]
+    [Authorize]
     public class PhotographersController : ControllerBase
     {
         private readonly PhotographersService _photographersService;
@@ -27,6 +27,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Photographer?>> GetPhotographerById(int id)
         {
             return Ok(await _photographersService.GetPhotographerById(id));
@@ -41,12 +42,14 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Search/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetPhotographerForListDto>>> SearchPhotographers(SearchDto searchDto, int part)
         {
             return Ok(await _photographersService.SearchPhotographers(searchDto, part));
         }
 
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Photographer>> UpdatePhotographer(UpdatePhotographerDto photographerDto)
         {
             try
@@ -64,6 +67,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut("Photo/{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Photographer>> UpdatePhotographerPhoto(int id, IFormFile photo)
         {
             try
@@ -78,7 +82,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPut("Status/{id}")]
         [Authorize(Roles = UserRoles.AdminEmployee)]
-        public async Task<ActionResult<Content>> UpdateContentStatus(int id)
+        public async Task<ActionResult<Content>> UpdatePhotographerStatus(int id)
         {
             try
             {
@@ -91,6 +95,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> DeletePhotographer(int id)
         {
             try

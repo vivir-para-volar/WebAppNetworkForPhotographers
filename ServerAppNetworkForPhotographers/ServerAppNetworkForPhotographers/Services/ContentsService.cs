@@ -230,6 +230,19 @@ namespace ServerAppNetworkForPhotographers.Services
             return content;
         }
 
+        public async Task<Content> UpdateContentStatus(int id)
+        {
+            var content = (await GetSimpleContentById(id)) ??
+                throw new NotFoundException(nameof(Content), id);
+
+            content.UpdateStatus();
+
+            _context.Entry(content).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return content;
+        }
+
         public async Task DeleteContent(int id)
         {
             var content = (await GetSimpleContentById(id)) ??

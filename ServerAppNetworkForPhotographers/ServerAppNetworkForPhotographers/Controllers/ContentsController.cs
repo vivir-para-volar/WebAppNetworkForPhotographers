@@ -16,7 +16,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = UserRoles.User)]
+    [Authorize]
     public class ContentsController : ControllerBase
     {
         private readonly ContentsService _contentsService;
@@ -27,6 +27,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Posts/User/{photographerId}/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetUserPosts(int photographerId, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -36,6 +37,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Blogs/User/{photographerId}/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetUserBlogs(int photographerId, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -45,6 +47,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Posts/Photographer/{photographerId}/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerPosts(int photographerId, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -54,6 +57,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Blogs/Photographer/{photographerId}/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerBlogs(int photographerId, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -63,6 +67,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Posts/Favourites/{photographerId}/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesPosts(int photographerId, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -72,6 +77,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("Blogs/Favourites/{photographerId}/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetPhotographerFavouritesBlogs(int photographerId, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -81,6 +87,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<GetContentDto?>> GetContentById(int id)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -105,6 +112,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Posts/Search/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchPosts(SearchDto searchDto, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -114,6 +122,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Blogs/Search/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> SearchBlogs(SearchDto searchDto, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -123,6 +132,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("News/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetNews(NewsDto newsDto, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -132,6 +142,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Others/{part}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetContentForListDto>>> GetOthers(OthersDto othersDto, int part)
         {
             var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
@@ -141,6 +152,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Posts")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Content>> CreateContentPost(CreateContentPostDto contentPostDto)
         {
             Content content;
@@ -158,6 +170,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost("Blogs")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Content>> CreateContentBlog(CreateContentBlogDto contentBlogDto)
         {
             Content content;
@@ -175,6 +188,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut("Blogs/MainPhoto/{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Content>> UpdateBlogMainPhoto(int id, IFormFile photo)
         {
             try
@@ -191,7 +205,22 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
+        [HttpPut("Status/{id}")]
+        [Authorize(Roles = UserRoles.AdminEmployee)]
+        public async Task<ActionResult<Content>> UpdateContentStatus(int id)
+        {
+            try
+            {
+                return Ok(await _contentsService.UpdateContentStatus(id));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> DeleteContent(int id)
         {
             try

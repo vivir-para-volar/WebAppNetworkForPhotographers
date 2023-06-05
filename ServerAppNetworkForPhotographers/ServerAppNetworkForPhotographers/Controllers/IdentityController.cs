@@ -120,6 +120,10 @@ namespace ServerAppNetworkForPhotographers.Controllers
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
+            catch (AuthenticationException)
+            {
+                return Forbid();
+            }
         }
 
         [HttpPut]

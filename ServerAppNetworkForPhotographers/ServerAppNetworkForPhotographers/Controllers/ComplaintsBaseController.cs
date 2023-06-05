@@ -34,6 +34,12 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return Ok(await _complaintsBaseService.GetComplaintBaseById(id));
         }
 
+        [HttpGet("CheckComplaints/{id}")]
+        public async Task<ActionResult<bool>> CheckComplaints(int id)
+        {
+            return Ok(await _complaintsBaseService.CheckComplaints(id));
+        }
+
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<ComplaintBase>> CreateComplaintBase(CreateComplaintBaseDto complaintBaseDto)

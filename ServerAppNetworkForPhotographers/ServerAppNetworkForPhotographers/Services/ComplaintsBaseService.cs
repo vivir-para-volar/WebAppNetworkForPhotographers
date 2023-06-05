@@ -25,6 +25,11 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.ComplaintsBase.FindAsync(id);
         }
 
+        public async Task<bool> CheckComplaints(int id)
+        {
+            return await _context.Complaints.AnyAsync(item => item.ComplaintBaseId == id);
+        }
+
         public async Task<ComplaintBase> CreateComplaintBase(CreateComplaintBaseDto complaintBaseDto)
         {
             if (await CheckExistenceName(complaintBaseDto.Name))
@@ -63,7 +68,7 @@ namespace ServerAppNetworkForPhotographers.Services
             var complaintBase = (await GetComplaintBaseById(id)) ??
                 throw new NotFoundException(nameof(ComplaintBase), id);
 
-            if (await _context.Complaints.AnyAsync(item => item.ComplaintBaseId == id))
+            if (await CheckComplaints(id))
                 throw new DeleteException(nameof(Complaint));
 
             _context.ComplaintsBase.Remove(complaintBase);
