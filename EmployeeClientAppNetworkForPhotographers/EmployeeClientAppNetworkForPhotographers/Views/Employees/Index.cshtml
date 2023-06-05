@@ -30,7 +30,7 @@
                     <td>@Html.DisplayFor(model => item.Email)</td>
                     <td>@(item.Role == UserRoles.Admin ? "Админ" : "Сотрудник")</td>
                     <td>
-                        <a class="btn btn-outline-secondary" asp-controller="Employees" asp-action="Update" asp-route-id=@(item.Id)>Изменить</a>
+                        <a class="btn btn-outline-dark" asp-controller="Employees" asp-action="Update" asp-route-id=@(item.Id)>Изменить</a>
                         <a class="btn btn-outline-danger ms-2" asp-controller="Employees" asp-action="Delete" asp-route-id=@(item.Id)>Удалить</a>
                     </td>
                 </tr>
