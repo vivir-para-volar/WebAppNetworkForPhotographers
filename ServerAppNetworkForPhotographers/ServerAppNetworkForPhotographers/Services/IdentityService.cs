@@ -34,27 +34,6 @@ namespace ServerAppNetworkForPhotographers.Services
             _photographersService = new PhotographersService(dataContext, userManager);
         }
 
-        public async Task<List<GetAppUserDto>> GetAllAdminsAndEmployees()
-        {
-            var adminRole = await _roleManager.FindByNameAsync(UserRoles.Admin);
-            var employeeRole = await _roleManager.FindByNameAsync(UserRoles.Employee);
-
-            var adminUsers = await _userManager.GetUsersInRoleAsync(adminRole.Name);
-            var employeeUsers = await _userManager.GetUsersInRoleAsync(employeeRole.Name);
-
-            var getUsers = new List<GetAppUserDto>();
-            foreach (var user in adminUsers)
-            {
-                getUsers.Add(user.ToGetAppUserDto(UserRoles.Admin));
-            }
-            foreach (var user in employeeUsers)
-            {
-                getUsers.Add(user.ToGetAppUserDto(UserRoles.Employee));
-            }
-
-            return getUsers;
-        }
-
         public async Task CreateRoles()
         {
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
@@ -139,8 +118,50 @@ namespace ServerAppNetworkForPhotographers.Services
             return tokenDto;
         }
 
+
+
+        public async Task<List<GetAppUserDto>> GetAllAppUsers()
+        {
+            var adminRole = await _roleManager.FindByNameAsync(UserRoles.Admin);
+            var employeeRole = await _roleManager.FindByNameAsync(UserRoles.Employee);
+
+            var adminUsers = await _userManager.GetUsersInRoleAsync(adminRole.Name);
+            var employeeUsers = await _userManager.GetUsersInRoleAsync(employeeRole.Name);
+
+            var getUsers = new List<GetAppUserDto>();
+            foreach (var user in adminUsers)
+            {
+                getUsers.Add(user.ToGetAppUserDto(UserRoles.Admin));
+            }
+            foreach (var user in employeeUsers)
+            {
+                getUsers.Add(user.ToGetAppUserDto(UserRoles.Employee));
+            }
+
+            return getUsers;
+        }
+
+        public async Task<GetAppUserDto> GetAppUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id) ??
+                throw new NotFoundException(nameof(AppUser), id);
+
+            var role = (await _userManager.GetRolesAsync(user))[0];
+            if (role == UserRoles.User)
+            {
+                throw new AuthenticationException();
+            }
+
+            return user.ToGetAppUserDto(role);
+        }
+
         public async Task<GetAppUserDto> UpdateAppUser(UpdateAppUserDto appUserDto)
         {
+            if (appUserDto.Role != UserRoles.Admin && appUserDto.Role != UserRoles.Employee)
+            {
+                throw new NotFoundException(nameof(UpdateAppUserDto.Role), appUserDto.Role);
+            }
+
             var user = await _userManager.FindByIdAsync(appUserDto.Id) ??
                 throw new NotFoundException(nameof(AppUser), appUserDto.Id);
 
@@ -162,6 +183,12 @@ namespace ServerAppNetworkForPhotographers.Services
 
             user.Update(appUserDto);
             await _userManager.UpdateAsync(user);
+
+            if(role != appUserDto.Role)
+            {
+                await _userManager.RemoveFromRoleAsync(user, role);
+                await _userManager.AddToRoleAsync(user, appUserDto.Role);
+            }
 
             return user.ToGetAppUserDto(role);
         }
@@ -214,6 +241,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             await _userManager.DeleteAsync(user);
         }
+
 
         private async Task<GetAppUserDto> Register(RegisterDto registerDto, string role)
         {

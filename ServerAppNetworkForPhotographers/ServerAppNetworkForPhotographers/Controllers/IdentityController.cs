@@ -26,13 +26,6 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _identityService = new IdentityService(userManager, roleManager, configuration, dataContext);
         }
 
-        [HttpGet("AdminsEmployees")]
-        [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<List<GetAppUserDto>>> GetAllAdminsAndEmployees()
-        {
-            return await _identityService.GetAllAdminsAndEmployees();
-        }
-
 
         [HttpPost("Roles")]
         public async Task<ActionResult> CreateRoles()
@@ -41,7 +34,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return NoContent();
         }
 
-        [HttpPost("RegisterUser")]
+        [HttpPost("Register/User")]
         public async Task<ActionResult<GetAppUserDto>> RegisterUser(RegisterDto registerDto)
         {
             try
@@ -58,7 +51,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpPost("RegisterEmployee")]
+        [HttpPost("Register/Employee")]
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<GetAppUserDto>> RegisterEmployee(RegisterDto registerDto)
         {
@@ -76,7 +69,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpPost("RegisterAdmin")]
+        [HttpPost("Register/Admin")]
         [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<GetAppUserDto>> RegisterAdmin(RegisterDto registerDto)
         {
@@ -107,8 +100,30 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpPut]
+
+        [HttpGet]
         [Authorize(Roles = UserRoles.Admin)]
+        public async Task<ActionResult<List<GetAppUserDto>>> GetAllAppUsers()
+        {
+            return await _identityService.GetAllAppUsers();
+        }
+
+        [HttpGet("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<ActionResult<List<GetAppUserDto>>> GetAllAppUsers(string id)
+        {
+            try
+            {
+                return Ok(await _identityService.GetAppUserById(id));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+        }
+
+        [HttpPut]
+        [Authorize(Roles = UserRoles.AdminEmployee)]
         public async Task<ActionResult<GetAppUserDto>> UpdateAppUser(UpdateAppUserDto appUserDto)
         {
             try

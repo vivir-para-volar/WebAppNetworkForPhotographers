@@ -6,7 +6,7 @@
 
 
         public const string Login = $"{Server}/identity/login";
-        public const string RegisterUser = $"{Server}/identity/registerUser";
+        public const string RegisterUser = $"{Server}/identity/register/user";
         public const string UpdatePassword = $"{Server}/identity/password/user";
 
 
