@@ -1,0 +1,30 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos.AppUserDto
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenterMini">
+
+            <h3>Cотрудник</h3>
+            <hr />
+
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.Username)</dt>
+                <dd>@Html.DisplayFor(model => model.Username)</dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+                <dd>@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Role)</dt>
+                <dd>@(Model.Role == UserRoles.Admin ? "Админ" : "Сотрудник")</dd>
+            </dl>
+
+            <div class="mt-3">
+                <a class="btn btn-outline-dark" asp-controller="Employees" asp-action="Index">К списку</a>
+                <a class="btn btn-outline-secondary ms-2" asp-controller="Employees" asp-action="Update" asp-route-id=@(Model.Id)>Изменить</a>
+                <a class="btn btn-outline-danger ms-2" asp-controller="Employees" asp-action="Delete" asp-route-id=@(Model.Id)>Удалить</a>
+            </div>
+        </div>
+    </div>
+
+</div>

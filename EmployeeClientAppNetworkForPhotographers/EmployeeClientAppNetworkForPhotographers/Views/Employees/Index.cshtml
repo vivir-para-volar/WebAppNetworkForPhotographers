@@ -1,5 +1,50 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos.AppUserDto>
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <h3>Сотрудники</h3>
+    </div>
+
+    <div class="mt-4 pb-1">
+        <a class="btn btn-outline-success" asp-controller="Employees" asp-action="Create">Добавить</a>
+    </div>
+
+    <table id="tableId" class="table mt-4">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>@Html.DisplayNameFor(model => model.Username)</th>
+                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                <th>@Html.DisplayNameFor(model => model.Role)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 1; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(i)</th>
+                    <td>@Html.DisplayFor(model => item.Username)</td>
+                    <td>@Html.DisplayFor(model => item.Email)</td>
+                    <td>@(item.Role == UserRoles.Admin ? "Админ" : "Сотрудник")</td>
+                    <td>
+                        <a class="btn btn-outline-secondary" asp-controller="Employees" asp-action="Update" asp-route-id=@(item.Id)>Изменить</a>
+                        <a class="btn btn-outline-danger ms-2" asp-controller="Employees" asp-action="Delete" asp-route-id=@(item.Id)>Удалить</a>
+                    </td>
+                </tr>
+
+                i++;
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<script src="~/lib/tablesort.min.js" asp-append-version="true"></script>
+<script src="~/lib/tablesort.number.js" asp-append-version="true"></script>
+<script>
+    new Tablesort(document.getElementById('tableId'));
+</script>

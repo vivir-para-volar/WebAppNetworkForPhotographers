@@ -5,9 +5,11 @@
         private const string Server = "https://localhost:7180/api";
 
 
-        public const string Login = $"{Server}/identity/login";
-        public const string RegisterUser = $"{Server}/identity/registerUser";
-        public const string UpdatePassword = $"{Server}/identity/password/user";
+        public const string Account = $"{Server}/identity";
+        public const string Login = $"{Account}/login";
+        public const string RegisterEmployee = $"{Account}/register/employee";
+        public const string RegisterAdmin = $"{Account}/register/admin";
+        public const string UpdatePassword = $"{Account}/password/user";
 
 
         public const string Photographers = $"{Server}/photographers";

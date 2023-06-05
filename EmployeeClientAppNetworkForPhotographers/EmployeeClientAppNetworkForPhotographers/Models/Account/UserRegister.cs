@@ -24,5 +24,9 @@ namespace EmployeeClientAppNetworkForPhotographers.Models.Account
         [Required(ErrorMessage = "Поле обязательное для заполнения")]
         [Compare(nameof(Password), ErrorMessage = "Пароли не совпадают")]
         public string ConfirmPassword { get; set; }
+
+        [JsonIgnore]
+        [Display(Name = "Роль")]
+        public string Role { get; set; }
     }
 }

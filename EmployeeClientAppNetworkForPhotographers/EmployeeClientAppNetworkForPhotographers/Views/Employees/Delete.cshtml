@@ -1,0 +1,37 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos.AppUserDto
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenterMini">
+
+            <h3>Удаление сотрудника</h3>
+            <hr />
+
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.Username)</dt>
+                <dd>@Html.DisplayFor(model => model.Username)</dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+                <dd>@Html.DisplayFor(model => model.Email)</dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Role)</dt>
+                <dd>@(Model.Role == UserRoles.Admin ? "Админ" : "Сотрудник")</dd>
+            </dl>
+
+
+
+            @using (Html.BeginForm("Delete", "Employees", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.Id)
+
+                <div>
+                    <input type="submit" value="Удалить" class="btn btn-outline-danger" />
+                    <a class="btn btn-outline-dark ms-2" asp-controller="Employees" asp-action="Index">К списку</a>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

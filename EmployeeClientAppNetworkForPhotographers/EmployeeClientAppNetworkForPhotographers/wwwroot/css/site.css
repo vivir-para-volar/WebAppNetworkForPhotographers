@@ -53,6 +53,10 @@ a {
     list-style: none;
 }
 
+th {
+    cursor: pointer;
+}
+
 
 
 #title {
