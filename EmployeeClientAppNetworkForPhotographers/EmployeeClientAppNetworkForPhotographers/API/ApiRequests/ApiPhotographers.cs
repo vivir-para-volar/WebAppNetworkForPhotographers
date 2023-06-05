@@ -6,16 +6,16 @@ namespace EmployeeClientAppNetworkForPhotographers.API.ApiRequests
 {
     public class ApiPhotographers
     {
-        public static async Task<Photographer> GetById(int id, string token)
-        {
-            var response = await ApiRequest.Get($"{ApiUrl.Photographers}/{id}", token);
+        //public static async Task<Photographer> GetById(int id, string token)
+        //{
+        //    var response = await ApiRequest.Get($"{ApiUrl.Photographers}/{id}", token);
 
-            string responseMessage = await response.Content.ReadAsStringAsync();
-            var photographer = JsonConvert.DeserializeObject<Photographer>(responseMessage);
+        //    string responseMessage = await response.Content.ReadAsStringAsync();
+        //    var photographer = JsonConvert.DeserializeObject<Photographer>(responseMessage);
 
-            if (photographer == null) throw new ApiException(StatusCodes.Status500InternalServerError);
-            return photographer;
-        }
+        //    if (photographer == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+        //    return photographer;
+        //}
 
         public static async Task<Stream> GetPhotoByName(string name, string token)
         {

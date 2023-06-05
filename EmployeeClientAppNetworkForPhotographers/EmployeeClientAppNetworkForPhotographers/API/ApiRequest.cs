@@ -2,7 +2,6 @@
 using EmployeeClientAppNetworkForPhotographers.Models.ExceptionsResponses;
 using Newtonsoft.Json;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text;
 
 namespace EmployeeClientAppNetworkForPhotographers.API
@@ -95,30 +94,6 @@ namespace EmployeeClientAppNetworkForPhotographers.API
             return response;
         }
 
-        public static async Task<HttpResponseMessage> PutPhoto(string url, IFormFile photo, string token)
-        {
-            var request = new HttpRequestMessage()
-            {
-                RequestUri = new Uri(url),
-                Method = HttpMethod.Put,
-            };
-
-            request.Headers.Add("Authorization", "Bearer " + token);
-
-            var photoContent = new StreamContent(photo.OpenReadStream());
-            photoContent.Headers.ContentType = MediaTypeHeaderValue.Parse(photo.ContentType);
-
-            var formData = new MultipartFormDataContent();
-            formData.Add(photoContent, "photo", photo.FileName);
-
-            request.Content = formData;
-
-            HttpResponseMessage response = await _client.SendAsync(request);
-            if (!response.IsSuccessStatusCode) await ProcessException(response);
-
-            return response;
-        }
-
         public static async Task<HttpResponseMessage> Delete(string url, string token)
         {
             var request = new HttpRequestMessage()
@@ -128,28 +103,6 @@ namespace EmployeeClientAppNetworkForPhotographers.API
             };
 
             request.Headers.Add("Authorization", "Bearer " + token);
-
-            HttpResponseMessage response = await _client.SendAsync(request);
-            if (!response.IsSuccessStatusCode) await ProcessException(response);
-
-            return response;
-        }
-
-        public static async Task<HttpResponseMessage> DeleteWithBody(string url, Object objectToSend, string token)
-        {
-            var request = new HttpRequestMessage()
-            {
-                RequestUri = new Uri(url),
-                Method = HttpMethod.Delete
-            };
-
-            request.Headers.Add("Authorization", "Bearer " + token);
-
-            request.Content = new StringContent(
-                JsonConvert.SerializeObject(objectToSend),
-                Encoding.UTF8,
-                "application/json"
-            );
 
             HttpResponseMessage response = await _client.SendAsync(request);
             if (!response.IsSuccessStatusCode) await ProcessException(response);

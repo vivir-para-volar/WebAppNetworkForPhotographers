@@ -54,7 +54,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
 
             try
             {
-                photo = await ApiPhotos.GetPhotoByName(contentId, name, AppUser.GetToken(HttpContext));
+                photo = await ApiContents.GetPhotoByName(contentId, name, AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {

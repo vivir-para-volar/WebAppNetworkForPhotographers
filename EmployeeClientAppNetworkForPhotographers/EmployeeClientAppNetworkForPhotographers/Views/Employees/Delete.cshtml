@@ -19,8 +19,6 @@
                 <dd>@(Model.Role == UserRoles.Admin ? "Админ" : "Сотрудник")</dd>
             </dl>
 
-
-
             @using (Html.BeginForm("Delete", "Employees", FormMethod.Post))
             {
                 @Html.HiddenFor(model => model.Id)

@@ -5,7 +5,8 @@ namespace EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBa
     public class CreateComplaintBaseDto
     {
         [Required]
-        [StringLength(256, MinimumLength = 4)]
+        [Display(Name = "Название")]
+        [StringLength(256, MinimumLength = 4, ErrorMessage = "Должно быть длиннее 4 и короче 256 символов")]
         public string Name { get; set; }
     }
 }
