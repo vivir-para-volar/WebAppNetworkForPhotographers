@@ -35,6 +35,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("CheckComplaints/{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<ActionResult<bool>> CheckComplaints(int id)
         {
             return Ok(await _complaintsBaseService.CheckComplaints(id));

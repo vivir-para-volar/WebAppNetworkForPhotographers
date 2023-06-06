@@ -5,7 +5,7 @@ namespace ServerAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBase
     public class CreateComplaintBaseDto
     {
         [Required]
-        [StringLength(256, MinimumLength = 4)]
+        [StringLength(64, MinimumLength = 4)]
         public string Name { get; set; }
     }
 }
