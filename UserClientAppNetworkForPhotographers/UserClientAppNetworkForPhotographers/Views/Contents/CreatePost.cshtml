@@ -90,24 +90,87 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 <script>
-    for (let i = 0; i < 3; i++) {
-        const photoInput = document.getElementById(`photos${i}Input`);
+    window.onload = function () {
+        for (let i = 0; i < 3; i++) {
+            const photoInput = document.getElementById(`photos${i}Input`);
 
-        photoInput.addEventListener('change', function () {
-            if (this.files[0].size > maxPhotoSize) {
-                photoInput.value = '';
-                return false;
-            }
+            photoInput.addEventListener('change', function () {
 
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                document.querySelector(`#photos${i}Ready>img`).setAttribute('src', e.target.result);
+                const file = this.files[0];
 
-                document.getElementById(`photos${i}`).style.display = "none";
-                document.getElementById(`photos${i}Ready`).style.display = "block";
-            }
-            reader.readAsDataURL(this.files[0]);
-        });
-    }
+                if (file.size > maxPhotoSize) {
+                    photoInput.value = '';
+                    return false;
+                }
+
+
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    document.querySelector(`#photos${i}Ready>img`).setAttribute('src', event.target.result);
+
+                    document.getElementById(`photos${i}`).style.display = "none";
+                    document.getElementById(`photos${i}Ready`).style.display = "block";
+                }
+                reader.readAsDataURL(file);
+
+                // создаем объект Image
+                const image = new Image();
+
+                // при загрузке изображения
+                image.addEventListener('load', () => {
+                    // получаем размеры изображения
+                    const width = image.naturalWidth;
+                    const height = image.naturalHeight;
+
+                    // выводим полученные значения в консоль
+                    console.log(`Ширина: ${width} px`);
+                    console.log(`Высота: ${height} px`);
+                });
+
+                // читаем файл как URL-адрес
+                const url = URL.createObjectURL(file);
+
+                // загружаем изображение
+                image.src = url;
+
+
+                // создаем объект FileReader
+                const reader1 = new FileReader();
+                reader1.addEventListener('load', () => {
+                    // получаем бинарные данные изображения
+                    const imageData = reader1.result;
+
+                    // получаем метаданные изображения
+                    const exifData = EXIF.readFromBinaryFile(imageData);
+
+                    // Горизонтальное разрешение (... точек на дюйм)
+                    console.log("XResolution: " + exifData?.XResolution)
+                    // Разрешение по вертикали (... точек на дюйм)
+                    console.log("YResolution: " + exifData?.YResolution)
+
+                    // Камера изготовитель
+                    console.log("Make: " + exifData?.Make)
+                    // Камера модель
+                    console.log("Model: " + exifData?.Model)
+
+                    // Диафрагма (f/...)
+                    console.log("ApertureValue: " + exifData?.ApertureValue?.toFixed(2))
+
+                    // Скорость ISO (ISO-...)
+                    console.log("ISOSpeedRatings: " + exifData?.ISOSpeedRatings)
+
+                    // Фокусное расстояние (... мм)
+                    console.log("FocalLength: " + exifData?.FocalLength)
+
+                    // Фокусное расстояние экв. 35 мм
+                    console.log("FocalLengthIn35mmFilm: " + exifData?.FocalLengthIn35mmFilm)
+                });
+
+                // читаем файл как бинарные данные
+                reader1.readAsArrayBuffer(file);
+            });
+        }
+    };
 </script>

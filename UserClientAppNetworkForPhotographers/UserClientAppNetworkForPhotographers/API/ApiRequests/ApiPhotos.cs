@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.PhotosInfo;
 
 namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 {
@@ -21,6 +22,28 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
 
             if (contentPhoto == null) throw new ApiException(StatusCodes.Status500InternalServerError);
             return contentPhoto;
+        }
+
+        public static async Task<PhotoInfo> GetPhotoInfoByPhotoId(int id, string token)
+        {
+            var response = await ApiRequest.Get($"{ApiUrl.PhotosInfo}/{id}", token);
+
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            var photoInfo = JsonConvert.DeserializeObject<PhotoInfo>(responseMessage);
+
+            if (photoInfo == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+            return photoInfo;
+        }
+
+        public static async Task<PhotoInfo> CreatePhotoInfo(CreatePhotoInfoDto photoInfoDto, string token)
+        {
+            var response = await ApiRequest.Post(ApiUrl.PhotosInfo, photoInfoDto, token);
+
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            var photoInfo = JsonConvert.DeserializeObject<PhotoInfo>(responseMessage);
+
+            if (photoInfo == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+            return photoInfo;
         }
     }
 }
