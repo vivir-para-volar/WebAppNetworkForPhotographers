@@ -35,9 +35,16 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetCategoryDirDto?>> GetCategoryDirById(int id)
+        public async Task<ActionResult<CategoryDir?>> GetCategoryDirById(int id)
         {
             return Ok(await _categoryDirsService.GetCategoryDirById(id));
+        }
+
+        [HttpGet("CheckCategories/{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<ActionResult<bool>> CheckCategories(int id)
+        {
+            return Ok(await _categoryDirsService.CheckCategories(id));
         }
 
         [HttpPost]

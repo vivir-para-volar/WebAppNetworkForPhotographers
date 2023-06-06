@@ -8,32 +8,21 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using EmployeeClientAppNetworkForPhotographers.Models;
 
 namespace EmployeeClientAppNetworkForPhotographers.Controllers
 {
     [Authorize(Roles = UserRoles.Admin)]
     public class EmployeesController : Controller
     {
-        private struct EmployeeRole
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-
-            public EmployeeRole(string id, string name)
-            {
-                Id = id;
-                Name = name;
-            }
-        }
-
-        private List<EmployeeRole> _roles;
+        private List<ViewSelectList> _roles;
 
         public EmployeesController()
         {
-            _roles = new List<EmployeeRole>
+            _roles = new List<ViewSelectList>
             {
-                new EmployeeRole(UserRoles.Admin, "Админ"),
-                new EmployeeRole(UserRoles.Employee, "Сотрудник")
+                new ViewSelectList(UserRoles.Admin, "Админ"),
+                new ViewSelectList(UserRoles.Employee, "Сотрудник")
             };
         }
 
@@ -55,7 +44,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.RoleType = new SelectList(_roles, nameof(EmployeeRole.Id), nameof(EmployeeRole.Name));
+            ViewBag.RoleType = new SelectList(_roles, nameof(ViewSelectList.ValueStr), nameof(ViewSelectList.Name));
             return View();
         }
 
@@ -64,7 +53,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.RoleType = new SelectList(_roles, nameof(EmployeeRole.Id), nameof(EmployeeRole.Name));
+                ViewBag.RoleType = new SelectList(_roles, nameof(ViewSelectList.ValueStr), nameof(ViewSelectList.Name));
                 return View(userRegister);
             }
 
@@ -83,7 +72,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
             catch (FieldException ex)
             {
                 ModelState.AddModelError(ex.Field, ex.Message);
-                ViewBag.RoleType = new SelectList(_roles, nameof(EmployeeRole.Id), nameof(EmployeeRole.Name));
+                ViewBag.RoleType = new SelectList(_roles, nameof(ViewSelectList.ValueStr), nameof(ViewSelectList.Name));
                 return View(userRegister);
             }
             catch (ApiException ex)
@@ -107,7 +96,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
-            ViewBag.RoleType = new SelectList(_roles, nameof(EmployeeRole.Id), nameof(EmployeeRole.Name));
+            ViewBag.RoleType = new SelectList(_roles, nameof(ViewSelectList.ValueStr), nameof(ViewSelectList.Name));
             return View(appUser);
         }
 
@@ -116,7 +105,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.RoleType = new SelectList(_roles, nameof(EmployeeRole.Id), nameof(EmployeeRole.Name));
+                ViewBag.RoleType = new SelectList(_roles, nameof(ViewSelectList.ValueStr), nameof(ViewSelectList.Name));
                 return View(appUserDto);
             }
 
@@ -127,7 +116,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
             catch (FieldException ex)
             {
                 ModelState.AddModelError(ex.Field, ex.Message);
-                ViewBag.RoleType = new SelectList(_roles, nameof(EmployeeRole.Id), nameof(EmployeeRole.Name));
+                ViewBag.RoleType = new SelectList(_roles, nameof(ViewSelectList.ValueStr), nameof(ViewSelectList.Name));
                 return View(appUserDto);
             }
             catch (ApiException ex)

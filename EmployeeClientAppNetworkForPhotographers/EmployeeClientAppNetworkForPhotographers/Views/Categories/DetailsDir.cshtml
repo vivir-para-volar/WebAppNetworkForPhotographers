@@ -1,0 +1,24 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Data.CategoryDir
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenterMini">
+
+            <h3>Папка для категории</h3>
+            <hr />
+
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd>@Html.DisplayFor(model => model.Name)</dd>
+            </dl>
+
+            <div class="mt-3">
+                <a class="btn btn-outline-dark" asp-controller="Categories" asp-action="UpdateDir" asp-route-id=@(Model.Id)>Изменить</a>
+                <a class="btn btn-outline-danger ms-2" asp-controller="Categories" asp-action="DeleteDir" asp-route-id=@(Model.Id)>Удалить</a>
+                <a class="btn btn-outline-secondary ms-2" asp-controller="Categories" asp-action="Index">К списку</a>
+            </div>
+        </div>
+    </div>
+
+</div>

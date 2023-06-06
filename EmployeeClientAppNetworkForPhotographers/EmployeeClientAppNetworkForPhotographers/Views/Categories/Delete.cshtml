@@ -1,0 +1,48 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Categories.GetCategoryDto
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenterMini">
+
+            <h3>Удаление категории</h3>
+            <hr />
+
+            @{
+                if (ViewBag.CheckContents)
+                {
+                    <p class="text-danger mb-3">Неляза удалить категорию, так как за ней закреплён контент</p>
+                }
+            }
+
+            <dl>
+                <dt>@Html.DisplayNameFor(model => model.CategoryDir)</dt>
+                <dd>@Html.DisplayFor(model => model.CategoryDir.Name)</dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd>@Html.DisplayFor(model => model.Name)</dd>
+            </dl>
+
+            @if (ViewBag.CheckContents)
+            {
+                <div>
+                    <a class="btn btn-outline-secondary" asp-controller="Categories" asp-action="Index">К списку</a>
+                </div>
+            }
+            else
+            {
+                @using (Html.BeginForm("Delete", "Categories", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.Id)
+
+                    <div>
+                        <input type="submit" value="Удалить" class="btn btn-outline-danger" />
+                        <a class="btn btn-outline-secondary ms-2" asp-controller="Categories" asp-action="Index">К списку</a>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+</div>

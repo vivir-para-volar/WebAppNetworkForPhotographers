@@ -6,7 +6,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.ComplaintsBa
     {
         [Required]
         [Display(Name = "Название")]
-        [StringLength(256, MinimumLength = 4, ErrorMessage = "Должно быть длиннее 4 и короче 256 символов")]
+        [StringLength(64, MinimumLength = 4, ErrorMessage = "Должно быть длиннее 4 и короче 64 символов")]
         public string Name { get; set; }
     }
 }

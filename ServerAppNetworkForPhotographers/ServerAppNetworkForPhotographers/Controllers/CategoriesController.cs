@@ -28,11 +28,18 @@ namespace ServerAppNetworkForPhotographers.Controllers
             return Ok(await _categoriesService.GetCategoryById(id));
         }
 
+        [HttpGet("CheckContents/{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<ActionResult<bool>> CheckContents(int id)
+        {
+            return Ok(await _categoriesService.CheckContents(id));
+        }
+
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<Category>> CreateCategory(CreateCategoryDto categoryDto)
+        public async Task<ActionResult<GetCategoryDto>> CreateCategory(CreateCategoryDto categoryDto)
         {
-            Category category;
+            GetCategoryDto category;
 
             try
             {
@@ -52,7 +59,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPut]
         [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<Category>> UpdateCategory(UpdateCategoryDto categoryDto)
+        public async Task<ActionResult<GetCategoryDto>> UpdateCategory(UpdateCategoryDto categoryDto)
         {
             try
             {

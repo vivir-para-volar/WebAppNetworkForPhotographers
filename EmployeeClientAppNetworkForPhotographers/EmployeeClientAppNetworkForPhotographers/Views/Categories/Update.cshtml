@@ -1,0 +1,47 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Categories.GetCategoryDto
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenterMini">
+
+            <h3>Изменение категории</h3>
+            <hr />
+
+            @using (Html.BeginForm("Update", "Categories", FormMethod.Post))
+            {
+                <div class="form-horizontal">
+
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.CategoryDir.Id)
+                    @Html.HiddenFor(model => model.CategoryDir.Name)
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.CategoryDirId, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.DropDownListFor(model => model.CategoryDirId, ViewBag.CategoryDir as SelectList, null, htmlAttributes: new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.CategoryDirId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger listError" })
+
+                    <div>
+                        <input type="submit" value="Изменить" class="btn btn-outline-dark" />
+                        <a class="btn btn-outline-secondary ms-2" asp-controller="Categories" asp-action="Index">К списку</a>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

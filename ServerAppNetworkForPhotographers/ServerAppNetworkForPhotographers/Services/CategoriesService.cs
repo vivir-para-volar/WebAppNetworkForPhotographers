@@ -21,7 +21,13 @@ namespace ServerAppNetworkForPhotographers.Services
             return category != null ? category.ToGetCategoryDto() : null;
         }
 
-        public async Task<Category> CreateCategory(CreateCategoryDto categoryDto)
+        public async Task<bool> CheckContents(int id)
+        {
+            var category = await _context.Categories.Include(item => item.Contents).FirstOrDefaultAsync(item => item.Id == id);
+            return category == null ? false : category.Contents.Count != 0;
+        }
+
+        public async Task<GetCategoryDto> CreateCategory(CreateCategoryDto categoryDto)
         {
             if (!(await CheckExistenceCategoryDir(categoryDto.CategoryDirId)))
             {
@@ -30,7 +36,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId))
             {
-                throw new UniqueFieldException($"{nameof(categoryDto.Name)} (in this dir)", categoryDto.Name);
+                throw new UniqueFieldException(nameof(categoryDto.Name), categoryDto.Name);
             }
 
             var category = new Category(categoryDto);
@@ -38,10 +44,10 @@ namespace ServerAppNetworkForPhotographers.Services
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
 
-            return category;
+            return await GetCategoryById(category.Id);
         }
 
-        public async Task<Category> UpdateCategory(UpdateCategoryDto categoryDto)
+        public async Task<GetCategoryDto> UpdateCategory(UpdateCategoryDto categoryDto)
         {
             var category = (await GetSimpleCategoryById(categoryDto.Id)) ??
                 throw new NotFoundException(nameof(Category), categoryDto.Id);
@@ -53,7 +59,7 @@ namespace ServerAppNetworkForPhotographers.Services
 
             if (await CheckExistenceCategoryInDir(categoryDto.Name, categoryDto.CategoryDirId, categoryDto.Id))
             {
-                throw new UniqueFieldException($"{nameof(categoryDto.Name)} (in this dir)", categoryDto.Name);
+                throw new UniqueFieldException(nameof(categoryDto.Name), categoryDto.Name);
             }
 
             category.Update(categoryDto);
@@ -61,7 +67,7 @@ namespace ServerAppNetworkForPhotographers.Services
             _context.Entry(category).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return category;
+            return await GetCategoryById(category.Id);
         }
 
         public async Task DeleteCategory(int id)

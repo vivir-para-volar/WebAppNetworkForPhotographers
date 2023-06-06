@@ -51,10 +51,12 @@
         //public const string PhotosInfo = $"{Server}/photosInfo";
 
 
-        //public const string CategoryDirs = $"{Server}/categoryDirs";
-        //public const string CategoryDirsWithCategories = $"{CategoryDirs}/withCategories";
+        public const string CategoryDirs = $"{Server}/categoryDirs";
+        public const string CategoryDirsCheckCategories = $"{CategoryDirs}/checkCategories";
+        public const string CategoryDirsWithCategories = $"{CategoryDirs}/withCategories";
 
-        //public const string Categories = $"{Server}/categories";
+        public const string Categories = $"{Server}/categories";
+        public const string CategoriesCheckContents = $"{Categories}/checkContents";
 
 
         //public const string Likes = $"{Server}/likes";
@@ -68,6 +70,6 @@
         public const string ComplaintsBase = $"{Server}/complaintsBase";
         public const string ComplaintsBaseCheckComplaints = $"{ComplaintsBase}/checkComplaints";
         
-        public const string Complaints = $"{Server}/complaints";
+        //public const string Complaints = $"{Server}/complaints";
     }
 }

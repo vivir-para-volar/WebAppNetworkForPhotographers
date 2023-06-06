@@ -1,0 +1,35 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs.CreateCategoryDirDto
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenterMini">
+
+            <h3>Добавление папки для категории</h3>
+            <hr />
+
+            @using (Html.BeginForm("CreateDir", "Categories", FormMethod.Post))
+            {
+                <div class="form-horizontal">
+
+                    <div class="form-group mb-3">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger listError" })
+
+                    <div>
+                        <input type="submit" value="Добавить" class="btn btn-outline-success" />
+                        <a class="btn btn-outline-secondary ms-2" asp-controller="Categories" asp-action="Index">К списку</a>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

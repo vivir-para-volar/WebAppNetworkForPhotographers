@@ -105,6 +105,20 @@ th {
     align-self: center;
 }
 
+.containerHeaderAccordion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.containerHeaderAccordionBlock1 {
+    flex-grow: 1;
+}
+
+.containerHeaderAccordionBlock2 {
+    flex-shrink: 0;
+}
+
 
 
 .divForPhoto {
