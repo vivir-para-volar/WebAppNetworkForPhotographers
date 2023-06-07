@@ -108,19 +108,6 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
-        public async Task<Photographer> UpdatePhotographerStatus(int id)
-        {
-            var photographer = (await GetSimplePhotographerById(id)) ??
-                throw new NotFoundException(nameof(Photographer), id);
-
-            photographer.UpdateStatus();
-
-            _context.Entry(photographer).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return photographer;
-        }
-
         public async Task DeletePhotographer(int id)
         {
             var photographer = (await GetSimplePhotographerById(id)) ??

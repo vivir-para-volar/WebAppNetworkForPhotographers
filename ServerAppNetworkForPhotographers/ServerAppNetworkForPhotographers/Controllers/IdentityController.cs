@@ -109,8 +109,8 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = UserRoles.Admin)]
-        public async Task<ActionResult<List<GetAppUserDto>>> GetAllAppUsers(string id)
+        [Authorize(Roles = UserRoles.AdminEmployee)]
+        public async Task<ActionResult<List<GetAppUserDto>>> GetAppUserById(string id)
         {
             try
             {

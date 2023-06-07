@@ -12,7 +12,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = UserRoles.User)]
+    [Authorize]
     public class PhotosController : ControllerBase
     {
         private readonly PhotosService _photosService;
@@ -31,6 +31,7 @@ namespace ServerAppNetworkForPhotographers.Controllers
         }
 
         [HttpPut("{contentId}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Photo>> CreatePhoto(int contentId, IFormFile photo)
         {
             try

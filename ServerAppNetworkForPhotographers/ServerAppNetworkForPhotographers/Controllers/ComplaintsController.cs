@@ -22,11 +22,25 @@ namespace ServerAppNetworkForPhotographers.Controllers
             _complaintsService = new ComplaintsService(dataContext);
         }
 
-        [HttpGet]
+        [HttpGet("Photographers")]
         [Authorize(Roles = UserRoles.AdminEmployee)]
-        public async Task<ActionResult<List<Complaint>>> GetAllComplaintsOpen()
+        public async Task<ActionResult<List<GetPhotographerCountComplaints>>> GetCountPhotographersComplaintsOpen()
         {
-            return Ok(await _complaintsService.GetAllComplaintsOpen());
+            return Ok(await _complaintsService.GetCountPhotographersComplaintsOpen());
+        }
+
+        [HttpGet("Photographers/{photographerId}")]
+        [Authorize(Roles = UserRoles.AdminEmployee)]
+        public async Task<ActionResult<List<GetContentWithCountComplaints>>> GetPhotographerContentsWithCountComplaints(int photographerId)
+        {
+            return Ok(await _complaintsService.GetPhotographerContentsWithCountComplaints(photographerId));
+        }
+
+        [HttpGet("Contents/{contentId}")]
+        [Authorize(Roles = UserRoles.AdminEmployee)]
+        public async Task<ActionResult<List<Complaint>>> GetComplaintsOpenForContent(int contentId)
+        {
+            return Ok(await _complaintsService.GetComplaintsOpenForContent(contentId));
         }
 
         [HttpGet("{id}")]
@@ -56,16 +70,26 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPut("Status/{id}")]
         [Authorize(Roles = UserRoles.AdminEmployee)]
-        public async Task<ActionResult<Complaint>> UpdateComplaintStatus(int id)
+        public async Task<ActionResult> UpdateComplaintStatus(int id)
         {
             try
             {
-                return Ok(await _complaintsService.UpdateComplaintStatus(id));
+                await _complaintsService.UpdateComplaintStatus(id);
             }
             catch (NotFoundException ex)
             {
                 return NotFound(new NotFoundResponse(ex.Message));
             }
+
+            return NoContent();
+        }
+
+        [HttpPut("Status/Content/{contentId}")]
+        [Authorize(Roles = UserRoles.AdminEmployee)]
+        public async Task<ActionResult> UpdateAllComplaintsStatusForContent(int contentId)
+        {
+            await _complaintsService.UpdateAllComplaintsStatusForContent(contentId);
+            return NoContent();
         }
     }
 }

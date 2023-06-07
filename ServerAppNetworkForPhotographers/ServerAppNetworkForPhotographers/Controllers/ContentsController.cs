@@ -205,20 +205,6 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
-        [HttpPut("Status/{id}")]
-        [Authorize(Roles = UserRoles.AdminEmployee)]
-        public async Task<ActionResult<Content>> UpdateContentStatus(int id)
-        {
-            try
-            {
-                return Ok(await _contentsService.UpdateContentStatus(id));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(new NotFoundResponse(ex.Message));
-            }
-        }
-
         [HttpDelete("{id}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> DeleteContent(int id)

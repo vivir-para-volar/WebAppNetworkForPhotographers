@@ -106,6 +106,12 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             return new GetContentDto(this, photographer);
         }
 
+        public GetContentForEmployeeDto ToGetContentForEmployeeDto()
+        {
+            var photographer = Photographer.ToGetPhotographerForListDto();
+            return new GetContentForEmployeeDto(this, photographer);
+        }
+
         public void UpdateStatus()
         {
             Status = StatusContent.Blocked;

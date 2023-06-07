@@ -184,7 +184,7 @@ namespace ServerAppNetworkForPhotographers.Services
             user.Update(appUserDto);
             await _userManager.UpdateAsync(user);
 
-            if(role != appUserDto.Role)
+            if (role != appUserDto.Role)
             {
                 await _userManager.RemoveFromRoleAsync(user, role);
                 await _userManager.AddToRoleAsync(user, appUserDto.Role);
