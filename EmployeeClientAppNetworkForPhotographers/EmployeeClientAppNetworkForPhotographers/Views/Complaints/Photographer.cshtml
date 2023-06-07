@@ -1,0 +1,72 @@
+﻿@model IEnumerable<EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Complaints.GetContentWithCountComplaints>
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <h3>Жалобы на пользователя</h3>
+    </div>
+
+    <div class="containerParentFlexMany mt-4">
+        @if (ViewBag.Photographer.PhotoProfile == null)
+        {
+            <div class="divForPhoto"><img class="profilePhotoAdaptive" src="~/image/emptyProfile.png"></div>
+        }
+        else
+        {
+            <div class="divForPhoto">
+                <img class="profilePhotoAdaptive" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = ViewBag.Photographer.PhotoProfile}))>
+            </div>
+        }
+
+        <div>
+            <h4>@(ViewBag.Photographer.Username)</h4>
+            <p>@(ViewBag.Photographer.Name)</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a class="btn btn-outline-danger" asp-controller="Complaints"
+           asp-action="UpdateStatusPhotographer" asp-route-id=@(ViewBag.Photographer.Id)>
+            Заблокировать пользователя
+        </a>
+        <a class="btn btn-outline-secondary ms-2" asp-controller="Complaints" asp-action="Index">К списку</a>
+    </div>
+
+
+    <table id="tableId" class="table mt-5">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>@Html.DisplayNameFor(model => model.ContentId)</th>
+                <th>@Html.DisplayNameFor(model => model.CountComplaints)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(i)</th>
+                    <td>@(item.ContentType == TypeContent.Post ? "Пост " : "Блог ")&#8470;@(item.ContentId)</td>
+                    <td>@Html.DisplayFor(model => item.CountComplaints)</td>
+                    <td>
+                        <a class="btn btn-outline-dark" asp-controller="Complaints" asp-action="Content" asp-route-id=@(item.ContentId)>Подробнее</a>
+                    </td>
+                </tr>
+
+                i++;
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<script src="~/lib/tablesort.min.js" asp-append-version="true"></script>
+<script src="~/lib/tablesort.number.js" asp-append-version="true"></script>
+<script>
+    new Tablesort(document.getElementById('tableId'));
+</script>

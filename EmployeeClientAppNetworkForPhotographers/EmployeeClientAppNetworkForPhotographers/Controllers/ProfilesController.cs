@@ -3,8 +3,8 @@ using EmployeeClientAppNetworkForPhotographers.Exceptions;
 using EmployeeClientAppNetworkForPhotographers.Models.Account;
 using EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos;
 using EmployeeClientAppNetworkForPhotographers.Models.Lists;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

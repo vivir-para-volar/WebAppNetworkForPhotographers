@@ -1,14 +1,14 @@
 ﻿using EmployeeClientAppNetworkForPhotographers.API.ApiRequests;
 using EmployeeClientAppNetworkForPhotographers.Exceptions;
+using EmployeeClientAppNetworkForPhotographers.Models;
 using EmployeeClientAppNetworkForPhotographers.Models.Account;
 using EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos;
 using EmployeeClientAppNetworkForPhotographers.Models.Lists;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EmployeeClientAppNetworkForPhotographers.Models;
 
 namespace EmployeeClientAppNetworkForPhotographers.Controllers
 {

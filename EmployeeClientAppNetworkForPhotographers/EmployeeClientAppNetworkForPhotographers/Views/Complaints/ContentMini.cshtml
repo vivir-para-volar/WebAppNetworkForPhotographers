@@ -1,0 +1,91 @@
+﻿@model EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentForEmployeeDto
+
+<div class="border border-3 rounded box-shadow ps-2 pe-2">
+    <div class="containerParentFlex p-2">
+        @if (Model.Photographer.PhotoProfile == null)
+        {
+            <div class="divForPhoto"><img class="profilePhotoMini" src="~/image/emptyProfile.png"></div>
+        }
+        else
+        {
+            <div class="divForPhoto">
+                <img class="profilePhotoMini" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.Photographer.PhotoProfile}))>
+            </div>
+        }
+
+        <div>
+            <p><strong>@(Model.Photographer.Username)</strong></p>
+            <div class="textDate mt-1">@(Model.CreatedAt)</div>
+        </div>
+    </div>
+
+    <div class="border-top border-2 p-2">
+
+        @if (Model.Type == TypeContent.Post)
+        {
+            @if (Model.Photos.Count == 1)
+            {
+                <div>
+                    <img class="photoSliderMini" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+                </div>
+            }
+            else
+            {
+                <div id="carouselControls@(Model.Id)" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item active">
+                            <img class="photoSliderMini" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+                        </div>
+
+                        @for (var i = 1; i < Model.Photos.Count; i++)
+                        {
+                            <div class="carousel-item">
+                                <img class="photoSliderMini" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent}))>
+                            </div>
+                        }
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls@(Model.Id)" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Предыдущий</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls@(Model.Id)" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Следующий</span>
+                    </button>
+                </div>
+            }
+
+
+            <div class="mt-4">
+                <pre>@(Model.Title)</pre>
+                <div class="pt-3 pb-1">
+                    <a class="link-dark pt-3 pb-1" asp-controller="Complaints" asp-action="ShowContent" asp-route-id=@(Model.Id)>
+                        Подробнее...
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div>
+                <img class="photoSliderMini" src=@(Url.Action("GetBlogMainPhoto", "Common", new { name = Model.BlogMainPhoto}))>
+            </div>
+
+            <div class="mt-4">
+                <pre>@(Model.Title)</pre>
+                <div class="pt-3 pb-1">
+                    <a class="link-dark pt-3 pb-1" asp-controller="Complaints" asp-action="ShowContent" asp-route-id=@(Model.Id)>
+                        Читать...
+                    </a>
+                </div>
+            </div>
+
+        }
+
+    </div>
+
+</div>
+

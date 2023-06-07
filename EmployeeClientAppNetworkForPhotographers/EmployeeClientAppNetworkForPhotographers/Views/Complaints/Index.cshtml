@@ -1,5 +1,45 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Complaints.GetPhotographerCountComplaints>
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <h3>Жалобы</h3>
+    </div>
+
+    <table id="tableId" class="table mt-4">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>@Html.DisplayNameFor(model => model.PhotographerUsername)</th>
+                <th>@Html.DisplayNameFor(model => model.CountComplaints)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(i)</th>
+                    <td>@Html.DisplayFor(model => item.PhotographerUsername)</td>
+                    <td>@Html.DisplayFor(model => item.CountComplaints)</td>
+                    <td>
+                        <a class="btn btn-outline-dark" asp-controller="Complaints" asp-action="Photographer" asp-route-id=@(item.PhotographerId)>Подробнее</a>
+                    </td>
+                </tr>
+
+                i++;
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<script src="~/lib/tablesort.min.js" asp-append-version="true"></script>
+<script src="~/lib/tablesort.number.js" asp-append-version="true"></script>
+<script>
+    new Tablesort(document.getElementById('tableId'));
+</script>

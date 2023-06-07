@@ -94,6 +94,22 @@ namespace EmployeeClientAppNetworkForPhotographers.API
             return response;
         }
 
+        public static async Task<HttpResponseMessage> PutWithoutBody(string url, string token)
+        {
+            var request = new HttpRequestMessage()
+            {
+                RequestUri = new Uri(url),
+                Method = HttpMethod.Put
+            };
+
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            HttpResponseMessage response = await _client.SendAsync(request);
+            if (!response.IsSuccessStatusCode) await ProcessException(response);
+
+            return response;
+        }
+
         public static async Task<HttpResponseMessage> Delete(string url, string token)
         {
             var request = new HttpRequestMessage()

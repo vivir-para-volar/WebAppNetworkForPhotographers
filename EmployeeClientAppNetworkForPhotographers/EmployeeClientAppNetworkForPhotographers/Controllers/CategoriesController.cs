@@ -259,7 +259,7 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
             List<CategoryDir> categories = await ApiCategoryDirs.GetAll(AppUser.GetToken(HttpContext));
 
             var categoriesDir = new List<ViewSelectList>();
-            foreach(var category in categories)
+            foreach (var category in categories)
             {
                 categoriesDir.Add(new ViewSelectList(category.Id, category.Name));
             }

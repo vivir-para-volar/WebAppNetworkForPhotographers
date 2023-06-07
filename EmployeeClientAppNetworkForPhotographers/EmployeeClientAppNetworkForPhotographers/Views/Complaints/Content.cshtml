@@ -1,0 +1,75 @@
+﻿@using EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+@model IEnumerable<EmployeeClientAppNetworkForPhotographers.Models.Data.Complaint>
+
+<div class="container pt-4 pb-5">
+
+    <div class="containerParentFlexCenter">
+        <h3>Жалобы на контент</h3>
+    </div>
+
+    <div class="containerParentFlexCenter mt-4">
+        <div class="containerCenter">
+            @(await Html.PartialAsync("~/Views/Complaints/ContentMini.cshtml", ViewBag.Content as GetContentForEmployeeDto))
+        </div>
+    </div>
+
+    <div class="containerParentFlexCenter mt-4">
+        <div>
+            <div class="mt-4 me-4" style="display: inline-block">
+                <a class="btn btn-outline-success" asp-controller="Complaints" asp-action="UpdateStatusAllForContent"
+                   asp-route-id=@(Model.FirstOrDefault()?.ContentId) asp-route-photographerId=@(Model.FirstOrDefault()?.PhotographerId)>
+                    Отклонить все
+                </a>
+                <a class="btn btn-outline-danger ms-2" asp-controller="Complaints" asp-action="UpdateStatusContent"
+                   asp-route-id=@(Model.FirstOrDefault()?.ContentId) asp-route-photographerId=@(Model.FirstOrDefault()?.PhotographerId)>
+                    Заблокировать контент
+                </a>
+            </div>
+            <div class="mt-4" style="display: inline-block">
+                <a class="btn btn-outline-secondary" asp-controller="Complaints" asp-action="Index">К списку</a>
+                <a class="btn btn-outline-secondary ms-2" asp-controller="Complaints"
+                   asp-action="Photographer" asp-route-id=@(Model.FirstOrDefault()?.PhotographerId)>
+                    К пользователю
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <table id="tableId" class="table mt-5">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>@Html.DisplayNameFor(model => model.ComplaintBase)</th>
+                <th>@Html.DisplayNameFor(model => model.Text)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int i = 1;
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th>@(i)</th>
+                    <td>@Html.DisplayFor(model => item.ComplaintBase.Name)</td>
+                    <td>@Html.DisplayFor(model => item.Text)</td>
+                    <td>
+                        <button id="btnComplaint@(item.Id)" class="btn btn-outline-success" onclick="updateStatusComplaint(@(item.Id))">Отклонить</button>
+                        <div id="successComplaint@(item.Id)" class="text-success" style="display: none">Отклонено</div>
+                    </td>
+                </tr>
+
+                i++;
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script src="~/js/complaints.js" asp-append-version="true"></script>
+<script src="~/lib/tablesort.min.js" asp-append-version="true"></script>
+<script src="~/lib/tablesort.number.js" asp-append-version="true"></script>
+<script>
+    new Tablesort(document.getElementById('tableId'));
+</script>

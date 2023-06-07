@@ -2,7 +2,7 @@
 
 namespace EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
-    public class GetContentDto
+    public class GetContentForEmployeeDto
     {
         public int Id { get; set; }
         public string Type { get; set; }
@@ -11,10 +11,6 @@ namespace EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
         public string Status { get; set; }
         public string? BlogMainPhoto { get; set; }
         public string? BlogBody { get; set; }
-
-        public int CountLikes { get; set; }
-        public int CountComments { get; set; }
-        public int CountFavourites { get; set; }
 
         public GetPhotographerForListDto Photographer { get; set; }
 
