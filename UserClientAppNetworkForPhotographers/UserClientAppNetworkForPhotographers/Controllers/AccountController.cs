@@ -19,7 +19,8 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
         public ActionResult AccessDenied()
         {
-            return RedirectToAction(nameof(Login));
+            ModelState.AddModelError("", "Недостаточно прав");
+            return View(nameof(Login));
         }
 
         [HttpPost]

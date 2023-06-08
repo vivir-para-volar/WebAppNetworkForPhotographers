@@ -8,169 +8,87 @@
 
     <div class="containerParentFlexCenter mt-4">
         <div class="containerCenter">
-            @using (Html.BeginForm("CreatePost", "Contents", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                @Html.HiddenFor(model => model.PhotographerId)
-                @Html.HiddenFor(model => model.CategoryDirsJson)
 
+            <div class="mb-3">
+                <p><strong id="emptyPhotos">Добавьте не менее одного фото</strong></p>
+            </div>
 
-                <div class="mb-3">
-                    <p><strong>Добавьте не менее одного фото</strong></p>
-                </div>
+            <div class="border-top border-bottom border-2 p-2">
+                <div id="carouselControls" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+                    <div class="carousel-inner">
 
-                <div class="border-top border-bottom border-2 p-2">
-                    <div id="carouselControls" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
-                        <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div id="photos0" class="createPhotoSlider">
+                                <input id="photos0Input" type="file" accept="image/*"
+                                       name="photos" class="form-control form-control-sm" />
+                            </div>
 
-                            <div class="carousel-item active">
-                                <div id="photos0" class="createPhotoSlider">
-                                    <input id="photos0Input" type="file" accept="image/*"
+                            <div id="photos0Ready" style="display:none">
+                                <img class="photoSliderMini">
+                            </div>
+                        </div>
+
+                        @for (var i = 1; i < 5; i++)
+                        {
+                            <div class="carousel-item">
+                                <div id="photos@(i)" class="createPhotoSlider">
+                                    <input id="photos@(i)Input" type="file" accept="image/*"
                                            name="photos" class="form-control form-control-sm" />
                                 </div>
 
-                                <div id="photos0Ready" style="display:none">
+                                <div id="photos@(i)Ready" style="display:none">
                                     <img class="photoSliderMini">
                                 </div>
                             </div>
-
-                            @for (var i = 1; i < 3; i++)
-                            {
-                                <div class="carousel-item">
-                                    <div id="photos@(i)" class="createPhotoSlider">
-                                        <input id="photos@(i)Input" type="file" accept="image/*"
-                                               name="photos" class="form-control form-control-sm" />
-                                    </div>
-
-                                    <div id="photos@(i)Ready" style="display:none">
-                                        <img class="photoSliderMini">
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Предыдущий</span>
-                        </button>
-
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Следующий</span>
-                        </button>
+                        }
                     </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Предыдущий</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Следующий</span>
+                    </button>
                 </div>
-                <div class="border-bottom border-2 p-2">
-                    <p class="text-danger">Размер фото - не более 8 Мбайт</p>
-                </div>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger listError" })
+            </div>
+            <div class="border-bottom border-2 p-2">
+                <p class="text-danger">Размер фото - не более 20 Мбайт</p>
+            </div>
 
 
-                <div class="mt-5 mb-3">
-                    <p><strong>Добавьте описание</strong></p>
-                </div>
+            <div class="mt-5 mb-3">
+                <p><strong>Добавьте описание</strong></p>
+            </div>
 
-                <div class="form-group">
-                    @Html.TextAreaFor(model => model.Title, new { @class = "form-control", rows = "8", placeholder="Описание..." })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
+            <div class="form-group">
+                <textarea id="inputContentTitle" type="text" class="form-control" rows="8"
+                          minlength="4" maxlength="512" required></textarea>
+            </div>
 
 
-                <div class="mt-5 mb-3">
-                    <p><strong>Добавьте не менее одной категории</strong></p>
-                </div>
+            <div class="mt-5 mb-3">
+                <p><strong id="emptyCategories">Добавьте не менее одной категории</strong></p>
+            </div>
+
+            <div id="categoriesCreateContent" class="mb-3">
                 @(await Html.PartialAsync("~/Views/ContentsList/CategoriesList.cshtml", Model.CategoryDirs))
-                @Html.ValidationMessageFor(model => model.CategoriesIds, "", new { @class = "text-danger" })
+            </div>
 
 
-                <div class="mt-5">
-                    <input type="submit" value="Сохранить" class="btn btn-outline-dark" />
-                </div>
-            }
+            <div class="mt-5">
+                <button class="btn btn-outline-dark" onclick="createPost()">Сохранить</button>
+            </div>
         </div>
     </div>
 </div>
 
+@(await Html.PartialAsync("~/Views/Contents/CreatePhotoInfo.cshtml"))
+
 <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+<script src="~/js/createPost.js" asp-append-version="true"></script>
 <script>
-    window.onload = function () {
-        for (let i = 0; i < 3; i++) {
-            const photoInput = document.getElementById(`photos${i}Input`);
-
-            photoInput.addEventListener('change', function () {
-
-                const file = this.files[0];
-
-                if (file.size > maxPhotoSize) {
-                    photoInput.value = '';
-                    return false;
-                }
-
-
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    document.querySelector(`#photos${i}Ready>img`).setAttribute('src', event.target.result);
-
-                    document.getElementById(`photos${i}`).style.display = "none";
-                    document.getElementById(`photos${i}Ready`).style.display = "block";
-                }
-                reader.readAsDataURL(file);
-
-                // создаем объект Image
-                const image = new Image();
-
-                // при загрузке изображения
-                image.addEventListener('load', () => {
-                    // получаем размеры изображения
-                    const width = image.naturalWidth;
-                    const height = image.naturalHeight;
-
-                    // выводим полученные значения в консоль
-                    console.log(`Ширина: ${width} px`);
-                    console.log(`Высота: ${height} px`);
-                });
-
-                // читаем файл как URL-адрес
-                const url = URL.createObjectURL(file);
-
-                // загружаем изображение
-                image.src = url;
-
-
-                // создаем объект FileReader
-                const reader1 = new FileReader();
-                reader1.addEventListener('load', () => {
-                    // получаем бинарные данные изображения
-                    const imageData = reader1.result;
-
-                    // получаем метаданные изображения
-                    const exifData = EXIF.readFromBinaryFile(imageData);
-
-                    // Горизонтальное разрешение (... точек на дюйм)
-                    console.log("XResolution: " + exifData?.XResolution)
-                    // Разрешение по вертикали (... точек на дюйм)
-                    console.log("YResolution: " + exifData?.YResolution)
-
-                    // Камера изготовитель
-                    console.log("Make: " + exifData?.Make)
-                    // Камера модель
-                    console.log("Model: " + exifData?.Model)
-
-                    // Диафрагма (f/...)
-                    console.log("ApertureValue: " + exifData?.ApertureValue?.toFixed(2))
-
-                    // Скорость ISO (ISO-...)
-                    console.log("ISOSpeedRatings: " + exifData?.ISOSpeedRatings)
-
-                    // Фокусное расстояние (... мм)
-                    console.log("FocalLength: " + exifData?.FocalLength)
-
-                    // Фокусное расстояние экв. 35 мм
-                    console.log("FocalLengthIn35mmFilm: " + exifData?.FocalLengthIn35mmFilm)
-                });
-
-                // читаем файл как бинарные данные
-                reader1.readAsArrayBuffer(file);
-            });
-        }
-    };
+    initCreateContent(@(Model.PhotographerId));
 </script>

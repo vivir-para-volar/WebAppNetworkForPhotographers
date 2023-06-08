@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System.Xml.Linq;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+using UserClientAppNetworkForPhotographers.Models.Data.Dtos.PhotosInfo;
 using UserClientAppNetworkForPhotographers.Models.Lists;
 
 namespace UserClientAppNetworkForPhotographers.Controllers
@@ -52,7 +55,6 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             try
             {
                 contentPostDto.CategoryDirs = await ApiCategories.GetAllWithDirs(AppUser.GetToken(HttpContext));
-                contentPostDto.CategoryDirsJson = JsonConvert.SerializeObject(contentPostDto.CategoryDirs);
             }
             catch (ApiException ex)
             {
@@ -62,54 +64,46 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return View(contentPostDto);
         }
 
+
         [HttpPost]
-        public async Task<ActionResult> CreatePost(List<IFormFile> photos, CreateContentPostDto contentPostDto)
+        public async Task<ActionResult> CreatePost(CreateContentPostDto contentPostDto)
         {
-            if (!ModelState.IsValid)
-            {
-                contentPostDto.CategoryDirs = JsonConvert.DeserializeObject<List<GetCategoryDirDto>>(contentPostDto.CategoryDirsJson);
-                return View(contentPostDto);
-            }
-
-            if (photos.Count == 0)
-            {
-                contentPostDto.CategoryDirs = JsonConvert.DeserializeObject<List<GetCategoryDirDto>>(contentPostDto.CategoryDirsJson);
-
-                ModelState.AddModelError("", "Выберите фото");
-                return View(contentPostDto);
-            }
-
-            Content? post = null;
+            Content post;
             try
             {
                 post = await ApiContents.CreatePost(contentPostDto, AppUser.GetToken(HttpContext));
-
-                foreach (var photo in photos)
-                {
-                    await ApiPhotos.Create(post.Id, photo, AppUser.GetToken(HttpContext));
-                }
             }
             catch (ApiException ex)
             {
-                for (var i = 10; post != null && i != 0; i--)
-                {
-                    try
-                    {
-                        await ApiContents.Delete(post.Id, AppUser.GetToken(HttpContext));
-                        post = null;
-                    }
-                    catch (ApiException) { }
-                }
-
-                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+                return StatusCode(ex.Status, ex.Message);
             }
 
-            return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
+            return StatusCode(StatusCodes.Status201Created, post);
         }
 
         public ActionResult CreateBlog()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreatePhoto(int contentId, IFormFile photo, CreatePhotoInfoDto photoInfoDto)
+        {
+            var token = AppUser.GetToken(HttpContext);
+
+            try
+            {
+                var createdPhoto = await ApiPhotos.Create(contentId, photo, token);
+
+                photoInfoDto.PhotoId = createdPhoto.Id;
+                await ApiPhotos.CreatePhotoInfo(photoInfoDto, token);
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         public async Task<ActionResult> Delete(int id)

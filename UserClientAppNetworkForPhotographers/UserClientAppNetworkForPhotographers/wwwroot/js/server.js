@@ -1,5 +1,8 @@
 const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
+    createPost: '/Contents/CreatePost',
+    createPhoto: '/Contents/CreatePhoto',
+
     getNews: '/Home/GetNews',
     getOthers: '/Home/GetOthers',
 
@@ -41,8 +44,41 @@ const url = {
 
 
 
+async function serverCreatePost(data) {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("photographerId", data.photographerId);
+
+    for (let categoryId of data.categoriesIds) {
+        formData.append("categoriesIds", categoryId);
+    }
+
+    return await sendReq(method.post, url.createPost, formData);
+}
+
+async function serverCreatePhoto(contentId, photo, photosInfo) {
+    const formData = new FormData();
+    formData.append("contentId", contentId);
+    formData.append("photo", photo);
+
+    formData.append("Width", photosInfo.Width);
+    formData.append("Height", photosInfo.Height);
+    formData.append("Make", photosInfo.Make);
+    formData.append("Model", photosInfo.Model);
+    formData.append("XResolution", photosInfo.XResolution);
+    formData.append("YResolution", photosInfo.YResolution);
+    formData.append("ApertureValue", photosInfo.ApertureValue.replaceAll('.', ','));
+    formData.append("ISOSpeedRatings", photosInfo.ISOSpeedRatings);
+    formData.append("FocalLength", photosInfo.FocalLength);
+    formData.append("FocalLengthIn35mmFilm", photosInfo.FocalLengthIn35mmFilm);
+
+    return await sendReq(method.post, url.createPhoto, formData);
+}
+
+
+
 async function serverGetNews(data, part) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("photographerId", 0);
     formData.append("typeContent", data.typeContent);
 
@@ -55,7 +91,7 @@ async function serverGetNews(data, part) {
 }
 
 async function serverGetOthers(data, part) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("typeSorting", data.typeSorting);
     formData.append("periodSorting", data.periodSorting);
     formData.append("countLikeSorting", data.countLikeSorting);
@@ -76,14 +112,14 @@ async function serverCheckSubscription(photographerId) {
 }
 
 async function serverCreateSubscription(photographerId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("photographerId", photographerId);
 
     return await sendReq(method.post, url.createSubscription, formData);
 }
 
 async function serverDeleteSubscription(photographerId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("photographerId", photographerId);
 
     return await sendReq(method.delete, url.deleteSubscription, formData);
@@ -170,14 +206,14 @@ async function serverGetAllContentLikes(contentId) {
 }
 
 async function serverCreateLike(contentId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("contentId", contentId);
 
     return await sendReq(method.post, url.createLike, formData);
 }
 
 async function serverDeleteLike(contentId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("contentId", contentId);
 
     return await sendReq(method.delete, url.deleteLike, formData);
@@ -187,14 +223,14 @@ async function serverDeleteLike(contentId) {
 
 
 async function serverCreateFavourite(contentId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("contentId", contentId);
 
     return await sendReq(method.post, url.createFavourite, formData);
 }
 
 async function serverDeleteFavourite(contentId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("contentId", contentId);
 
     return await sendReq(method.delete, url.deleteFavourite, formData);
@@ -209,7 +245,7 @@ async function serverGetNewContentComments(contentId, startTime) {
 }
 
 async function serverCreateComment(text, contentId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("text", text);
     formData.append("contentId", contentId);
 
@@ -217,7 +253,7 @@ async function serverCreateComment(text, contentId) {
 }
 
 async function serverDeleteComment(id) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("id", id);
 
     return await sendReq(method.delete, url.deleteComment, formData);
@@ -230,7 +266,7 @@ async function serverGetAllComplaintsBase() {
 }
 
 async function serverCreateComplaint(text, complaintBaseId, contentId) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("text", text);
     formData.append("complaintBaseId", complaintBaseId);
     formData.append("contentId", contentId);

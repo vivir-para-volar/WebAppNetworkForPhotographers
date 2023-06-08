@@ -1,0 +1,82 @@
+﻿<!-- Modal window for photo info -->
+<div id="modalCreatePhotoInfo" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Добавление информации о фото</h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="inputWidth" class="form-label">Ширина (px)</label>
+                    <input type="number" class="form-control" id="inputWidth" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputHeight" class="form-label">Высота (px)</label>
+                    <input type="number" class="form-control" id="inputHeight" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputMake" class="form-label">Камера изготовитель</label>
+                    <input type="text" class="form-control" id="inputMake" maxlength="64">
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputModel" class="form-label">Камера модель</label>
+                    <input type="text" class="form-control" id="inputModel" maxlength="64">
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputXResolution" class="form-label">Разрешение по горизонтали (точек на дюйм)</label>
+                    <input type="number" class="form-control" id="inputXResolution">
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputYResolution" class="form-label">Разрешение по вертикали (точек на дюйм)</label>
+                    <input type="number" class="form-control" id="inputYResolution">
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputApertureValue" class="form-label">Диафрагма (f/...)</label>
+                    <input type="number" class="form-control" id="inputApertureValue">
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputISOSpeedRatings" class="form-label">Скорость ISO</label>
+                    <input type="number" class="form-control" id="inputISOSpeedRatings">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="inputFocalLength" class="form-label">Фокусное расстояние (мм)</label>
+                    <input type="number" class="form-control" id="inputFocalLength">
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputFocalLengthIn35mmFilm" class="form-label">Фокусное расстояние экв. 35 мм</label>
+                    <input type="number" class="form-control" id="inputFocalLengthIn35mmFilm">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="clearModalCreatePhotoInfo()">Очистить</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" onclick="createPhotoInfo()">
+                    Готово
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function clearModalCreatePhotoInfo() {
+        document.getElementById('inputMake').value = '';
+        document.getElementById('inputModel').value = '';
+        document.getElementById('inputXResolution').value = '';
+        document.getElementById('inputYResolution').value = '';
+        document.getElementById('inputApertureValue').value = '';
+        document.getElementById('inputISOSpeedRatings').value = '';
+        document.getElementById('inputFocalLength').value = '';
+        document.getElementById('inputFocalLengthIn35mmFilm').value = '';
+    }
+</script>

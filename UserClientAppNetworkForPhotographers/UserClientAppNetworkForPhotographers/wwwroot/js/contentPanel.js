@@ -77,7 +77,7 @@ modalDeleteContent.addEventListener('show.bs.modal', function (event) {
     const button = event.relatedTarget;
     const deleteContentId = button.getAttribute('data-bs-whatever');
 
-    var btnDeleteContent = document.getElementById("btnDeleteContent");
+    const btnDeleteContent = document.getElementById("btnDeleteContent");
     btnDeleteContent.href = `/Contents/Delete/${deleteContentId}`;
 });
 
@@ -97,7 +97,7 @@ modalCreateComplaint.addEventListener('show.bs.modal', async function (event) {
 
     const complaintsBase = res.data;
 
-    var parent = document.getElementById("divComplaints");
+    const parent = document.getElementById("divComplaints");
 
     let html =
         `<div class="form-check mt-1">
@@ -127,7 +127,7 @@ async function createComplaint() {
     }
 
     let complaintBaseId;
-    var radioButtons = document.getElementsByName("complaintBaseId");
+    const radioButtons = document.getElementsByName("complaintBaseId");
     for (let radioButton of radioButtons) {
         if (radioButton.checked) {
             complaintBaseId = radioButton.value;
@@ -135,10 +135,10 @@ async function createComplaint() {
         }
     }
 
-    var res = await serverCreateComplaint(text, complaintBaseId, complaintContentId);
+    const res = await serverCreateComplaint(text, complaintBaseId, complaintContentId);
     if (!res) return false;
 
-    var myModal = bootstrap.Modal.getInstance(modalCreateComplaint);
+    const myModal = bootstrap.Modal.getInstance(modalCreateComplaint);
     myModal.hide();
 
     inputText.value = "";

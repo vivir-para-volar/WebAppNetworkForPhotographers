@@ -16,7 +16,7 @@ const listPeriodSorting = {
     periodYear: "Year",
 }
 
-const maxPhotoSize = 8 * 1024 * 1024; //8мб
+const maxPhotoSize = 20 * 1024 * 1024; //25мб
 const countInPart = 2;
 
 

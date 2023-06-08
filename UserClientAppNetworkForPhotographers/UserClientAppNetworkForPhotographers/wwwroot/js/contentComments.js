@@ -134,7 +134,7 @@ async function deleteUserComment() {
     const res = await serverDeleteComment(deleteCommentId);
     if (!res) return false;
 
-    var divCommen = document.getElementById(`divComment${deleteCommentId}`);
+    const divCommen = document.getElementById(`divComment${deleteCommentId}`);
 
     if (divCommen.parentNode) {
         divCommen.parentNode.removeChild(divCommen);

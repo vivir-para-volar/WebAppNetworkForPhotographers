@@ -20,9 +20,6 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
         [JsonIgnore]
         public List<GetCategoryDirDto> CategoryDirs { get; set; }
 
-        [JsonIgnore]
-        public string CategoryDirsJson { get; set; }
-
 
         public CreateContentPostDto()
         {
