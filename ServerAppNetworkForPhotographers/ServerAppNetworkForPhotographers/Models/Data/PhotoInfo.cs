@@ -27,6 +27,17 @@ namespace ServerAppNetworkForPhotographers.Models.Data
         public PhotoInfo(CreatePhotoInfoDto photoInfoDto)
         {
             PhotoId = photoInfoDto.PhotoId;
+
+            Make = photoInfoDto.Make;
+            Model = photoInfoDto.Model;
+            Width = photoInfoDto.Width;
+            Height = photoInfoDto.Height;
+            XResolution = photoInfoDto.XResolution;
+            YResolution = photoInfoDto.YResolution;
+            ApertureValue = photoInfoDto.ApertureValue;
+            ISOSpeedRatings = photoInfoDto.ISOSpeedRatings;
+            FocalLength = photoInfoDto.FocalLength;
+            FocalLengthIn35mmFilm = photoInfoDto.FocalLengthIn35mmFilm;
         }
     }
 }

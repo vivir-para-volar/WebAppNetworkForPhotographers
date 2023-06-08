@@ -30,11 +30,11 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPost]
         [Authorize(Roles = UserRoles.User)]
-        public async Task<ActionResult<List<PhotoInfo>>> CreatePhotosInfo(List<CreatePhotoInfoDto> photoInfoDtos)
+        public async Task<ActionResult<PhotoInfo>> CreatePhotoInfo(CreatePhotoInfoDto photoInfoDto)
         {
             try
             {
-                return Ok(await _photosInfoService.CreatePhotosInfo(photoInfoDtos));
+                return Ok(await _photosInfoService.CreatePhotoInfo(photoInfoDto));
             }
             catch (NotFoundException ex)
             {

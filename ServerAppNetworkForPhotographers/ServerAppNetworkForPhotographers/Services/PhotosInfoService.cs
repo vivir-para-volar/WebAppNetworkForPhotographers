@@ -20,33 +20,23 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.PhotosInfo.FirstOrDefaultAsync(item => item.PhotoId == photoId);
         }
 
-        public async Task<List<PhotoInfo>> CreatePhotosInfo(List<CreatePhotoInfoDto> photoInfoDtos)
+        public async Task<PhotoInfo> CreatePhotoInfo(CreatePhotoInfoDto photoInfoDto)
         {
-            foreach (var photoInfoDto in photoInfoDtos)
+            if (!await CheckExistencePhoto(photoInfoDto.PhotoId))
             {
-                if (!await CheckExistencePhoto(photoInfoDto.PhotoId))
-                {
-                    throw new NotFoundException(nameof(Photo), photoInfoDto.PhotoId);
-                }
-
-                if ((await GetPhotoInfo(photoInfoDto.PhotoId)) != null)
-                {
-                    throw new UniqueModelException(photoInfoDto.PhotoId);
-                }
+                throw new NotFoundException(nameof(Photo), photoInfoDto.PhotoId);
             }
 
-            var photosInfo = new List<PhotoInfo>();
-
-            foreach (var photoInfoDto in photoInfoDtos)
+            if ((await GetPhotoInfo(photoInfoDto.PhotoId)) != null)
             {
-                var photoInfo = new PhotoInfo(photoInfoDto);
-                await _context.PhotosInfo.AddAsync(photoInfo);
-
-                photosInfo.Add(photoInfo);
+                throw new UniqueModelException(photoInfoDto.PhotoId);
             }
+
+            var photoInfo = new PhotoInfo(photoInfoDto);
+            await _context.PhotosInfo.AddAsync(photoInfo);
             await _context.SaveChangesAsync();
 
-            return photosInfo;
+            return photoInfo;
         }
 
         private async Task<bool> CheckExistencePhoto(int photoId)
