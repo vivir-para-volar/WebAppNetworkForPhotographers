@@ -15,6 +15,23 @@ namespace UserClientAppNetworkForPhotographers.Controllers
     [Authorize(Roles = UserRoles.User)]
     public class ContentActionsController : Controller
     {
+        public async Task<ActionResult> GetPhotoInfo(int photoId)
+        {
+            PhotoInfo photoInfo;
+
+            try
+            {
+                photoInfo = await ApiPhotos.GetPhotoInfoByPhotoId(photoId, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status200OK, photoInfo);
+        }
+
+
         public async Task<ActionResult> GetAllContentLikes(int contentId)
         {
             List<GetPhotographerForListDto> photographersForList;

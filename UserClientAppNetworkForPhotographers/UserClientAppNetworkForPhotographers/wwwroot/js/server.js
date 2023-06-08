@@ -40,6 +40,8 @@ const url = {
     getNewContentComments: '/ContentActions/GetNewContentComments',
     createComment: '/ContentActions/CreateComment',
     deleteComment: '/ContentActions/DeleteComment',
+
+    getPhotoInfo: '/ContentActions/GetPhotoInfo',
 }
 
 
@@ -272,6 +274,13 @@ async function serverCreateComplaint(text, complaintBaseId, contentId) {
     formData.append("contentId", contentId);
 
     return await sendReq(method.post, url.createComplaint, formData);
+}
+
+
+
+async function serverGetPhotoInfo(photoId) {
+    const currentUrl = `${url.getPhotoInfo}?photoId=${photoId}`;
+    return await sendReqWithoutBody(method.get, currentUrl);
 }
 
 

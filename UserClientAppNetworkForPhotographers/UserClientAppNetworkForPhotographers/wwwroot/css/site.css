@@ -258,6 +258,19 @@ a {
     height: 20px;
 }
 
+.divBtnInfo {
+    z-index: 2;
+    position: absolute;
+    right: 20px;
+    top: 25px
+}
+
+    .divBtnInfo .contentImg {
+        height: 30px;
+        width: 30px;
+    }
+
+
 
 /* ===== SETTINGS ===== */
 
@@ -295,7 +308,6 @@ a {
         height: 40px;
         padding: 2px;
     }
-
 
 
 /* ===== MENU ===== */

@@ -1,12 +1,23 @@
 ﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentDto
 
 <div class="pt-5">
-    <div class="sliderContainer p-4">
+    <div class="sliderContainer pt-2" style="position: relative">
 
         @if (Model.Photos.Count == 1)
         {
             <div>
-                <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+                <div class="divBtnInfo">
+                    <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(Model.Photos[0].Id)">
+                        <img class="contentImg" src="~/image/content/infoWhite.png">
+                    </button>
+
+                    <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                            data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent }))">
+                        <img class="contentImg" src="~/image/content/bigWhite.png">
+                    </button>
+                </div>
+
+                <img class="photoSlider p-4" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
             </div>
         }
         else
@@ -15,13 +26,35 @@
                 <div class="carousel-inner">
 
                     <div class="carousel-item active">
-                        <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+                        <div class="divBtnInfo">
+                            <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(Model.Photos[0].Id)">
+                                <img class="contentImg" src="~/image/content/infoWhite.png">
+                            </button>
+
+                            <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                                    data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent }))">
+                                <img class="contentImg" src="~/image/content/bigWhite.png">
+                            </button>
+                        </div>
+
+                        <img class="photoSlider p-4" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
                     </div>
 
                     @for (var i = 1; i < Model.Photos.Count; i++)
                     {
                         <div class="carousel-item">
-                            <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent}))>
+                            <div class="divBtnInfo">
+                                <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(Model.Photos[i].Id)">
+                                    <img class="contentImg" src="~/image/content/infoWhite.png">
+                                </button>
+
+                                <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                                        data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent }))">
+                                    <img class="contentImg" src="~/image/content/bigWhite.png">
+                                </button>
+                            </div>
+
+                            <img class="photoSlider p-4" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent}))>
                         </div>
                     }
                 </div>
