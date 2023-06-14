@@ -75,33 +75,39 @@ namespace ServerAppNetworkForPhotographers.Services
             }
 
             var tokenDto = new TokenDto();
-            tokenDto.UserId = user.Id;
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
-            foreach (var userRole in userRoles)
+
+            var userRole = (await _userManager.GetRolesAsync(user))[0];
+
+            tokenDto.Role = userRole;
+
+            if (userRole == UserRoles.User)
             {
-                tokenDto.Role = userRole;
-
-                if (userRole == UserRoles.User)
+                var photographer = await _photographersService.GetSimplePhotographerByUserId(user.Id);
+                if (photographer == null)
                 {
-                    var photographer = await _photographersService.GetSimplePhotographerByUserId(user.Id);
-                    if (photographer == null)
-                    {
-                        throw new NotFoundException(nameof(Photographer), user.Id, "userId");
-                    }
-
-                    tokenDto.UserId = photographer.Id.ToString();
+                    throw new NotFoundException(nameof(Photographer), user.Id, "userId");
                 }
 
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                if (photographer.Status == StatusPhotographer.Blocked)
+                {
+                    throw new AuthenticationException();
+                }
+
+                tokenDto.UserId = photographer.Id.ToString();
             }
+            else
+            {
+                tokenDto.UserId = user.Id;
+            }
+
+            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 

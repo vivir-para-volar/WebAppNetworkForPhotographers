@@ -8,8 +8,8 @@ namespace EmployeeClientAppNetworkForPhotographers.Models.Data
         [Range(1, int.MaxValue)]
         public int Id { get; set; }
 
-        [Required]
         [Display(Name = "Название папки")]
+        [Required(ErrorMessage = "Поле обязательное для заполнения")]
         [StringLength(64, MinimumLength = 4, ErrorMessage = "Должно быть длиннее 4 и короче 64 символов")]
         public string Name { get; set; }
 

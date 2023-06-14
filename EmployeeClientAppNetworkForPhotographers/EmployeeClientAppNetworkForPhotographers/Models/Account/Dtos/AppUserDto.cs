@@ -16,8 +16,8 @@ namespace EmployeeClientAppNetworkForPhotographers.Models.Account.Dtos
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
         [Display(Name = "Роль")]
+        [Required(ErrorMessage = "Поле обязательное для заполнения")]
         public string Role { get; set; }
     }
 }

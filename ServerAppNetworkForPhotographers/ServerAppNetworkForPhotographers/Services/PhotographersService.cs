@@ -6,6 +6,8 @@ using ServerAppNetworkForPhotographers.Models.Data;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos;
 using ServerAppNetworkForPhotographers.Models.Data.Dtos.Photographers;
 using ServerAppNetworkForPhotographers.Models.Identity;
+using ServerAppNetworkForPhotographers.Models.Lists;
+using System.Security.Authentication;
 
 namespace ServerAppNetworkForPhotographers.Services
 {
@@ -23,7 +25,15 @@ namespace ServerAppNetworkForPhotographers.Services
 
         public async Task<Photographer?> GetPhotographerById(int id)
         {
-            return await _context.Photographers.FindAsync(id);
+            var photographer = await _context.Photographers.FindAsync(id);
+
+            if (photographer == null) return null;
+            if (photographer.Status == StatusPhotographer.Blocked)
+            {
+                throw new AuthenticationException();
+            }
+
+            return photographer;
         }
 
         public async Task<Photographer?> GetSimplePhotographerByUserId(string userId)
@@ -34,8 +44,9 @@ namespace ServerAppNetworkForPhotographers.Services
         public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto, int part)
         {
             var photographers = await _context.Photographers
-                .Where(item => EF.Functions.Like(item.Username, $"%{searchDto.SearchData}%") ||
-                               EF.Functions.Like(item.Name, $"%{searchDto.SearchData}%"))
+                .Where(item => item.Status == StatusPhotographer.Open &&
+                               (EF.Functions.Like(item.Username, $"%{searchDto.SearchData}%") ||
+                                EF.Functions.Like(item.Name, $"%{searchDto.SearchData}%")))
                 .OrderBy(item => item.Id)
                 .Skip((part - 1) * _countInPart).Take(_countInPart)
                 .ToListAsync();

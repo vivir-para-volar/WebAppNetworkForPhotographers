@@ -11,6 +11,7 @@ using ServerAppNetworkForPhotographers.Models.ExceptionsResponses;
 using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
+using System.Security.Authentication;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
@@ -30,7 +31,14 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<Photographer?>> GetPhotographerById(int id)
         {
-            return Ok(await _photographersService.GetPhotographerById(id));
+            try
+            {
+                return Ok(await _photographersService.GetPhotographerById(id));
+            }
+            catch (AuthenticationException)
+            {
+                return Forbid();
+            }
         }
 
         [HttpGet("Photo/{name}")]

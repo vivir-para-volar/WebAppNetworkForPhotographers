@@ -258,6 +258,11 @@ a {
     height: 20px;
 }
 
+.modalPhotoBig {
+    max-width: 100%;
+    object-fit: contain;
+}
+
 .divBtnInfo {
     z-index: 2;
     position: absolute;
