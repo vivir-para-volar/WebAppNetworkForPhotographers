@@ -228,6 +228,25 @@ a {
         }
 }
 
+
+.divBlogMainPhoto {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+    .divBlogMainPhoto > img {
+        width: 100%;
+        height: 50vh;
+        object-fit: cover;
+    }
+
+.divBlogMainBody {
+    position: relative;
+    z-index: 2;
+}
+
+
 .textDate {
     font-size: 14px;
 }

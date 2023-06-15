@@ -1,4 +1,4 @@
-class FilmInfo {
+class FileInfo {
     Width = 0;
     Height = 0;
 
@@ -10,20 +10,6 @@ class FilmInfo {
     ISOSpeedRatings = 0;
     FocalLength = 0;
     FocalLengthIn35mmFilm = 0;
-
-    displayInfo() {
-        console.log(`Ширина: ${this.Width} px`);
-        console.log(`Высота: ${this.Height} px`);
-
-        console.log("Make: " + this.Make)
-        console.log("Model: " + this.Model)
-        console.log("XResolution: " + this.XResolution)
-        console.log("YResolution: " + this.YResolution)
-        console.log("ApertureValue: " + this.ApertureValue)
-        console.log("ISOSpeedRatings: " + this.ISOSpeedRatings)
-        console.log("FocalLength: " + this.FocalLength)
-        console.log("FocalLengthIn35mmFilm: " + this.FocalLengthIn35mmFilm)
-    }
 }
 
 
@@ -142,7 +128,7 @@ window.onload = function () {
             currentIndex = i;
 
             arrPhotos[i] = file;
-            arrPhotosInfo[i] = new FilmInfo();
+            arrPhotosInfo[i] = new FileInfo();
 
 
             const image = new Image();

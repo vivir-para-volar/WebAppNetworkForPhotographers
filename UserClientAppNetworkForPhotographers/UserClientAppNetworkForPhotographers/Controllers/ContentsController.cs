@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using System.Xml.Linq;
 using UserClientAppNetworkForPhotographers.API.ApiRequests;
 using UserClientAppNetworkForPhotographers.Exceptions;
 using UserClientAppNetworkForPhotographers.Models.Data;
-using UserClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using UserClientAppNetworkForPhotographers.Models.Data.Dtos.PhotosInfo;
 using UserClientAppNetworkForPhotographers.Models.Lists;
@@ -42,9 +38,30 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return View(post);
         }
 
-        public ActionResult Blog(int id)
+        public async Task<ActionResult> Blog(int id)
         {
-            return View();
+            GetContentDto blog;
+
+            var token = AppUser.GetToken(HttpContext);
+
+            try
+            {
+                blog = await ApiContents.GetById(id, token);
+                if (blog.Type != TypeContent.Blog)
+                {
+                    return RedirectToAction(nameof(CommonController.ApiError), "General", new { status = StatusCodes.Status400BadRequest });
+                }
+
+                blog.Comments = await ApiComments.GetAllForContent(id, token);
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(CommonController.ApiError), "General", ex.ToObj());
+            }
+
+            blog.AppUserId = AppUser.GetPhotographerId(HttpContext);
+
+            return View(blog);
         }
 
         public async Task<ActionResult> CreatePost()
@@ -81,9 +98,53 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             return StatusCode(StatusCodes.Status201Created, post);
         }
 
-        public ActionResult CreateBlog()
+        public async Task<ActionResult> CreateBlog()
         {
-            return View();
+            var contentBlogDto = new CreateContentBlogDto();
+            contentBlogDto.PhotographerId = AppUser.GetPhotographerId(HttpContext);
+
+            try
+            {
+                contentBlogDto.CategoryDirs = await ApiCategories.GetAllWithDirs(AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+
+            return View(contentBlogDto);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateBlog(CreateContentBlogDto contentBlogDto)
+        {
+            Content blog;
+            try
+            {
+                blog = await ApiContents.CreateBlog(contentBlogDto, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created, blog);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateBlogMainPhoto(int contentId, IFormFile photo)
+        {
+            Content blog;
+            try
+            {
+                blog = await ApiContents.UpdateBlogMainPhoto(contentId, photo, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created, blog);
         }
 
         [HttpPost]
