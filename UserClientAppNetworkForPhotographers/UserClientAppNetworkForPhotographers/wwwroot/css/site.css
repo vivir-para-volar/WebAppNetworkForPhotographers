@@ -220,7 +220,7 @@ a {
 
 @media (max-width: 576px) {
     .photoSlider, .photoSliderMini, .createPhotoSlider {
-        height: 200px;
+        height: 250px;
     }
 
         .createPhotoSlider input {
@@ -293,6 +293,25 @@ a {
         height: 30px;
         width: 30px;
     }
+
+.divBtnInfoBlog {
+    z-index: 2;
+    position: absolute;
+    right: 0px;
+    top: 5px
+}
+
+    .divBtnInfoBlog .contentImg {
+        height: 30px;
+        width: 30px;
+    }
+
+@media (max-width: 768px) {
+    .divBtnInfoBlog .contentImg {
+        height: 20px;
+        width: 20px;
+    }
+}
 
 
 

@@ -4,7 +4,7 @@ using UserClientAppNetworkForPhotographers.Models.Data.Dtos.CategoryDirs;
 
 namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
 {
-    public class CreateContentPostDto
+    public class CreateContentDto
     {
         [Required(ErrorMessage = "Поле обязательное для заполнения")]
         [StringLength(512, MinimumLength = 4, ErrorMessage = "Должно быть длиннее 4 и короче 512 символов")]
@@ -21,7 +21,7 @@ namespace UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents
         public List<GetCategoryDirDto> CategoryDirs { get; set; }
 
 
-        public CreateContentPostDto()
+        public CreateContentDto()
         {
             CategoryDirs = new List<GetCategoryDirDto>();
         }

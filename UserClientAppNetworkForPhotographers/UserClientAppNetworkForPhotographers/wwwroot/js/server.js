@@ -2,6 +2,7 @@ const method = { get: 'get', post: 'post', delete: 'delete' }
 const url = {
     createPost: '/Contents/CreatePost',
     createBlog: '/Contents/CreateBlog',
+    updateBlog: '/Contents/UpdateBlog',
     updateBlogMainPhoto: '/Contents/UpdateBlogMainPhoto',
     createPhoto: '/Contents/CreatePhoto',
 
@@ -63,7 +64,6 @@ async function serverCreatePost(data) {
 async function serverCreateBlog(data) {
     let formData = new FormData();
     formData.append("title", data.title);
-    formData.append("blogBody", data.body);
     formData.append("photographerId", data.photographerId);
 
     for (let categoryId of data.categoriesIds) {
@@ -78,6 +78,14 @@ async function serverCreateBlog(data) {
     formData.append("photo", data.mainPhoto);
 
     return await sendReq(method.post, url.updateBlogMainPhoto, formData);
+}
+
+async function serverUpdateBlog(data) {
+    const formData = new FormData();
+    formData.append("id", data.id);
+    formData.append("blogBody", data.body);
+
+    return await sendReq(method.post, url.updateBlog, formData);
 }
 
 async function serverCreatePhoto(contentId, photo, photosInfo) {

@@ -1,4 +1,4 @@
-﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.CreateContentBlogDto
+﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.CreateContentDto
 
 <div id="divFirstPart" class="container p-3 mt-5 pb-5 pt-4">
 
@@ -48,7 +48,7 @@
             </div>
 
 
-            <div class="mt-5">
+            <div class="containerParentFlexCenter mt-5">
                 <button class="btn btn-outline-dark" onclick="createFirstPart()">Далее</button>
             </div>
         </div>
@@ -56,29 +56,193 @@
 </div>
 
 
-<div id="divSecondPart" class="pt-4 mt-4" style="display: none; position: relative">
+<div id="divSecondPart" class="pt-4 mt-4 pb-5" style="display: none; position: relative">
 
     <div class="divBlogMainPhoto mt-2"><img id="blogMainPhoto" class="blogMainPhoto"></div>
 
     <div class="container divBlogMainBody mt-5 pt-5">
         <div class="containerParentFlexCenter pt-5">
-            <div class="containerCenter p-4 mt-5 border box-shadow rounded" style="background-color: white">
+            <div class="containerCenter p-4 mt-5 border border-2 box-shadow rounded" style="background-color: white">
 
                 <div>
-                    <h3><strong id="blogTitle"></strong></h3>
+                    <h3 class="pb-2"><strong id="blogTitle"></strong></h3>
                 </div>
 
 
+                <div id="blogBody"></div>
 
 
-                <div class="mt-5">
-                    <button class="btn btn-outline-success" onclick="createBlog()">Добавить</button>
-                    <button class="btn btn-outline-dark ms-2" onclick="createBlog()">Сохранить</button>
+                <div>
+
+                    <div id="divCreateHeader" class="border box-shadow rounded mt-5 p-3" style="display: none">
+                        <p class="mb-3"><strong id="emptyPhoto">Добавьте подзаголовок</strong></p>
+
+                        <input id="inputCreateHeader" type="text" class="form-control" minlength="4" maxlength="256" required>
+
+                        <div class="containerParentFlexCenter mt-3">
+                            <button class="btn btn-outline-success ms-2" onclick="createHeader()">Готово</button>
+                        </div>
+                    </div>
+
+
+                    <div id="divCreateText" class="border box-shadow rounded mt-5 p-3" style="display: none">
+                        <p class="mb-3"><strong>Добавьте описание</strong></p>
+
+                        <textarea id="inputCreateText" type="text" class="form-control" rows="8" minlength="4" required></textarea>
+
+
+                        <div class="containerParentFlexCenter mt-3">
+                            <button class="btn btn-outline-success ms-2" onclick="createText()">Готово</button>
+                        </div>
+                    </div>
+
+
+                    <div id="divCreatePhoto" class="border box-shadow rounded mt-5 p-3" style="display: none">
+
+                        <div class="mb-3">
+                            <p><strong id="emptyCreatePhoto">Добавьте фото</strong></p>
+                        </div>
+
+                        <div class="border-top border-bottom border-2 p-2">
+                            <div id="photos0">
+                                <div class="createPhotoSlider">
+                                    <input id="photos0Input" type="file" accept="image/*"
+                                           name="photo" class="form-control form-control-sm" />
+                                </div>
+                            </div>
+
+                            <div id="photos0Ready" style="display:none">
+                                <img class="photoSliderMini">
+                            </div>
+                        </div>
+
+                        <div class="border-bottom border-2 p-2">
+                            <p class="text-danger">Размер фото - не более 20 Мбайт</p>
+                        </div>
+
+                        <div class="containerParentFlexCenter mt-3">
+                            <button class="btn btn-outline-success ms-2" onclick="createPhoto()">Готово</button>
+                        </div>
+                    </div>
+
+
+                    <div id="divCreateCarousel" class="border box-shadow rounded mt-5 p-3" style="display: none">
+
+                        <div class="mb-3">
+                            <p><strong id="emptyCreateCarousel">Добавьте не менее двух фото</strong></p>
+                        </div>
+
+                        <div class="border-top border-bottom border-2 p-2">
+                            <div id="carouselControls" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+                                <div class="carousel-inner">
+
+                                    <div class="carousel-item active">
+                                        <div id="photos1">
+                                            <div class="createPhotoSlider">
+                                                <input id="photos1Input" type="file" accept="image/*"
+                                                       name="photos" class="form-control form-control-sm" />
+                                            </div>
+                                        </div>
+
+                                        <div id="photos1Ready" style="display:none">
+                                            <img class="photoSliderMini">
+                                        </div>
+                                    </div>
+
+                                    @for (var i = 2; i < 6; i++)
+                                    {
+                                        <div class="carousel-item">
+                                            <div id="photos@(i)">
+                                                <div class="createPhotoSlider">
+                                                    <input id="photos@(i)Input" type="file" accept="image/*"
+                                                           name="photos" class="form-control form-control-sm" />
+                                                </div>
+                                            </div>
+
+                                            <div id="photos@(i)Ready" style="display:none">
+                                                <img class="photoSliderMini">
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Предыдущий</span>
+                                </button>
+
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Следующий</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="border-bottom border-2 p-2">
+                            <p class="text-danger">Размер фото - не более 20 Мбайт</p>
+                        </div>
+
+                        <div class="containerParentFlexCenter mt-3">
+                            <button class="btn btn-outline-success ms-2" onclick="createCarousel()">Готово</button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="containerParentFlexCenter">
+                    <div id="mainCreateButtons" class="pt-5">
+                        <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalCreateBlock">Добавить</button>
+                        <button class="btn btn-outline-dark ms-2" onclick="createBlog()">Сохранить</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Modal window for create block -->
+<div id="modalCreateBlock" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Добавление блока</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <div id="menuSettings">
+                    <ul>
+                        <li class="mb-3">
+                            <a data-bs-dismiss="modal" style="cursor: pointer" onclick="showCreateHeader()">
+                                <div class="imgBlock"><img src="~/image/content/create/header.png"></div><span>Подзаголовок</span>
+                            </a>
+                        </li>
+
+                        <li class="mb-3">
+                            <a data-bs-dismiss="modal" style="cursor: pointer" onclick="showCreateText()">
+                                <div class="imgBlock"><img src="~/image/content/create/text.png"></div><span>Текст</span>
+                            </a>
+                        </li>
+
+                        <li class="mb-3">
+                            <a data-bs-dismiss="modal" style="cursor: pointer" onclick="showCreatePhoto()">
+                                <div class="imgBlock"><img src="~/image/content/create/image.png"></div><span>Картинка</span>
+                            </a>
+                        </li>
+
+                        <li class="mb-3">
+                            <a data-bs-dismiss="modal" style="cursor: pointer" onclick="showCreateCarousel()">
+                                <div class="imgBlock"><img src="~/image/content/create/images.png"></div><span>Слайдер</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @(await Html.PartialAsync("~/Views/Contents/CreatePhotoInfo.cshtml"))
 

@@ -66,29 +66,28 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
         public async Task<ActionResult> CreatePost()
         {
-            var contentPostDto = new CreateContentPostDto();
-            contentPostDto.PhotographerId = AppUser.GetPhotographerId(HttpContext);
+            var contentDto = new CreateContentDto();
+            contentDto.PhotographerId = AppUser.GetPhotographerId(HttpContext);
 
             try
             {
-                contentPostDto.CategoryDirs = await ApiCategories.GetAllWithDirs(AppUser.GetToken(HttpContext));
+                contentDto.CategoryDirs = await ApiCategories.GetAllWithDirs(AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
-            return View(contentPostDto);
+            return View(contentDto);
         }
 
-
         [HttpPost]
-        public async Task<ActionResult> CreatePost(CreateContentPostDto contentPostDto)
+        public async Task<ActionResult> CreatePost(CreateContentDto contentDto)
         {
             Content post;
             try
             {
-                post = await ApiContents.CreatePost(contentPostDto, AppUser.GetToken(HttpContext));
+                post = await ApiContents.CreatePost(contentDto, AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
@@ -100,28 +99,44 @@ namespace UserClientAppNetworkForPhotographers.Controllers
 
         public async Task<ActionResult> CreateBlog()
         {
-            var contentBlogDto = new CreateContentBlogDto();
-            contentBlogDto.PhotographerId = AppUser.GetPhotographerId(HttpContext);
+            var contentDto = new CreateContentDto();
+            contentDto.PhotographerId = AppUser.GetPhotographerId(HttpContext);
 
             try
             {
-                contentBlogDto.CategoryDirs = await ApiCategories.GetAllWithDirs(AppUser.GetToken(HttpContext));
+                contentDto.CategoryDirs = await ApiCategories.GetAllWithDirs(AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
                 return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 
-            return View(contentBlogDto);
+            return View(contentDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateBlog(CreateContentBlogDto contentBlogDto)
+        public async Task<ActionResult> CreateBlog(CreateContentDto contentDto)
+        {
+            Content post;
+            try
+            {
+                post = await ApiContents.CreateBlog(contentDto, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status201Created, post);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateBlog(UpdateContentBlogDto contentBlogDto)
         {
             Content blog;
             try
             {
-                blog = await ApiContents.CreateBlog(contentBlogDto, AppUser.GetToken(HttpContext));
+                blog = await ApiContents.UpdateBlog(contentBlogDto, AppUser.GetToken(HttpContext));
             }
             catch (ApiException ex)
             {
@@ -150,11 +165,13 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         [HttpPost]
         public async Task<ActionResult> CreatePhoto(int contentId, IFormFile photo, CreatePhotoInfoDto photoInfoDto)
         {
+            Photo createdPhoto;
+
             var token = AppUser.GetToken(HttpContext);
 
             try
             {
-                var createdPhoto = await ApiPhotos.Create(contentId, photo, token);
+                createdPhoto = await ApiPhotos.Create(contentId, photo, token);
 
                 photoInfoDto.PhotoId = createdPhoto.Id;
                 await ApiPhotos.CreatePhotoInfo(photoInfoDto, token);
@@ -164,7 +181,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                 return StatusCode(ex.Status, ex.Message);
             }
 
-            return StatusCode(StatusCodes.Status201Created);
+            return StatusCode(StatusCodes.Status201Created, createdPhoto);
         }
 
         public async Task<ActionResult> Delete(int id)

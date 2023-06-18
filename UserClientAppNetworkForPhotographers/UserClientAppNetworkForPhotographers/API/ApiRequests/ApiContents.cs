@@ -48,9 +48,9 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return contents;
         }
 
-        public static async Task<Content> CreatePost(CreateContentPostDto contentPostDto, string token)
+        public static async Task<Content> CreatePost(CreateContentDto contentDto, string token)
         {
-            var response = await ApiRequest.Post(ApiUrl.ContentsPosts, contentPostDto, token);
+            var response = await ApiRequest.Post(ApiUrl.ContentsPosts, contentDto, token);
 
             string responseMessage = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<Content>(responseMessage);
@@ -59,9 +59,20 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return content;
         }
 
-        public static async Task<Content> CreateBlog(CreateContentBlogDto contentBlogDto, string token)
+        public static async Task<Content> CreateBlog(CreateContentDto contentDto, string token)
         {
-            var response = await ApiRequest.Post(ApiUrl.ContentsBlogs, contentBlogDto, token);
+            var response = await ApiRequest.Post(ApiUrl.ContentsBlogs, contentDto, token);
+
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            var content = JsonConvert.DeserializeObject<Content>(responseMessage);
+
+            if (content == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+            return content;
+        }
+
+        public static async Task<Content> UpdateBlog(UpdateContentBlogDto contentBlogDto, string token)
+        {
+            var response = await ApiRequest.Put(ApiUrl.ContentsBlogs, contentBlogDto, token);
 
             string responseMessage = await response.Content.ReadAsStringAsync();
             var content = JsonConvert.DeserializeObject<Content>(responseMessage);

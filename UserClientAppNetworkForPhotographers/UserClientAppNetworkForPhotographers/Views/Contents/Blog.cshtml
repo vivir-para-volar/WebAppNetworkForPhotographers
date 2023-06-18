@@ -1,4 +1,8 @@
-﻿@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentDto
+﻿@using Newtonsoft.Json;
+@using UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
+
+@model UserClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentDto
+
 
 <div class="pt-4 mt-4" style="position: relative">
 
@@ -8,69 +12,164 @@
 
     <div class="container divBlogMainBody mt-5 pt-5">
         <div class="containerParentFlexCenter pt-5">
-            <div class="containerCenter p-4 mt-5 border box-shadow rounded" style="background-color: white">
-                <div>
-                    <h3><strong id="blogTitle">@(Model.Title)</strong></h3>
-                </div>
+            <div class="containerCenter">
 
-                <div>@(Html.Raw(Model.BlogBody))</div>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="p-4 mt-5 border border-2 box-shadow rounded-top" style="background-color: white">
+                    <h3 class="pb-2"><strong id="blogTitle">@(Model.Title)</strong></h3>
 
+                    @{
+                        var arrBlocks = JsonConvert.DeserializeObject<BlogBlock[]>(Model.BlogBody);
+                    }
 
-<div class="container pt-2 pb-2">
-
-    <div class="containerParentFlexCenter">
-        <div class="containerCenter">
-            <div>
-                @(await Html.PartialAsync("~/Views/ContentActions/PanelSimple.cshtml", Model))
-            </div>
-
-            <div>
-                <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(Model.Photographer.Id)>
-                    <div class="containerParentFlexMany mt-4">
-                        @if (Model.Photographer.PhotoProfile == null)
-                        {
-                            <div class="divForPhoto"><img class="profilePhoto" src="~/image/emptyProfile.png"></div>
-                        }
-                        else
-                        {
-                            <div class="divForPhoto">
-                                <img class="profilePhoto" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.Photographer.PhotoProfile}))>
-                            </div>
-                        }
-
-                        <div class="divAfterPhoto">
-                            <p><strong>@(Model.Photographer.Username)</strong></p>
-                            <p>@(Model.Photographer.Name)</p>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="mt-4"><pre>@(Model.Title)</pre></div>
-
-                <div class="mt-4"><strong>Загружено: </strong>@(Model.CreatedAt)</div>
-
-                <div class="mt-3">
-                    <strong>Категории: </strong>
-                    @foreach (var category in Model.Categories)
+                    @foreach (var block in arrBlocks)
                     {
-                        <a asp-controller="Home" asp-action="IndexWithCategory" asp-route-id=@(category.Id)
-                           class="btn btn-outline-dark" style="display: inline-block">
-                            @(category.Name)
-                        </a>
+                        switch (block.t)
+                        {
+                            case TypeBlogBlock.Header:
+                                <h5 class="mt-4">@(block.b)</h5>
+                                break;
+
+
+                            case TypeBlogBlock.Text:
+                                <div class="mt-3"><pre>@(block.b)</pre></div>
+                                break;
+
+
+                            case TypeBlogBlock.Photo:
+                                var photo = Model.Photos.FirstOrDefault(item => item.Id == Convert.ToInt32(block.b));
+
+                                <div class="mt-4 pb-2">
+                                    <div class="containerParentFlex" style="position: relative">
+                                        <div class="divFlexEnd divBtnInfoBlog">
+                                            <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(photo?.Id)">
+                                                <img class="contentImg" src="~/image/content/info.png">
+                                            </button>
+
+                                            <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                                                    data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = photo?.PhotoContent }))">
+                                                <img class="contentImg" src="~/image/content/big.png">
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = photo?.PhotoContent}))>
+                                </div>
+                                break;
+
+
+                            case TypeBlogBlock.Carousel:
+                                var arrIdsPhotos = block.b.Trim().Split(' ');
+                                var photoCarousel = Model.Photos.FirstOrDefault(item => item.Id == Convert.ToInt32(arrIdsPhotos[0]));
+
+                                <div id="carouselControls@(arrIdsPhotos[0])" class="mt-4 pb-2 carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+                                    <div class="carousel-inner">
+
+                                        <div class="carousel-item active">
+                                            <div class="containerParentFlex" style="position: relative">
+                                                <div class="divFlexEnd divBtnInfoBlog">
+                                                    <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(photoCarousel?.Id)">
+                                                        <img class="contentImg" src="~/image/content/info.png">
+                                                    </button>
+
+                                                    <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                                                            data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = photoCarousel?.PhotoContent }))">
+                                                        <img class="contentImg" src="~/image/content/big.png">
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = photoCarousel?.PhotoContent}))>
+                                        </div>
+
+                                        @for (var i = 1; i < arrIdsPhotos.Length; i++)
+                                        {
+                                            photoCarousel = Model.Photos.FirstOrDefault(item => item.Id == Convert.ToInt32(arrIdsPhotos[i]));
+
+                                            <div class="carousel-item">
+                                                <div class="containerParentFlex" style="position: relative">
+                                                    <div class="divFlexEnd divBtnInfoBlog">
+                                                        <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(photoCarousel?.Id)">
+                                                            <img class="contentImg" src="~/image/content/info.png">
+                                                        </button>
+
+                                                        <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                                                                data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = photoCarousel?.PhotoContent }))">
+                                                            <img class="contentImg" src="~/image/content/big.png">
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <img class="photoSlider" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = photoCarousel?.PhotoContent}))>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls@(arrIdsPhotos[0])" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Предыдущий</span>
+                                    </button>
+
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls@(arrIdsPhotos[0])" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Следующий</span>
+                                    </button>
+                                </div>
+                                break;
+                        }
                     }
                 </div>
 
-                <div class="mt-5">
-                    @(await Html.PartialAsync("~/Views/ContentActions/Comments.cshtml", Model))
+
+                <div class="pt-2" style="background-color: white">
+                    <div>
+                        @(await Html.PartialAsync("~/Views/ContentActions/PanelSimple.cshtml", Model))
+                    </div>
+
+                    <div>
+                        <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(Model.Photographer.Id)>
+                            <div class="containerParentFlexMany mt-4">
+                                @if (Model.Photographer.PhotoProfile == null)
+                                {
+                                    <div class="divForPhoto"><img class="profilePhoto" src="~/image/emptyProfile.png"></div>
+                                }
+                                else
+                                {
+                                    <div class="divForPhoto">
+                                        <img class="profilePhoto" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.Photographer.PhotoProfile}))>
+                                    </div>
+                                }
+
+                                <div class="divAfterPhoto">
+                                    <p><strong>@(Model.Photographer.Username)</strong></p>
+                                    <p>@(Model.Photographer.Name)</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="mt-4"><strong>Загружено: </strong>@(Model.CreatedAt)</div>
+
+                        <div class="mt-3">
+                            <strong>Категории: </strong>
+                            @foreach (var category in Model.Categories)
+                            {
+                                <a asp-controller="Home" asp-action="IndexWithCategory" asp-route-id=@(category.Id)
+                                   class="btn btn-outline-dark" style="display: inline-block">
+                                    @(category.Name)
+                                </a>
+                            }
+                        </div>
+
+                        <div class="mt-5">
+                            @(await Html.PartialAsync("~/Views/ContentActions/Comments.cshtml", Model))
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
 
 @(await Html.PartialAsync("~/Views/ContentActions/PanelModals.cshtml"))
 
