@@ -41,10 +41,11 @@ namespace ServerAppNetworkForPhotographers.Services
             return await _context.Photographers.FirstOrDefaultAsync(item => item.UserId == userId);
         }
 
-        public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto, int part)
+        public async Task<List<GetPhotographerForListDto>> SearchPhotographers(SearchDto searchDto, string userId, int part)
         {
             var photographers = await _context.Photographers
                 .Where(item => item.Status == StatusPhotographer.Open &&
+                               item.UserId != userId &&
                                (EF.Functions.Like(item.Username, $"%{searchDto.SearchData}%") ||
                                 EF.Functions.Like(item.Name, $"%{searchDto.SearchData}%")))
                 .OrderBy(item => item.Id)

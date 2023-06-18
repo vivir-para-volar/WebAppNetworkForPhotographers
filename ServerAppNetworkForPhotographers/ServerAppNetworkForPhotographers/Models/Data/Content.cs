@@ -44,11 +44,11 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             InitLists();
         }
 
-        public Content(CreateContentPostDto contentPostDto, List<Category> categories)
+        public Content(CreateContentDto contentPostDto, string typeContent, List<Category> categories)
         {
             InitLists();
 
-            Type = TypeContent.Post;
+            Type = typeContent;
             CreatedAt = DateTime.Now;
             Status = StatusContent.Open;
 
@@ -58,20 +58,6 @@ namespace ServerAppNetworkForPhotographers.Models.Data
             Categories = categories;
         }
 
-        public Content(CreateContentBlogDto contentBlogDto, List<Category> categories)
-        {
-            InitLists();
-
-            Type = TypeContent.Blog;
-            CreatedAt = DateTime.Now;
-            Status = StatusContent.Open;
-
-            Title = contentBlogDto.Title;
-            BlogBody = contentBlogDto.BlogBody;
-            PhotographerId = contentBlogDto.PhotographerId;
-
-            Categories = categories;
-        }
 
         public async Task UpdateBlogMainPhoto(IFormFile photo)
         {

@@ -183,16 +183,16 @@ namespace ServerAppNetworkForPhotographers.Services
 
         }
 
-        public async Task<Content> CreateContentPost(CreateContentPostDto contentPostDto)
+        public async Task<Content> CreateContent(CreateContentDto contentDto, string typeContent)
         {
-            if (!await CheckExistencePhotographer(contentPostDto.PhotographerId))
+            if (!await CheckExistencePhotographer(contentDto.PhotographerId))
             {
-                throw new NotFoundException(nameof(Photographer), contentPostDto.PhotographerId);
+                throw new NotFoundException(nameof(Photographer), contentDto.PhotographerId);
             }
 
-            var categories = await GetListCategories(contentPostDto.CategoriesIds);
+            var categories = await GetListCategories(contentDto.CategoriesIds);
 
-            var content = new Content(contentPostDto, categories);
+            var content = new Content(contentDto, typeContent, categories);
 
             await _context.Contents.AddAsync(content);
             await _context.SaveChangesAsync();
@@ -200,18 +200,14 @@ namespace ServerAppNetworkForPhotographers.Services
             return content;
         }
 
-        public async Task<Content> CreateContentBlog(CreateContentBlogDto contentBlogDto)
+        public async Task<Content> UpdateContentBlog(UpdateContentBlogDto contentBlogDto)
         {
-            if (!await CheckExistencePhotographer(contentBlogDto.PhotographerId))
-            {
-                throw new NotFoundException(nameof(Photographer), contentBlogDto.PhotographerId);
-            }
+            var content = (await GetSimpleContentById(contentBlogDto.Id)) ??
+                throw new NotFoundException(nameof(Content), contentBlogDto.Id);
 
-            var categories = await GetListCategories(contentBlogDto.CategoriesIds);
+            content.BlogBody = contentBlogDto.BlogBody;
 
-            var content = new Content(contentBlogDto, categories);
-
-            await _context.Contents.AddAsync(content);
+            _context.Entry(content).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return content;

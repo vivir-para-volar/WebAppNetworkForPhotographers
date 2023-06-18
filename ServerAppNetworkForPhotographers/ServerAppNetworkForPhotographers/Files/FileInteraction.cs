@@ -96,18 +96,5 @@
 
             return photoName;
         }
-
-        //private static async Task<string> SaveWithOwnName(string path, IFormFile photo)
-        //{
-        //    string photoName = photo.FileName;
-        //    path += photoName;
-
-        //    using (var stream = File.Create(path))
-        //    {
-        //        await photo.CopyToAsync(stream);
-        //    }
-
-        //    return photoName;
-        //}
     }
 }

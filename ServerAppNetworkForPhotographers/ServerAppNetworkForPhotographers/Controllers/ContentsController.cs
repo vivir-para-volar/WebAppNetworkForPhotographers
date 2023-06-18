@@ -153,13 +153,13 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPost("Posts")]
         [Authorize(Roles = UserRoles.User)]
-        public async Task<ActionResult<Content>> CreateContentPost(CreateContentPostDto contentPostDto)
+        public async Task<ActionResult<Content>> CreateContentPost(CreateContentDto contentDto)
         {
             Content content;
 
             try
             {
-                content = await _contentsService.CreateContentPost(contentPostDto);
+                content = await _contentsService.CreateContent(contentDto, TypeContent.Post);
             }
             catch (NotFoundException ex)
             {
@@ -171,13 +171,31 @@ namespace ServerAppNetworkForPhotographers.Controllers
 
         [HttpPost("Blogs")]
         [Authorize(Roles = UserRoles.User)]
-        public async Task<ActionResult<Content>> CreateContentBlog(CreateContentBlogDto contentBlogDto)
+        public async Task<ActionResult<Content>> CreateContentBlog(CreateContentDto contentDto)
         {
             Content content;
 
             try
             {
-                content = await _contentsService.CreateContentBlog(contentBlogDto);
+                content = await _contentsService.CreateContent(contentDto, TypeContent.Blog);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+
+            return CreatedAtAction(nameof(GetContentById), new { id = content.Id }, content);
+        }
+
+        [HttpPut("Blogs")]
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<Content>> UpdateContentBlog(UpdateContentBlogDto contentBlogDto)
+        {
+            Content content;
+
+            try
+            {
+                content = await _contentsService.UpdateContentBlog(contentBlogDto);
             }
             catch (NotFoundException ex)
             {

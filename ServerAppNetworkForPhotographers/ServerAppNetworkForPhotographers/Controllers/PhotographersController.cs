@@ -12,6 +12,7 @@ using ServerAppNetworkForPhotographers.Models.Identity;
 using ServerAppNetworkForPhotographers.Models.Lists;
 using ServerAppNetworkForPhotographers.Services;
 using System.Security.Authentication;
+using System.Security.Claims;
 
 namespace ServerAppNetworkForPhotographers.Controllers
 {
@@ -53,7 +54,10 @@ namespace ServerAppNetworkForPhotographers.Controllers
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<List<GetPhotographerForListDto>>> SearchPhotographers(SearchDto searchDto, int part)
         {
-            return Ok(await _photographersService.SearchPhotographers(searchDto, part));
+            var userId = User.Claims.FirstOrDefault(item => item.Type == ClaimTypes.Name)?.Value;
+            if (userId == null) return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(await _photographersService.SearchPhotographers(searchDto, userId, part));
         }
 
         [HttpPut]
