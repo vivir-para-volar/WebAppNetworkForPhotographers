@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <textarea id="inputContentTitle" type="text" class="form-control" rows="8"
-                          minlength="4" maxlength="512" required></textarea>
+                          minlength="4" maxlength="256" required></textarea>
             </div>
 
 
@@ -43,7 +43,7 @@
                 <p><strong id="emptyCategories">Добавьте не менее одной категории</strong></p>
             </div>
 
-            <div id="categoriesCreateContent" class="mb-3">
+            <div id="categoriesCreateContent" class="mt-3">
                 @(await Html.PartialAsync("~/Views/ContentsList/CategoriesList.cshtml", Model.CategoryDirs))
             </div>
 
@@ -86,9 +86,9 @@
 
 
                     <div id="divCreateText" class="border box-shadow rounded mt-5 p-3" style="display: none">
-                        <p class="mb-3"><strong>Добавьте описание</strong></p>
+                        <p class="mb-3"><strong>Добавьте текст</strong></p>
 
-                        <textarea id="inputCreateText" type="text" class="form-control" rows="8" minlength="4" required></textarea>
+                        <textarea id="inputCreateText" type="text" class="form-control" rows="12" minlength="4" required></textarea>
 
 
                         <div class="containerParentFlexCenter mt-3">
@@ -188,6 +188,10 @@
 
                 </div>
 
+
+                <div id="emptyBlogBody" class="mb-3" style="display: none">
+                    <p><strong class="text-danger">Добавьте не менее одного блока в блог</strong></p>
+                </div>
 
                 <div class="containerParentFlexCenter">
                     <div id="mainCreateButtons" class="pt-5">

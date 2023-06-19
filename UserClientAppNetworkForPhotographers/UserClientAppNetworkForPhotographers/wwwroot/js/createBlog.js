@@ -96,8 +96,13 @@ function createFirstPart() {
 }
 
 
+const emptyBlogBody = document.getElementById("emptyBlogBody");
+
 async function createBlog() {
-    console.log(JSON.stringify(dataCreateBlog.body));
+    if (dataCreateBlog.body.length === 0) {
+        emptyBlogBody.style.display = "block";
+        return false;
+    }
 
     let res = await serverCreateBlog(dataCreateBlog);
     if (!res) return false;
@@ -146,7 +151,7 @@ window.onload = function () {
         const file = this.files[0];
 
         if (file.size > maxPhotoSize) {
-            photoInput.value = '';
+            mainPhotoInput.value = '';
             return false;
         }
 
@@ -257,8 +262,12 @@ const blogBody = document.getElementById('blogBody');
 const divCreateHeader = document.getElementById('divCreateHeader');
 const inputCreateHeader = document.getElementById('inputCreateHeader');
 function showCreateHeader() {
+    emptyBlogBody.style.display = "none";
+
     divCreateHeader.style.display = "block";
     mainCreateButtons.style.display = "none";
+
+    divCreateHeader.querySelector("button:last-child").scrollIntoView();
 }
 function createHeader() {
     const valueHeader = inputCreateHeader.value;
@@ -282,8 +291,12 @@ function createHeader() {
 const divCreateText = document.getElementById('divCreateText');
 const inputCreateText = document.getElementById('inputCreateText');
 function showCreateText() {
+    emptyBlogBody.style.display = "none";
+
     divCreateText.style.display = "block";
     mainCreateButtons.style.display = "none";
+
+    divCreateText.querySelector("button:last-child").scrollIntoView();
 }
 function createText() {
     const valueText = inputCreateText.value;
@@ -307,10 +320,13 @@ function createText() {
 const divCreatePhoto = document.getElementById('divCreatePhoto');
 const emptyCreatePhoto = document.getElementById('emptyCreatePhoto');
 function showCreatePhoto() {
+    emptyBlogBody.style.display = "none";
+
     divCreatePhoto.style.display = "block";
     mainCreateButtons.style.display = "none";
 
     endIndex++;
+    divCreatePhoto.querySelector("button:last-child").scrollIntoView();
 }
 function createPhoto() {
     if (!arrPhotos[currentIndex]) {
@@ -337,10 +353,13 @@ function createPhoto() {
 const divCreateCarousel = document.getElementById('divCreateCarousel');
 const emptyCreateCarousel = document.getElementById('emptyCreateCarousel');
 function showCreateCarousel() {
+    emptyBlogBody.style.display = "none";
+
     divCreateCarousel.style.display = "block";
     mainCreateButtons.style.display = "none";
 
     endIndex += 5;
+    divCreateCarousel.querySelector("button:last-child").scrollIntoView();
 }
 function createCarousel() {
     let countEmpty = 0;
@@ -355,22 +374,29 @@ function createCarousel() {
     dataCreateBlog.body.push({ t: createType.carousel, b: '' })
 
 
-    blogBody.innerHTML +=
-        `<div id="carouselControls${endIndex}" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+
+    let index = endIndex - 4;
+    while (!arrPhotos[index]) index++;
+
+    let html =
+        `<div id="carouselControls${endIndex}" class="mt-4 pb-2 carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
             <div class="carousel-inner">
 
                 <div class="carousel-item active">
-                    <img class="photoSliderMini" src="${clientUrl}/Common/GetContentPhoto?contentId=${contentItem.id}&name=${contentItem.photos[0].photoContent}">
+                    <img class="photoSliderMini" src="${arrPhotosURL[index]}">
                 </div>`;
 
-    for (var i = 1; i < contentItem.photos.length; i++) {
-        blogBody.innerHTML +=
-            `   <div class="carousel-item">
-                    <img class="photoSliderMini" src="${clientUrl}/Common/GetContentPhoto?contentId=${contentItem.id}&name=${contentItem.photos[i].photoContent}">
+    index++;
+    for (; index <= endIndex; index++) {
+        if (arrPhotos[index]) {
+            html +=
+                `<div class="carousel-item">
+                    <img class="photoSliderMini" src="${arrPhotosURL[index]}">
                 </div>`;
+        }
     }
 
-    blogBody.innerHTML +=
+    html +=
         `   </div>
 
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls${endIndex}" data-bs-slide="prev">
@@ -384,6 +410,10 @@ function createCarousel() {
             </button>
         </div>`;
 
+
+    blogBody.innerHTML += html;
+
+
     // Clear
     divCreateCarousel.style.display = "none";
     mainCreateButtons.style.display = "block";
@@ -394,5 +424,11 @@ function createCarousel() {
         document.getElementById(`photos${i}Ready`).style.display = "none";
         document.getElementById(`photos${i}Input`).value = '';
         emptyCreateCarousel.className = '';
+    }
+
+    const carouselItems = document.getElementById("divCreateCarousel").querySelectorAll(".carousel-item");
+    carouselItems[0].className = 'carousel-item active';
+    for (let i = 1; i < carouselItems.length; i++) {
+        carouselItems[i].className = 'carousel-item';
     }
 }

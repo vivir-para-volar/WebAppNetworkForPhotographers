@@ -44,7 +44,10 @@
             }
             else
             {
-                <div id="carouselControls@(Model.Id)" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+                Guid guid = Guid.NewGuid();
+                string guidString = Model.Id + "-" + guid.ToString();
+
+                <div id="carouselControls@(guidString)" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
                     <div class="carousel-inner">
 
                         <div class="carousel-item active">
@@ -59,12 +62,12 @@
                         }
                     </div>
 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls@(Model.Id)" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls@(guidString)" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Предыдущий</span>
                     </button>
 
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls@(Model.Id)" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls@(guidString)" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Следующий</span>
                     </button>

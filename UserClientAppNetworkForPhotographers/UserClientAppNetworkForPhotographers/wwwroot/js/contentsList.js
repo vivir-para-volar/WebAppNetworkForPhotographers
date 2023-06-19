@@ -63,8 +63,10 @@ function getContentItem(contentItem) {
                 </div>`;
         }
         else {
+            var uuidString = contentItem.id + "-" + uuidv4();
+
             html +=
-                `<div id="carouselControls${contentItem.id}" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
+                `<div id="carouselControls${uuidString}" class="carousel carousel-dark slide" data-bs-touch="false" data-bs-interval="false">
                     <div class="carousel-inner">
 
                         <div class="carousel-item active">
@@ -81,12 +83,12 @@ function getContentItem(contentItem) {
             html +=
                 `   </div>
 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls${contentItem.id}" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls${uuidString}" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Предыдущий</span>
                     </button>
 
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls${contentItem.id}" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselControls${uuidString}" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Следующий</span>
                     </button>
@@ -229,4 +231,15 @@ function getContentPanel(contentItem) {
         </div>`
 
     return html;
+}
+
+
+
+
+
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
