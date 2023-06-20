@@ -1,4 +1,5 @@
 ﻿using EmployeeClientAppNetworkForPhotographers.Exceptions;
+using EmployeeClientAppNetworkForPhotographers.Models.Data;
 using EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Contents;
 using Newtonsoft.Json;
 using System.Net;
@@ -28,6 +29,17 @@ namespace EmployeeClientAppNetworkForPhotographers.API.ApiRequests
         {
             var response = await ApiRequest.Get($"{ApiUrl.Photos}/{contentId}/{name}", token);
             return await response.Content.ReadAsStreamAsync();
+        }
+
+        public static async Task<PhotoInfo> GetPhotoInfoByPhotoId(int id, string token)
+        {
+            var response = await ApiRequest.Get($"{ApiUrl.PhotosInfo}/{id}", token);
+
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            var photoInfo = JsonConvert.DeserializeObject<PhotoInfo>(responseMessage);
+
+            if (photoInfo == null) throw new ApiException(StatusCodes.Status500InternalServerError);
+            return photoInfo;
         }
 
         public static async Task UpdateStatus(int id, string token)

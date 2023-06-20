@@ -22,7 +22,7 @@
 
 
         public const string Photos = $"{Server}/photos";
-        //public const string PhotosInfo = $"{Server}/photosInfo";
+        public const string PhotosInfo = $"{Server}/photosInfo";
 
 
 

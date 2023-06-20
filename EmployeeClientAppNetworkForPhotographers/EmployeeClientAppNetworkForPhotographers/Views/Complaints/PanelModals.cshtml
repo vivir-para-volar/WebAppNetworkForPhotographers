@@ -1,0 +1,83 @@
+﻿<!-- Modal window for photo info -->
+<div id="modalPhotoInfo" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Информация о фото</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="p-1">
+                    <strong>Ширина: </strong>
+                    <span id="spanWidth"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Высота: </strong>
+                    <span id="spanHeight"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Камера изготовитель: </strong>
+                    <span id="spanMake"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Камера модель: </strong>
+                    <span id="spanModel"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Разрешение по горизонтали: </strong>
+                    <span id="spanXResolution"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Разрешение по вертикали: </strong>
+                    <span id="spanYResolution"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Диафрагма: </strong>
+                    <span id="spanApertureValue"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Скорость ISO: </strong>
+                    <span id="spanISOSpeedRatings"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Фокусное расстояние: </strong>
+                    <span id="spanFocalLength"></span>
+                </div>
+
+                <div class="p-1">
+                    <strong>Фокусное расстояние экв. 35 мм: </strong>
+                    <span id="spanFocalLengthIn35mmFilm"></span>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal window for big photo -->
+<div id="modalBigPhoto" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body containerParentFlexCenter">
+                <img id="modalBigPhotoImg" src="#" class="modalPhotoBig" />
+            </div>
+        </div>
+    </div>
+</div>

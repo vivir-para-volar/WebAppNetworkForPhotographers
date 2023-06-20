@@ -1,5 +1,6 @@
 ﻿using EmployeeClientAppNetworkForPhotographers.API.ApiRequests;
 using EmployeeClientAppNetworkForPhotographers.Exceptions;
+using EmployeeClientAppNetworkForPhotographers.Models.Data;
 using EmployeeClientAppNetworkForPhotographers.Models.Lists;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,23 @@ namespace EmployeeClientAppNetworkForPhotographers.Controllers
             }
 
             return File(photo, "image/jpeg");
+        }
+
+        [Authorize(Roles = UserRoles.AdminEmployee)]
+        public async Task<ActionResult> GetPhotoInfo(int photoId)
+        {
+            PhotoInfo photoInfo;
+
+            try
+            {
+                photoInfo = await ApiContents.GetPhotoInfoByPhotoId(photoId, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return StatusCode(ex.Status, ex.Message);
+            }
+
+            return StatusCode(StatusCodes.Status200OK, photoInfo);
         }
     }
 }

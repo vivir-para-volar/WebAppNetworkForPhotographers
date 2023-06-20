@@ -1,4 +1,123 @@
 ﻿@model EmployeeClientAppNetworkForPhotographers.Models.Data.Dtos.Contents.GetContentForEmployeeDto
 
-<h1>Post</h1>
-<div>Id = @Model.Id</div>
+<div>
+    <div class="sliderContainer pt-2" style="position: relative">
+
+        @if (Model.Photos.Count == 1)
+        {
+            <div>
+                <div class="divBtnInfo">
+                    <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(Model.Photos[0].Id)">
+                        <img class="contentImg" src="~/image/content/infoWhite.png">
+                    </button>
+
+                    <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                            data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent }))">
+                        <img class="contentImg" src="~/image/content/bigWhite.png">
+                    </button>
+                </div>
+
+                <img class="photoSlider p-4" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+            </div>
+        }
+        else
+        {
+            <div id="carouselControls" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+                <div class="carousel-inner">
+
+                    <div class="carousel-item active">
+                        <div class="divBtnInfo">
+                            <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(Model.Photos[0].Id)">
+                                <img class="contentImg" src="~/image/content/infoWhite.png">
+                            </button>
+
+                            <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                                    data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent }))">
+                                <img class="contentImg" src="~/image/content/bigWhite.png">
+                            </button>
+                        </div>
+
+                        <img class="photoSlider p-4" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[0].PhotoContent}))>
+                    </div>
+
+                    @for (var i = 1; i < Model.Photos.Count; i++)
+                    {
+                        <div class="carousel-item">
+                            <div class="divBtnInfo">
+                                <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalPhotoInfo" data-bs-whatever="@(Model.Photos[i].Id)">
+                                    <img class="contentImg" src="~/image/content/infoWhite.png">
+                                </button>
+
+                                <button class="btnImg" data-bs-toggle="modal" data-bs-target="#modalBigPhoto"
+                                        data-bs-whatever="@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent }))">
+                                    <img class="contentImg" src="~/image/content/bigWhite.png">
+                                </button>
+                            </div>
+
+                            <img class="photoSlider p-4" src=@(Url.Action("GetContentPhoto", "Common", new { contentId = Model.Id, name = Model.Photos[i].PhotoContent}))>
+                        </div>
+                    }
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Предыдущий</span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Следующий</span>
+                </button>
+            </div>
+        }
+    </div>
+
+</div>
+
+<div class="container pt-2 pb-2 mb-5">
+
+    <div class="containerParentFlexCenter">
+        <div class="containerCenter">
+            <div>
+                <a asp-controller="Profiles" asp-action="Photographer" asp-route-id=@(Model.Photographer.Id)>
+                    <div class="containerParentFlexMany mt-4">
+                        @if (Model.Photographer.PhotoProfile == null)
+                        {
+                            <div class="divForPhoto"><img class="profilePhoto" src="~/image/emptyProfile.png"></div>
+                        }
+                        else
+                        {
+                            <div class="divForPhoto">
+                                <img class="profilePhoto" src=@(Url.Action("GetPhotographerPhoto", "Common", new { name = Model.Photographer.PhotoProfile}))>
+                            </div>
+                        }
+
+                        <div class="divAfterPhoto">
+                            <p><strong>@(Model.Photographer.Username)</strong></p>
+                            <p>@(Model.Photographer.Name)</p>
+                        </div>
+                    </div>
+                </a>
+
+                <div class="mt-4"><pre>@(Model.Title)</pre></div>
+
+                <div class="mt-4"><strong>Загружено: </strong>@(Model.CreatedAt)</div>
+
+                <div class="mt-3">
+                    <strong class="mt-1">Категории: </strong>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <a class="btn btn-outline-dark mt-1" style="display: inline-block">
+                            @(category.Name)
+                        </a>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@(await Html.PartialAsync("~/Views/Complaints/PanelModals.cshtml"))
+
+<script src="~/js/contentPanel.js" asp-append-version="true"></script>
