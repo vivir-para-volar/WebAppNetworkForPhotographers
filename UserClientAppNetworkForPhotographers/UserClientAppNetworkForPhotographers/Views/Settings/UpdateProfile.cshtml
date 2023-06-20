@@ -47,12 +47,30 @@
                     @Html.HiddenFor(model => model.WhatsApp)
                     @Html.HiddenFor(model => model.Viber)
 
+                    <div class="mb-3">
+                        <p class="text-danger">Размер фото - не более 20 Мбайт</p>
+                    </div>
+
                     <div>
                         <input type="submit" value="Сохранить" class="btn btn-outline-dark btn-sm" />
                     </div>
                 }
             </div>
 
+        </div>
+
+
+        <div class="mt-5">
+            <h4>Удаление фото профиля</h4>
+
+            @using (Html.BeginForm("DeleteProfilePhoto", "Settings", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.Id)
+
+                <div>
+                    <input type="submit" value="Удалить" class="btn btn-outline-danger mt-3" />
+                </div>
+            }
         </div>
     </div>
 

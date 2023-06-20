@@ -60,6 +60,21 @@ namespace UserClientAppNetworkForPhotographers.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> DeleteProfilePhoto(int id)
+        {
+            try
+            {
+                await ApiPhotographers.DeletePhotoProfile(id, AppUser.GetToken(HttpContext));
+            }
+            catch (ApiException ex)
+            {
+                return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
+            }
+
+            return RedirectToAction(nameof(ProfilesController.Index), "Profiles");
+        }
+
+        [HttpPost]
         public async Task<ActionResult> UpdatePhotographer(PhotographerWithInfoDto photographer)
         {
             if (!ModelState.IsValid) return View(nameof(UpdateProfile), photographer);

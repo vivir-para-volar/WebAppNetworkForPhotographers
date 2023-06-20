@@ -56,6 +56,7 @@ const dataCreatePost = {
 }
 
 
+
 async function createPost() {
     textEmptyCategories.className = '';
     textEmptyPhotos.className = '';
@@ -91,6 +92,10 @@ async function createPost() {
         return false;
     }
 
+
+
+    document.getElementById("divBtnCreate").style.display = "none";
+    document.getElementById("divSpinner").style.display = "block";
 
     dataCreatePost.title = contentTitle;
     dataCreatePost.photographerId = photographerId;

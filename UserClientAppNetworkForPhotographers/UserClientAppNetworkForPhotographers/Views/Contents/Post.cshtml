@@ -108,11 +108,11 @@
                 <div class="mt-4"><strong>Загружено: </strong>@(Model.CreatedAt)</div>
 
                 <div class="mt-3">
-                    <strong>Категории: </strong>
+                    <strong class="mt-1">Категории: </strong>
                     @foreach (var category in Model.Categories)
                     {
                         <a asp-controller="Home" asp-action="IndexWithCategory" asp-route-id=@(category.Id)
-                           class="btn btn-outline-dark" style="display: inline-block">
+                           class="btn btn-outline-dark mt-1" style="display: inline-block">
                             @(category.Name)
                         </a>
                     }

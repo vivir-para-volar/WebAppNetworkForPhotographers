@@ -38,6 +38,10 @@ let endIndex = -1;
 let currentIndex = 0;
 
 
+const mainCreateButtons = document.getElementById('mainCreateButtons');
+const blogBody = document.getElementById('blogBody');
+
+
 
 
 function initCreateContent(argPhotographerId) {
@@ -103,6 +107,10 @@ async function createBlog() {
         emptyBlogBody.style.display = "block";
         return false;
     }
+
+
+    mainCreateButtons.style.display = "none";
+    document.getElementById("divSpinner").style.display = "block";
 
     let res = await serverCreateBlog(dataCreateBlog);
     if (!res) return false;
@@ -255,8 +263,6 @@ function createPhotoInfo() {
 
 
 
-const mainCreateButtons = document.getElementById('mainCreateButtons');
-const blogBody = document.getElementById('blogBody');
 
 
 const divCreateHeader = document.getElementById('divCreateHeader');

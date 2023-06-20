@@ -69,6 +69,16 @@ namespace UserClientAppNetworkForPhotographers.API.ApiRequests
             return photographerInfo;
         }
 
+        public static async Task DeletePhotoProfile(int id, string token)
+        {
+            var response = await ApiRequest.Delete($"{ApiUrl.PhotographersPhoto}/{id}", token);
+
+            if (response.StatusCode != HttpStatusCode.NoContent)
+            {
+                throw new ApiException(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         public static async Task Delete(int id, string token)
         {
             var response = await ApiRequest.Delete($"{ApiUrl.Photographers}/{id}", token);

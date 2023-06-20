@@ -120,6 +120,17 @@ namespace ServerAppNetworkForPhotographers.Services
             return photographer;
         }
 
+        public async Task DeletePhotographerPhoto(int id)
+        {
+            var photographer = (await GetSimplePhotographerById(id)) ??
+                throw new NotFoundException(nameof(Photographer), id);
+
+            photographer.DeleteProfilePhoto();
+
+            _context.Entry(photographer).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task DeletePhotographer(int id)
         {
             var photographer = (await GetSimplePhotographerById(id)) ??

@@ -55,6 +55,15 @@ a {
 
 
 
+.divBack {
+    z-index: 2;
+    position: absolute;
+    left: 20px;
+    top: 25px
+}
+
+
+
 .containerParentFlex {
     display: flex;
 }

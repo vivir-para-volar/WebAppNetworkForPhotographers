@@ -92,6 +92,22 @@ namespace ServerAppNetworkForPhotographers.Controllers
             }
         }
 
+        [HttpDelete("Photo/{id}")]
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<Photographer>> DeletePhotographerPhoto(int id)
+        {
+            try
+            {
+                await _photographersService.DeletePhotographerPhoto(id);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new NotFoundResponse(ex.Message));
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> DeletePhotographer(int id)
