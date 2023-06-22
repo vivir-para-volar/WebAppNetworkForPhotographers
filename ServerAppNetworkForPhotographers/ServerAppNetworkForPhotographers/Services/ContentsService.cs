@@ -12,7 +12,7 @@ namespace ServerAppNetworkForPhotographers.Services
     public class ContentsService
     {
         private readonly DataContext _context;
-        private const int _countInPart = 2;
+        private const int _countInPart = 5;
 
         public ContentsService(DataContext context)
         {
@@ -175,6 +175,7 @@ namespace ServerAppNetworkForPhotographers.Services
                            (othersDto.TypeContent == null ? true : item.Type == othersDto.TypeContent) &&
                            (othersDto.CategoriesIds == null ? true : item.Categories.Any(category => othersDto.CategoriesIds.Contains(category.Id))))
                     .OrderByDescending(item => item.Likes.Count)
+                    .ThenByDescending(item => item.Id)
                     .Skip((part - 1) * _countInPart).Take(_countInPart)
                     .ToListAsync();
 

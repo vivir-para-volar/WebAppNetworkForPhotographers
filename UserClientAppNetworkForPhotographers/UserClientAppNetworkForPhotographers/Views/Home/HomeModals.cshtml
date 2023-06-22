@@ -65,10 +65,10 @@
                     <label for="selectCountLikeSorting" class="form-label">Количество лайков</label>
                     <select class="form-select" id="selectCountLikeSorting">
                         <option value="0" selected>Все</option>
+                        <option value="1">&ge; 1</option>
+                        <option value="3">&ge; 3</option>
                         <option value="5">&ge; 5</option>
-                        <option value="10">&ge; 10</option>
-                        <option value="25">&ge; 25</option>
-                        <option value="50">&ge; 50</option>
+                        <option value="7">&ge; 7</option>
                     </select>
                 </div>
 
@@ -76,10 +76,10 @@
                     <label for="selectPeriodSorting" class="form-label">Период</label>
                     <select class="form-select" id="selectPeriodSorting">
                         <option value="@(TypeSorting.PeriodDay)">Сутки</option>
-                        <option value="@(TypeSorting.PeriodWeek)">Неделя</option>
+                        <option value="@(TypeSorting.PeriodWeek)" selected>Неделя</option>
                         <option value="@(TypeSorting.PeriodMonth)">Месяц</option>
                         <option value="@(TypeSorting.PeriodYear)">Год</option>
-                        <option value="@(TypeSorting.PeriodAllTime)" selected>Всё время</option>
+                        <option value="@(TypeSorting.PeriodAllTime)">Всё время</option>
                     </select>
                 </div>
 

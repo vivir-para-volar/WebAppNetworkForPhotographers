@@ -32,11 +32,12 @@ const emptyHomeOthers = document.getElementById("emptyHomeOthers");
 
 
 function initHome(countNews, countOthers, chooseCategory) {
-    dataFilterOthers.typeSorting = listTypeSorting.typeNew;
-    dataFilterOthers.periodSorting = listPeriodSorting.periodAllTime;
+    dataFilterOthers.typeSorting = listTypeSorting.typeTop;
+    dataFilterOthers.periodSorting = listPeriodSorting.periodWeek;
 
     if (chooseCategory != null) {
         dataFilterOthers.categoriesIds.push(chooseCategory);
+        dataFilterOthers.periodSorting = listPeriodSorting.periodWeek;
 
         document.querySelectorAll('.nav-tabs button')[1].click();
     }
@@ -105,6 +106,7 @@ async function filterHomeNews() {
         return false;
     }
     else {
+        btnMoreHomeNews.style.display = "block";
         emptyHomeNews.style.display = "none";
     }
 
@@ -146,6 +148,7 @@ async function filterHomeOthers() {
         return false;
     }
     else {
+        btnMoreHomeOthers.style.display = "block";
         emptyHomeOthers.style.display = "none";
     }
 

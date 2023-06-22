@@ -15,7 +15,7 @@ namespace ServerAppNetworkForPhotographers.Services
     {
         private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
-        private const int _countInPart = 2;
+        private const int _countInPart = 5;
 
         public PhotographersService(DataContext context, UserManager<AppUser> userManager)
         {

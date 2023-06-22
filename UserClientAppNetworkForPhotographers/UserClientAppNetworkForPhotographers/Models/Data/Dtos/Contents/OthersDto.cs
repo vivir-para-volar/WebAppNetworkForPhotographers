@@ -11,18 +11,18 @@
 
         public OthersDto() { }
 
-        public OthersDto(string typeSorting)
+        public OthersDto(string typeSorting, string periodSorting)
         {
             TypeSorting = typeSorting;
             CountLikeSorting = 0;
-            PeriodSorting = Lists.TypeSorting.PeriodAllTime;
+            PeriodSorting = periodSorting;
         }
 
-        public OthersDto(string typeSorting, int categoryId)
+        public OthersDto(string typeSorting, string periodSorting, int categoryId)
         {
             TypeSorting = typeSorting;
             CountLikeSorting = 0;
-            PeriodSorting = Lists.TypeSorting.PeriodAllTime;
+            PeriodSorting = periodSorting;
 
             CategoriesIds = new int[] { categoryId };
         }

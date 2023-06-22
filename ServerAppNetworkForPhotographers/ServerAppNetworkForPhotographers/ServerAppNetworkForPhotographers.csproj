@@ -24,8 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Files\BlogMainPhotos\" />
-    <Folder Include="Files\ContentPhotos\" />
     <Folder Include="Files\ProfilePhotos\" />
   </ItemGroup>
 

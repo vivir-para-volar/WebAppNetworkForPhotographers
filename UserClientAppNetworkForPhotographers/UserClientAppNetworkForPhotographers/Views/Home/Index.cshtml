@@ -86,49 +86,5 @@
 <script>
     window.onload = function () {
         initHome(@(Model.News.Count), @(Model.Others.Count), @(Model.ChooseCategory));
-
-
-        //(function () {
-        //    // Восстанавливаем состояние табов при загрузке страницы
-        //    const savedTab = localStorage.getItem('activeTab');
-        //    if (savedTab) {
-        //        document.querySelector('.nav-tabs button[data-bs-target="' + savedTab + '"]').click();
-        //    } else {
-        //        // Получаем текущий активный таб
-        //        const activeTab = document.querySelector('.nav-tabs .active').getAttribute('data-bs-target');
-
-        //        // Сохраняем состояние табов в localStorage
-        //        localStorage.setItem('activeTab', activeTab);
-
-        //        // Добавляем запись в историю браузера при загрузке страницы
-        //        history.pushState({ tabId: activeTab }, '');
-        //    }
-        //})();
-
-        //const tabs = document.querySelectorAll('.nav-tabs button');
-        //tabs.forEach(function (tab) {
-        //    tab.addEventListener('click', function (e) {
-        //        // Получаем идентификатор соответствующего элемента содержимого таба
-        //        const tabId = this.getAttribute('data-bs-target');
-
-        //        // Добавляем запись в историю браузера при переключении таба
-        //        history.pushState({ tabId: tabId }, '');
-
-        //        // Сохраняем состояние табов в localStorage при каждом переключении
-        //        const activeTab = this.getAttribute('data-bs-target');
-        //        localStorage.setItem('activeTab', activeTab);
-        //    });
-        //});
-
-        //window.addEventListener('popstate', function (e) {
-        //    if (e.state && e.state.tabId) {
-        //        const tabId = e.state.tabId;
-        //        document.querySelector('.nav-tabs a[href="' + tabId + '"]').classList.add('active');
-        //        document.querySelectorAll('.tab-pane').forEach(function (tabContent) {
-        //            tabContent.classList.remove('show', 'active');
-        //        });
-        //        document.querySelector(tabId).classList.add('show', 'active');
-        //    } 
-        //});
     };
 </script>

@@ -17,7 +17,7 @@ const listPeriodSorting = {
 }
 
 const maxPhotoSize = 20 * 1024 * 1024; //25мб
-const countInPart = 2;
+const countInPart = 5;
 
 
 function getFormComment(num) {

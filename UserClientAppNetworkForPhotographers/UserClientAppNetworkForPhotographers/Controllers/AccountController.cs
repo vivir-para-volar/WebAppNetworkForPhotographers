@@ -68,6 +68,11 @@ namespace UserClientAppNetworkForPhotographers.Controllers
                     ModelState.AddModelError("", "Неправильный логин или пароль");
                     return View(userLogin);
                 }
+                else if (ex.Status == StatusCodes.Status403Forbidden)
+                {
+                    ModelState.AddModelError("", "Пользователь заблокирован");
+                    return View(userLogin);
+                }
                 else return RedirectToAction(nameof(CommonController.ApiError), "Common", ex.ToObj());
             }
 

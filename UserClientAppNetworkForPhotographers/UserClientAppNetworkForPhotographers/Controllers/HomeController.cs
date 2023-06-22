@@ -23,7 +23,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             try
             {
                 showHome.News = await ApiContents.GetNews(new NewsDto(userId), 1, token);
-                showHome.Others = await ApiContents.GetOthers(new OthersDto(TypeSorting.Top), 1, token);
+                showHome.Others = await ApiContents.GetOthers(new OthersDto(TypeSorting.Top, TypeSorting.PeriodWeek), 1, token);
                 showHome.CategoryDirs = await ApiCategories.GetAllWithDirs(token);
             }
             catch (ApiException ex)
@@ -48,7 +48,7 @@ namespace UserClientAppNetworkForPhotographers.Controllers
             try
             {
                 showHome.News = await ApiContents.GetNews(new NewsDto(userId), 1, token);
-                showHome.Others = await ApiContents.GetOthers(new OthersDto(TypeSorting.Top, id), 1, token);
+                showHome.Others = await ApiContents.GetOthers(new OthersDto(TypeSorting.Top, TypeSorting.PeriodYear, id), 1, token);
                 showHome.CategoryDirs = await ApiCategories.GetAllWithDirs(token);
             }
             catch (ApiException ex)

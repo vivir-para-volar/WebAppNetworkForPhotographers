@@ -169,8 +169,6 @@ modalPhotoInfo.addEventListener('show.bs.modal', async function (event) {
 
     const photoInfo = res.data;
 
-    console.log(photoInfo);
-
     spanWidth.innerHTML = photoInfo.width + " px";
     spanHeight.innerHTML = photoInfo.height + " px";
     spanMake.innerHTML = photoInfo.make ?? "-";
